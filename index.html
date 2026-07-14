@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đỗ Tiến Khôi - Quân Kỷ Trinh Sát Số (Digital Portfolio)</title>
+    <title>Đỗ Tiến Khôi - Tổng Chỉ Huy Không Gian Số (Digital Portfolio)</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Be Vietnam Pro (100% Vietnamese Diacritics Support) & Cinzel -->
-    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,400&family=Cinzel:wght@700;900&display=swap" rel="stylesheet">
+    <!-- Perfect Vietnamese-supported Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,700&family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -17,31 +17,46 @@
                 extend: {
                     colors: {
                         aot: {
-                            dark: '#0a0a0c',
-                            gray: '#111115',
-                            card: '#16161c',
+                            dark: '#08080a',
+                            gray: '#121216',
+                            card: '#181822',
                             amber: '#f59e0b',
                             crimson: '#ef4444',
-                            forest: '#0f2d1e',
-                            military: '#2d3224'
+                            forest: '#0c2e1b',
+                            brass: '#d97706'
                         }
                     },
                     fontFamily: {
                         sans: ['"Be Vietnam Pro"', 'sans-serif'],
-                        epic: ['Cinzel', '"Be Vietnam Pro"', 'serif']
+                        epic: ['"Playfair Display"', '"Be Vietnam Pro"', 'serif']
                     }
                 }
             }
         }
     </script>
     <style>
-        /* Glow animations matching AoT style */
+        /* Glow and HUD border styles */
+        .hud-border {
+            position: relative;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+        .hud-border::before, .hud-border::after {
+            content: '+';
+            position: absolute;
+            color: #ef4444;
+            font-family: monospace;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .hud-border::before { top: -8px; left: -4px; }
+        .hud-border::after { bottom: -12px; right: -4px; }
+
         .scout-glow:hover {
-            box-shadow: 0 0 25px rgba(239, 68, 68, 0.45);
+            box-shadow: 0 0 30px rgba(239, 68, 68, 0.5);
             border-color: #ef4444;
         }
         .text-glow {
-            text-shadow: 0 0 10px rgba(245, 158, 11, 0.6);
+            text-shadow: 0 0 12px rgba(245, 158, 11, 0.7);
         }
         .wall-line {
             position: relative;
@@ -55,61 +70,77 @@
             height: 3px;
             background: linear-gradient(90deg, transparent, #ef4444, #f59e0b, transparent);
         }
-        /* Style for custom inputs / tabs */
         .active-tab {
-            background-color: #16161c !important;
+            background-color: #181822 !important;
             border-left: 4px solid #ef4444 !important;
             color: #f59e0b !important;
         }
+        /* Full screen overlay for wires */
+        #wireCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 40;
+        }
     </style>
 </head>
-<body class="bg-aot-dark text-gray-200 font-sans overflow-x-hidden antialiased">
+<body class="bg-aot-dark text-gray-200 font-sans overflow-x-hidden antialiased cursor-crosshair">
 
-    <!-- Canvas for Floating Embers/Sparks (Hiệu ứng tàn tro rực rỡ từ đống đổ nát) -->
-    <canvas id="embersCanvas" class="fixed top-0 left-0 w-full h-full pointer-events-none z-10 opacity-70"></canvas>
+    <!-- Canvas for Sparks and Grapple Wires (Cáp treo ODM & Tàn lửa bắn tóe màn hình) -->
+    <canvas id="embersCanvas" class="fixed top-0 left-0 w-full h-full pointer-events-none z-10 opacity-75"></canvas>
+    <canvas id="wireCanvas"></canvas>
 
     <!-- Header Navigation -->
     <header class="sticky top-0 z-50 bg-aot-dark/95 backdrop-blur-md border-b border-gray-900 px-6 py-4">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
             <div class="flex items-center gap-3">
-                <!-- Scout Emblem Custom SVG -->
-                <svg class="w-9 h-9 text-aot-crimson fill-current animate-pulse" viewBox="0 0 100 100">
-                    <path d="M50 5 L12 33 L12 73 L50 95 L88 73 L88 33 Z M50 14 L78 36 L68 73 L50 82 L32 73 L22 36 Z" />
-                    <path d="M42 32 Q50 37 58 32 Q54 55 50 78 Q46 55 42 32" fill="#f59e0b"/>
+                <!-- Wings of Freedom SVG Crest (Huy hiệu Cánh hoa Tự do sử thi) -->
+                <svg class="w-10 h-10 text-white fill-current animate-pulse drop-shadow-[0_0_10px_rgba(239,68,68,0.5)]" viewBox="0 0 100 100">
+                    <!-- Shield base -->
+                    <path d="M50 5 L15 32 L15 70 L50 95 L85 70 L85 32 Z" fill="#121216" stroke="#ef4444" stroke-width="3"/>
+                    <!-- White Wing (Left) -->
+                    <path d="M48 20 C42 22, 38 28, 35 35 C32 42, 30 50, 31 58 C32 66, 36 74, 42 78 C39 70, 37 62, 38 53 C39 44, 42 36, 48 30 Z" fill="#ffffff"/>
+                    <!-- Blue Wing (Right) -->
+                    <path d="M52 20 C58 22, 62 28, 65 35 C68 42, 70 50, 69 58 C68 66, 64 74, 58 78 C61 70, 63 62, 62 53 C61 44, 58 36, 52 30 Z" fill="#1e40af"/>
+                    <!-- Overlapping details -->
+                    <path d="M46 35 L54 35 L54 75 L46 75 Z" fill="#d97706" opacity="0.8"/>
                 </svg>
-                <span class="font-epic text-lg tracking-widest text-white font-bold text-glow">MILITARY DIGITAL COMMAND</span>
+                <span class="font-epic text-base tracking-widest text-white font-black text-glow">MILITARY DIGITAL PORTFOLIO</span>
             </div>
             <nav class="flex items-center flex-wrap justify-center gap-6">
-                <a href="#hero" class="hover:text-aot-amber transition-colors text-xs font-bold uppercase tracking-wider">Hồ sơ</a>
-                <a href="#missions" class="hover:text-aot-amber transition-colors text-xs font-bold uppercase tracking-wider">Chiến dịch</a>
-                <a href="#reflection-section" class="hover:text-aot-amber transition-colors text-xs font-bold uppercase tracking-wider">Suy ngẫm</a>
-                <!-- Menubar Drive Link Button -->
-                <a href="https://drive.google.com/drive/folders/19DjvcCTxWX0k5wsjL1AS7yeprffwsczT?usp=drive_link" target="_blank" onclick="playOdmSound()" class="bg-aot-forest hover:bg-green-800 text-white text-xs font-bold px-4 py-2 rounded border border-emerald-500 shadow-lg transition-all duration-300 transform hover:scale-105 inline-flex items-center gap-2">
-                    <i class="fab fa-google-drive"></i> Xem bài tập trên GG drive
+                <a href="#hero" onclick="triggerOdmGrapple(this)" class="hover:text-aot-amber transition-colors text-xs font-bold uppercase tracking-widest">Hồ sơ Cadet</a>
+                <a href="#missions" onclick="triggerOdmGrapple(this)" class="hover:text-aot-amber transition-colors text-xs font-bold uppercase tracking-widest">Bản Đồ Chiến Dịch</a>
+                <a href="#reflection-section" onclick="triggerOdmGrapple(this)" class="hover:text-aot-amber transition-colors text-xs font-bold uppercase tracking-widest">Phục Hồi Thực Trạng</a>
+                <a href="https://drive.google.com/drive/folders/19DjvcCTxWX0k5wsjL1AS7yeprffwsczT?usp=drive_link" target="_blank" onclick="playOdmSound('blade')" class="bg-aot-forest hover:bg-green-800 text-white text-xs font-bold px-4 py-2 rounded border border-emerald-500 shadow-lg transition-all duration-300 transform hover:scale-105 inline-flex items-center gap-2">
+                    <i class="fab fa-google-drive"></i> Tài liệu Chiến thuật
                 </a>
             </nav>
         </div>
     </header>
 
     <!-- Hero Sunset Section -->
-    <section id="hero" class="relative min-h-screen flex items-center justify-center bg-cover bg-center py-24" style="background-image: linear-gradient(to bottom, rgba(10, 10, 12, 0.45), rgba(10, 10, 12, 0.98)), url('back.jpg');">
+    <section id="hero" class="relative min-h-screen flex items-center justify-center bg-cover bg-center py-24" style="background-image: linear-gradient(to bottom, rgba(8, 8, 10, 0.4), rgba(8, 8, 10, 0.99)), url('back.jpg');">
         <div class="absolute inset-0 bg-gradient-to-t from-aot-dark via-transparent to-transparent"></div>
         <div class="relative z-20 max-w-6xl mx-auto px-6 text-center">
             
-            <div class="inline-block mb-6 px-4 py-1.5 bg-aot-crimson/20 border border-aot-crimson text-aot-crimson text-xs font-black tracking-widest uppercase rounded">
-                BINH ĐOÀN KHAI PHÁ KHÔNG GIAN SỐ & TRÍ TUỆ NHÂN TẠO
+            <div class="inline-block mb-6 px-4 py-1.5 bg-aot-crimson/20 border border-aot-crimson text-aot-crimson text-xs font-black tracking-widest uppercase rounded animate-pulse">
+                BẢN CHỈ HUY TRINH SÁT SỐ • ĐỖ TIẾN KHÔI
             </div>
             
+            <!-- Flawless Title Rendering (Playfair Display) -->
             <h1 class="font-epic text-4xl md:text-6xl lg:text-7xl font-black tracking-tight text-white mb-6 leading-tight">
                 VƯỢT QUA <span class="text-transparent bg-clip-text bg-gradient-to-r from-aot-amber to-aot-crimson text-glow">NHỮNG BỨC TƯỜNG</span>
             </h1>
 
             <p class="text-gray-400 text-sm md:text-base max-w-2xl mx-auto mb-10 leading-relaxed font-light">
-                Digital Portfolio ghi lại hành trình rèn luyện, thuần hóa công nghệ và áp dụng trí tuệ nhân tạo để phá vỡ các rào cản học thuật của học viên Đỗ Tiến Khôi.
+                Ghi chép hành trình rèn luyện, thuần hóa công nghệ số và ứng dụng trí tuệ nhân tạo để đập tan các bức tường rào cản học thuật.
             </p>
             
             <!-- Student Profile Badge Card -->
-            <div class="max-w-4xl mx-auto bg-aot-card/90 border border-gray-800/80 rounded-2xl p-6 md:p-8 backdrop-blur-md shadow-2xl mb-12">
+            <div class="max-w-4xl mx-auto bg-aot-card/90 border border-gray-800/80 rounded-2xl p-6 md:p-8 backdrop-blur-md shadow-2xl mb-12 hud-border">
                 <div class="flex flex-col md:flex-row items-center gap-8">
                     <!-- Avatar "Hình 1.jpg" -->
                     <div class="relative group">
@@ -117,17 +148,17 @@
                         <img src="Hình 1.jpg" alt="Avatar Đỗ Tiến Khôi" class="relative w-36 h-36 md:w-44 md:h-44 rounded-full object-cover border-4 border-aot-dark shadow-2xl">
                     </div>
                     
-                    <!-- Student Info Deck -->
+                    <!-- Student Info Deck (100% Fixed Fonts) -->
                     <div class="text-left space-y-3 flex-1">
                         <h2 class="font-epic text-3xl text-white font-black">Đỗ Tiến Khôi</h2>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2 text-sm text-gray-300">
                             <p><strong class="text-white"><i class="fas fa-id-card text-aot-crimson mr-2"></i>Mã số học viên:</strong> 25042144</p>
                             <p><strong class="text-white"><i class="fas fa-graduation-cap text-aot-crimson mr-2"></i>Ngành học:</strong> Ngôn ngữ và Văn hoá Nhật Bản</p>
                             <p class="md:col-span-2"><strong class="text-white"><i class="fas fa-university text-aot-crimson mr-2"></i>Nơi huấn luyện:</strong> Đại học Ngoại ngữ - ĐHQGHN (ULIS)</p>
-                            <p class="md:col-span-2"><strong class="text-white"><i class="fas fa-book-open text-aot-crimson mr-2"></i>Khóa học:</strong> Nhập môn công nghệ số và ứng dụng trí tuệ nhân tạo</p>
+                            <p class="md:col-span-2"><strong class="text-white"><i class="fas fa-book-open text-aot-crimson mr-2"></i>Khoá đào tạo:</strong> Nhập môn công nghệ số và ứng dụng trí tuệ nhân tạo</p>
                         </div>
                         <div class="pt-4 border-t border-gray-800/60 mt-3 text-xs text-gray-400 leading-relaxed italic">
-                            "Bước chân vào thế giới số hóa cũng giống như lần đầu đứng trước bức tường thành khổng lồ. Khóa học này chính là bộ động cơ lập thể (AI và Công nghệ) giúp tôi tự tin bay cao, giải mã những tri thức phức tạp ngoài kia."
+                            "Mặt đất ngoài bức tường đầy rẫy hiểm họa, nhưng cũng là chân trời tự do. Công nghệ và trí tuệ nhân tạo chính là bộ thiết bị ODM giúp tôi bay cao để thấu suốt bản chất tri thức."
                         </div>
                     </div>
                 </div>
@@ -135,24 +166,26 @@
 
             <!-- Portfolio Objectives (Mục tiêu Portfolio) -->
             <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 text-left mb-12">
-                <div class="bg-aot-gray/60 p-6 rounded-xl border border-gray-800/60">
+                <div class="bg-aot-gray/60 p-6 rounded-xl border border-gray-800/60 relative overflow-hidden group">
+                    <div class="absolute -top-10 -right-10 w-24 h-24 bg-aot-crimson/5 rounded-full blur-xl group-hover:bg-aot-crimson/10 transition-all"></div>
                     <h3 class="font-epic text-sm text-aot-amber font-bold tracking-wider mb-3"><i class="fas fa-crosshairs mr-2"></i>MỤC TIÊU PORTFOLIO</h3>
                     <p class="text-xs text-gray-400 leading-relaxed">
-                        Tổng hợp, lưu trữ và phản ánh trực quan các năng lực số hóa đã đạt được qua 6 bài học thực chiến. Portfolio đóng vai trò là vũ khí chứng minh tính chủ động, tư duy biện chứng và khả năng kiểm soát AI trong môi trường học thuật chuyên nghiệp.
+                        Tổng hợp, phản ánh trực quan các năng lực số hóa đạt được qua khóa huấn luyện. Thiết lập danh mục minh chứng thực tế, chứng minh khả năng kiểm soát AI, phân tích biện chứng và bảo vệ sự liêm chính học thuật trong môi trường nghiên cứu ngôn ngữ chuyên sâu.
                     </p>
                 </div>
-                <div class="bg-aot-gray/60 p-6 rounded-xl border border-gray-800/60">
-                    <h3 class="font-epic text-sm text-aot-amber font-bold tracking-wider mb-3"><i class="fas fa-shield-halved mr-2"></i>ĐỊNH HƯỚNG BẢN THÂN</h3>
+                <div class="bg-aot-gray/60 p-6 rounded-xl border border-gray-800/60 relative overflow-hidden group">
+                    <div class="absolute -top-10 -right-10 w-24 h-24 bg-aot-crimson/5 rounded-full blur-xl group-hover:bg-aot-crimson/10 transition-all"></div>
+                    <h3 class="font-epic text-sm text-aot-amber font-bold tracking-wider mb-3"><i class="fas fa-compass mr-2"></i>SỨ MỆNH BINH SĨ SỐ</h3>
                     <p class="text-xs text-gray-400 leading-relaxed">
-                        Kết hợp nhuần nhuyễn nền tảng ngôn ngữ văn hóa Nhật Bản với các mô hình trí tuệ nhân tạo thế hệ mới. Sử dụng công cụ số một cách có đạo đức để nghiên cứu, phát triển cộng đồng và giải phóng sức lao động cá nhân khỏi các tác vụ thủ công.
+                        Định hướng phát triển bản thân thành một nhà nghiên cứu văn hóa ngôn ngữ Nhật Bản thời đại mới. Biết vận dụng sức mạnh AI tạo sinh để bóc tách cấu trúc dữ liệu khó, đồng thời làm chủ tư duy hệ thống chống lại sự lười biếng nhận thức.
                     </p>
                 </div>
             </div>
 
             <!-- Scroll indicator -->
             <div class="animate-bounce">
-                <a href="#missions" class="text-gray-500 hover:text-white transition-colors" onclick="playOdmSound()">
-                    <span class="block text-xs uppercase tracking-widest mb-2 font-bold">VÀO PHÒNG BẢN ĐỒ CHIẾN THUẬT</span>
+                <a href="#missions" class="text-gray-500 hover:text-white transition-colors" onclick="triggerOdmGrapple(this)">
+                    <span class="block text-xs uppercase tracking-widest mb-2 font-bold text-glow text-aot-amber">XÂM NHẬP BẢN ĐỒ CHIẾN DỊCH</span>
                     <i class="fas fa-chevron-down text-lg text-aot-crimson"></i>
                 </a>
             </div>
@@ -165,11 +198,11 @@
             <div class="space-y-3 text-center md:text-left">
                 <h3 class="font-epic text-2xl md:text-3xl font-black text-white">LƯU TRỮ HỒ SƠ QUÂN SỰ</h3>
                 <p class="text-gray-400 text-xs md:text-sm max-w-xl leading-relaxed">
-                    Tất cả các minh chứng chi tiết, tệp văn bản thô, bảng số liệu và báo cáo chuyên sâu dạng PDF đã được lưu trữ bảo mật trên Google Drive chính thức dưới đây.
+                    Toàn bộ báo cáo, tệp minh chứng thực địa, slide bài giảng và video thuyết trình gốc dạng PDF đã được lưu trữ bảo mật trên Google Drive chính thức dưới đây.
                 </p>
             </div>
             <div>
-                <a href="https://drive.google.com/drive/folders/19DjvcCTxWX0k5wsjL1AS7yeprffwsczT?usp=drive_link" target="_blank" onclick="playOdmSound()" class="scout-glow bg-gradient-to-r from-aot-crimson to-aot-amber text-white font-epic text-xs font-bold tracking-widest px-8 py-4 rounded-lg shadow-lg border border-red-500/20 transition-all duration-300 transform hover:scale-105 inline-flex items-center gap-3">
+                <a href="https://drive.google.com/drive/folders/19DjvcCTxWX0k5wsjL1AS7yeprffwsczT?usp=drive_link" target="_blank" onclick="playOdmSound('blade')" class="scout-glow bg-gradient-to-r from-aot-crimson to-aot-amber text-white font-epic text-xs font-bold tracking-widest px-8 py-4 rounded-lg shadow-lg border border-red-500/20 transition-all duration-300 transform hover:scale-105 inline-flex items-center gap-3">
                     <i class="fab fa-google-drive text-base animate-pulse"></i> XEM BÀI TẬP TRÊN GG DRIVE
                 </a>
             </div>
@@ -181,9 +214,9 @@
         <div class="max-w-7xl mx-auto px-6">
             <div class="wall-line pb-6 mb-12">
                 <h2 class="font-epic text-3xl md:text-4xl text-white font-black tracking-wider flex items-center gap-3">
-                    <span class="text-aot-crimson">02/</span> HỒ SƠ 6 CHIẾN DỊCH KHAI PHÁ
+                    <span class="text-aot-crimson">02/</span> THỦ THÁCH 6 CHIẾN DỊCH LỚN
                 </h2>
-                <p class="text-gray-400 text-xs mt-2 font-light">Chọn một thẻ nhiệm vụ bên dưới để truy cập tài liệu ghi chép chi tiết từ thực địa.</p>
+                <p class="text-gray-400 text-xs mt-2 font-light">Mỗi chiến dịch tương đương một bức tường ngăn cách tri thức cần phải vượt qua.</p>
             </div>
 
             <!-- Selection Badges -->
@@ -222,7 +255,7 @@
                     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-gray-800 pb-4">
                         <div>
                             <span class="text-aot-amber text-xs font-bold uppercase tracking-widest">CHIẾN DỊCH I</span>
-                            <h3 class="font-epic text-xl md:text-2xl text-white font-black">QUÂN TRANG SỐ: Thao tác tệp tin và Thư mục</h3>
+                            <h3 class="font-epic text-xl md:text-2xl text-white font-black">QUÂN TRANG SỐ: Quản lý tệp tin và Thư mục</h3>
                         </div>
                         <span class="bg-emerald-950/80 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full border border-emerald-500/30">Hoàn thành xuất sắc</span>
                     </div>
@@ -230,23 +263,24 @@
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 text-sm">
                         <div class="space-y-4">
                             <p class="text-gray-300 leading-relaxed">
-                                Một trinh sát thực thụ không thể xông trận nếu đai đeo vũ khí bị rối. Việc làm quen với hệ điều hành MacOS và thiết lập hệ thống thư mục làm việc quy chuẩn là bài huấn luyện vỡ lòng đầu tiên để lưu giữ chiến lợi phẩm tri thức.
+                                Trước khi xông trận, người chiến sĩ phải thấu suốt từng ngóc ngách trong ba-lô quân trang của mình. Việc làm quen với hệ điều hành MacOS và thiết lập hệ thống thư mục làm việc quy chuẩn là bài huấn luyện bắt buộc để kiểm soát dữ liệu.
                             </p>
                             <div class="bg-aot-gray/70 p-5 rounded-xl border border-gray-800/60">
                                 <span class="font-bold text-aot-amber block mb-2"><i class="fas fa-bullseye mr-2"></i>MỤC TIÊU CHIẾN DỊCH:</span>
                                 <p class="text-xs text-gray-400 leading-relaxed">
-                                    Nắm vững toàn bộ vòng đời của tệp tin và cách thức phân phối dữ liệu logic trên MacOS. Xây dựng sơ đồ thư mục khoa học, tránh thất lạc tài liệu trong suốt quá trình học tập và nghiên cứu.
+                                    Nắm vững toàn bộ vòng đời của tệp tin và cách thức phân phối thư mục con một cách khoa học trên MacOS. Tránh tuyệt đối việc thất lạc tài liệu chiến thuật trong suốt quá trình học tập.
                                 </p>
                             </div>
                         </div>
 
                         <!-- Interactive 12 Steps Simulator -->
-                        <div class="bg-aot-dark/70 p-6 rounded-xl border border-gray-800">
+                        <div class="bg-aot-dark/70 p-6 rounded-xl border border-gray-800 relative">
+                            <div class="absolute -top-3 -left-3 px-2 py-0.5 bg-aot-crimson text-white text-[9px] font-bold tracking-wider rounded">HUD SIMULATOR</div>
                             <div class="flex justify-between items-center mb-4">
                                 <span class="text-xs font-bold text-aot-crimson uppercase tracking-wider">Mô phỏng 12 bước quân lệnh:</span>
                                 <span id="m1-step-indicator" class="text-xs text-gray-500 font-bold">BƯỚC 1 / 12</span>
                             </div>
-                            <div class="min-h-[100px] flex items-center justify-center p-4 bg-aot-card rounded border border-gray-800 text-center">
+                            <div class="min-h-[110px] flex items-center justify-center p-4 bg-aot-card rounded border border-gray-800 text-center">
                                 <p id="m1-step-desc" class="text-gray-200 text-sm font-semibold">1. Khởi động Finder trên hệ điều hành MacOS để kiểm tra thao trường lưu trữ.</p>
                             </div>
                             <div class="flex justify-between mt-4">
@@ -258,7 +292,7 @@
 
                     <div class="text-xs text-gray-500 bg-aot-dark p-4 rounded border border-gray-800/40">
                         <strong class="text-gray-300 block mb-1"><i class="fas fa-lightbulb mr-2"></i>BÁO CÁO THU HOẠCH:</strong>
-                        Việc kiểm soát chặt chẽ quy trình lưu trữ (khởi tạo, đổi tên thành <em>GhiChuQuanTrong.txt</em>, di chuyển vào <em>TaiLieu</em>, xóa tạm thời, khôi phục từ thùng rác và xóa vĩnh viễn) đã hình thành nên tư duy ngăn nắp của một thủ lĩnh dữ liệu. Ngăn nắp quân trang chính là chìa khóa sống sót đầu tiên trước khi đối mặt với lượng thông tin khổng lồ.
+                        Quá trình rèn luyện thao tác cơ bản (tạo tệp, đổi tên thành <em>GhiChuQuanTrong.txt</em>, tạo thư mục con <em>TaiLieu</em>, di chuyển, xóa vào Trash, khôi phục và xóa vĩnh viễn) đã hình thành nên tính kỷ luật tuyệt đối trước các tệp tin thô. Nếu không quản trị được thư mục cá nhân, bạn không bao giờ quản trị được dữ liệu lớn của AI.
                     </div>
                 </div>
 
@@ -274,7 +308,7 @@
 
                     <div class="space-y-4 text-sm">
                         <p class="text-gray-300 leading-relaxed">
-                            Đối với những người sử dụng hệ thống chữ cái Latinh, chữ tượng hình Hán tự luôn là một cú sốc tâm lý cực lớn khi tiếp cận tiếng Nhật. Để phá vỡ bức tường này, tôi đã thực hiện chiến dịch trinh sát tri thức chuyên sâu, thu thập và thẩm định <strong class="text-white">11 nguồn tài liệu học thuật giá trị</strong>.
+                            Hán tự (Kanji) là bức tường titan khổng lồ mà bất kỳ ai học tiếng Nhật đều phải đối mặt. Để vượt qua bức tường này, tôi đã thực hiện chiến dịch trinh sát tri thức chuyên sâu, thu thập và thẩm định <strong class="text-white">11 nguồn tài liệu học thuật giá trị</strong>.
                         </p>
                         
                         <div class="bg-aot-gray/70 p-5 rounded-xl border border-gray-800/60 grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -292,7 +326,7 @@
                             </div>
                         </div>
 
-                        <!-- 11 Articles Interactive Table -->
+                        <!-- 11 Articles Interactive Table (100% Fixed Vietnamese fonts) -->
                         <div class="overflow-x-auto bg-aot-dark/70 rounded-xl border border-gray-800">
                             <table class="w-full text-left text-xs">
                                 <thead class="bg-aot-card text-aot-amber uppercase font-epic">
@@ -389,7 +423,7 @@
 
                     <div class="text-xs text-gray-500 bg-aot-dark p-4 rounded border border-gray-800/40">
                         <strong class="text-gray-300 block mb-1"><i class="fas fa-lightbulb mr-2"></i>BÁO CÁO THU HOẠCH:</strong>
-                        Như việc khảo sát địa hình bên ngoài bức tường thành, một trinh sát học thuật phải biết phân biệt tin đồn (các blog mở) với dữ liệu thực chứng đáng tin cậy (các tạp chí khoa học đã qua bình duyệt). Việc áp dụng lăng kính thẩm định này giúp tối ưu hóa thời gian nghiên cứu và xây dựng luận điểm sắc bén khi giải quyết rào cản chữ Hán.
+                        Như việc trinh sát địa hình ngoài bức tường, ta phải biết phân biệt giữa tin đồn của người dân (Blog mạng) và tin tình báo quân sự (Báo cáo khoa học đã qua bình duyệt). Thẩm định chính xác nguồn gốc tài liệu chính là vũ khí giúp xây dựng luận cứ vững chắc, đập tan rào cản Hán tự.
                     </div>
                 </div>
 
@@ -405,7 +439,7 @@
 
                     <div class="space-y-4 text-sm">
                         <p class="text-gray-300 leading-relaxed">
-                            AI giống như một Titan khổng lồ sở hữu sức mạnh vô hạn nhưng vô tri. Nó chỉ có thể phát huy sức mạnh vượt bậc và có khả năng phản hồi "thấu cảm nhận thức" (Cognitive Empathy) tinh tế khi người điều phối ban ra những mệnh lệnh chuẩn xác.
+                            AI giống như một thế lực khổng lồ vô tri. Nó chỉ có thể phát huy sức mạnh vượt bậc và có khả năng phản hồi "thấu cảm nhận thức" (Cognitive Empathy) tinh tế khi người điều phối ban ra những mệnh lệnh chuẩn xác thông qua bộ khung <strong class="text-aot-amber font-semibold">C-R-E-A-T-E</strong>.
                         </p>
 
                         <div class="bg-aot-gray/70 p-5 rounded-xl border border-gray-800/60 grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -462,7 +496,7 @@
 
                     <div class="space-y-4 text-sm">
                         <p class="text-gray-300 leading-relaxed">
-                            Không một chiến sĩ đơn độc nào có thể đẩy lui được hiểm họa. Để triển khai xuất sắc dự án thuyết trình <strong class="text-white">"Ứng dụng AI trong tự học ngoại ngữ"</strong>, tôi đã cùng các đồng đội trong chiến hào (Đỗ Thị Dạ Khánh - Trưởng nhóm, Ngô Bảo Ngọc, Trần Thành Đạt, Phùng Thị Hồng Nhung, Đặng Khánh Linh) thiết lập quy trình tác chiến nghiêm ngặt.
+                            Không một chiến sĩ đơn độc nào có thể đẩy lui được hiểm họa. Để triển khai xuất sắc dự án thuyết trình <strong class="text-white">"Ứng dụng AI trong tự học ngoại ngữ"</strong>, nhóm trinh sát 5 người (Đỗ Thị Dạ Khánh - Trưởng nhóm, Ngô Bảo Ngọc, Trần Thành Đạt, Phùng Thị Hồng Nhung, Đặng Khánh Linh) đã cùng thiết lập quy trình tác chiến nghiêm ngặt.
                         </p>
 
                         <div class="bg-aot-gray/70 p-5 rounded-xl border border-gray-800/60 grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -706,35 +740,65 @@
 
     <!-- Interactive JS Core Logic (Tactical switching & Audio effects) -->
     <script>
-        /* Web Audio API for simulated ODM Gear Blade sounds (Hiệu ứng âm thanh khi tương tác cực ngầu) */
+        /* Web Audio API - Synthesis of ODM Gear Gas Release & Blade clinks (Kỹ thuật âm thanh thực tế đỉnh cao) */
         let audioCtx;
-        function playOdmSound() {
-            try {
-                if (!audioCtx) {
-                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                }
-                // Play a brief metallic 'swoosh' and synth ping
-                let osc = audioCtx.createOscillator();
-                let gain = audioCtx.createGain();
-                
-                osc.type = 'triangle';
-                osc.frequency.setValueAtTime(880, audioCtx.currentTime); // Pitch
-                osc.frequency.exponentialRampToValueAtTime(110, audioCtx.currentTime + 0.3);
-                
-                gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
-                
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                
-                osc.start();
-                osc.stop(audioCtx.currentTime + 0.3);
-            } catch(e) {
-                // AudioContext not allowed by browser policy without user gesture
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             }
         }
 
-        /* Particle System on Canvas (Glowing Ashes & Embers) */
+        function playOdmSound(type) {
+            initAudio();
+            if (!audioCtx) return;
+
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+
+            if (type === 'gas') {
+                // ODM Gas hiss (Noise burst)
+                const bufferSize = audioCtx.sampleRate * 0.4;
+                const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                const data = buffer.getChannelData(0);
+                for (let i = 0; i < bufferSize; i++) {
+                    data[i] = Math.random() * 2 - 1;
+                }
+                const noise = audioCtx.createBufferSource();
+                noise.buffer = buffer;
+
+                const filter = audioCtx.createBiquadFilter();
+                filter.type = 'bandpass';
+                filter.frequency.value = 1800;
+                filter.Q.value = 2.0;
+
+                const gain = audioCtx.createGain();
+                gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.35);
+
+                noise.connect(filter);
+                filter.connect(gain);
+                gain.connect(audioCtx.destination);
+                noise.start();
+            } else if (type === 'blade') {
+                // Blade Slash / Metal clash (high freq triangle & decay)
+                const osc = audioCtx.createOscillator();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(1200, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(150, audioCtx.currentTime + 0.25);
+
+                const gain = audioCtx.createGain();
+                gain.gain.setValueAtTime(0.09, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.25);
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.25);
+            }
+        }
+
+        /* Sparks Click Effect & Ember Floating Canvas System */
         const canvas = document.getElementById('embersCanvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -747,44 +811,71 @@
         resizeCanvas();
 
         class Particle {
-            constructor() {
-                this.reset();
-            }
-            reset() {
-                this.x = Math.random() * canvas.width;
-                this.y = canvas.height + Math.random() * 80;
-                this.size = Math.random() * 2.8 + 0.6;
-                this.speedY = -(Math.random() * 1.5 + 0.4);
-                this.speedX = Math.random() * 1.0 - 0.5;
-                this.alpha = Math.random() * 0.6 + 0.4;
-                this.decay = Math.random() * 0.0035 + 0.0015;
+            constructor(x, y, isSpark = false) {
+                this.isSpark = isSpark;
+                if (isSpark) {
+                    this.x = x;
+                    this.y = y;
+                    this.size = Math.random() * 4 + 1.5;
+                    this.speedY = Math.random() * 6 - 3;
+                    this.speedX = Math.random() * 8 - 4;
+                    this.alpha = 1;
+                    this.decay = Math.random() * 0.03 + 0.015;
+                    this.gravity = 0.15;
+                } else {
+                    this.x = Math.random() * canvas.width;
+                    this.y = canvas.height + Math.random() * 80;
+                    this.size = Math.random() * 2.8 + 0.6;
+                    this.speedY = -(Math.random() * 1.5 + 0.4);
+                    this.speedX = Math.random() * 1.0 - 0.5;
+                    this.alpha = Math.random() * 0.6 + 0.4;
+                    this.decay = Math.random() * 0.0035 + 0.0015;
+                    this.gravity = 0;
+                }
             }
             update() {
+                if (this.isSpark) {
+                    this.speedY += this.gravity;
+                }
                 this.y += this.speedY;
                 this.x += this.speedX;
                 this.alpha -= this.decay;
-                if (this.alpha <= 0 || this.x < 0 || this.x > canvas.width || this.y < 0) {
-                    this.reset();
-                }
             }
             draw() {
-                ctx.fillStyle = `rgba(245, 158, 11, ${this.alpha})`;
+                ctx.fillStyle = this.isSpark ? `rgba(239, 68, 68, ${this.alpha})` : `rgba(245, 158, 11, ${this.alpha})`;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.shadowBlur = this.size * 3;
+                ctx.shadowBlur = this.size * (this.isSpark ? 4 : 3);
                 ctx.shadowColor = '#ef4444';
                 ctx.fill();
                 ctx.shadowBlur = 0;
             }
         }
 
+        // Initialize background floating embers
         const particleCount = Math.min(50, Math.floor(window.innerWidth / 25));
         for (let i = 0; i < particleCount; i++) {
             particles.push(new Particle());
         }
 
+        // Add sparks on mouse click
+        window.addEventListener('click', (e) => {
+            playOdmSound('blade');
+            for (let i = 0; i < 15; i++) {
+                particles.push(new Particle(e.clientX, e.clientY, true));
+            }
+        });
+
         function animateEmbers() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles = particles.filter(p => p.alpha > 0);
+            
+            // Refill floating background embers if they die
+            const currentBackCount = particles.filter(p => !p.isSpark).length;
+            if (currentBackCount < particleCount) {
+                particles.push(new Particle());
+            }
+
             particles.forEach(p => {
                 p.update();
                 p.draw();
@@ -793,9 +884,63 @@
         }
         animateEmbers();
 
+        /* Interactive Grapple Hook wire drawing on navigation click */
+        const wireCanvas = document.getElementById('wireCanvas');
+        const wCtx = wireCanvas.getContext('2d');
+        function resizeWireCanvas() {
+            wireCanvas.width = window.innerWidth;
+            wireCanvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeWireCanvas);
+        resizeWireCanvas();
+
+        function triggerOdmGrapple(element) {
+            playOdmSound('gas');
+            const targetId = element.getAttribute('href');
+            const targetNode = document.querySelector(targetId);
+            if (!targetNode) return;
+
+            const targetRect = targetNode.getBoundingClientRect();
+            const startX = window.innerWidth / 2;
+            const startY = 80; // Starting point anchor (the belt of ODM)
+            const endX = targetRect.left + window.scrollX + (targetRect.width / 2);
+            const endY = targetRect.top + window.scrollY;
+
+            // Wire Animation Logic
+            let progress = 0;
+            function drawWire() {
+                wCtx.clearRect(0, 0, wireCanvas.width, wireCanvas.height);
+                if (progress < 1) {
+                    progress += 0.15;
+                    wCtx.strokeStyle = '#9ca3af';
+                    wCtx.lineWidth = 2.5;
+                    wCtx.shadowBlur = 8;
+                    wCtx.shadowColor = '#000000';
+                    wCtx.beginPath();
+                    wCtx.moveTo(startX, startY);
+                    wCtx.lineTo(startX + (endX - startX) * progress, startY + (endY - startY) * progress);
+                    wCtx.stroke();
+                    wCtx.shadowBlur = 0;
+                    requestAnimationFrame(drawWire);
+                } else {
+                    // Hold wire for a split second, then snap clear
+                    wCtx.strokeStyle = '#ef4444';
+                    wCtx.lineWidth = 1.5;
+                    wCtx.beginPath();
+                    wCtx.moveTo(startX, startY);
+                    wCtx.lineTo(endX, endY);
+                    wCtx.stroke();
+                    setTimeout(() => {
+                        wCtx.clearRect(0, 0, wireCanvas.width, wireCanvas.height);
+                    }, 80);
+                }
+            }
+            drawWire();
+        }
+
         /* Mission Tab Switching */
         function switchMission(id) {
-            playOdmSound();
+            playOdmSound('blade');
             document.querySelectorAll('.mission-content').forEach(content => {
                 content.classList.add('hidden');
             });
@@ -832,12 +977,12 @@
         ];
         let m1StepIdx = 0;
         function nextM1Step() {
-            playOdmSound();
+            playOdmSound('blade');
             m1StepIdx = (m1StepIdx + 1) % m1Steps.length;
             updateM1UI();
         }
         function prevM1Step() {
-            playOdmSound();
+            playOdmSound('blade');
             m1StepIdx = (m1StepIdx - 1 + m1Steps.length) % m1Steps.length;
             updateM1UI();
         }
@@ -863,7 +1008,7 @@
         };
 
         function toggleM3Prompt(id) {
-            playOdmSound();
+            playOdmSound('blade');
             document.querySelectorAll('.m3p-btn').forEach(btn => {
                 btn.className = "m3p-btn px-4 py-2 rounded text-xs font-bold bg-gray-800 text-gray-400 hover:text-white transition-all";
             });
