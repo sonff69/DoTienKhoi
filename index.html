@@ -6,7 +6,7 @@
     <title>Đỗ Tiến Khôi Portfolio</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Perfect Vietnamese-supported Google Fonts -->
+    <!-- Perfect Vietnamese Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,700&family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -75,7 +75,7 @@
             border-left: 4px solid #ef4444 !important;
             color: #f59e0b !important;
         }
-        /* Full screen overlay for wires */
+        /* Full screen overlay for ODM wires */
         #wireCanvas {
             position: fixed;
             top: 0;
@@ -89,33 +89,29 @@
 </head>
 <body class="bg-aot-dark text-gray-200 font-sans overflow-x-hidden antialiased cursor-crosshair">
 
-    <!-- Canvas for Sparks and Grapple Wires (Cáp treo ODM & Tàn lửa bắn tóe màn hình) -->
-    <canvas id="embersCanvas" class="fixed top-0 left-0 w-full h-full pointer-events-none z-10 opacity-75"></canvas>
+    <!-- Canvas for Sparks and Wires (ODM Grapple & Embers Particles) -->
+    <canvas id="embersCanvas" class="fixed top-0 left-0 w-full h-full pointer-events-none z-10 opacity-70"></canvas>
     <canvas id="wireCanvas"></canvas>
 
     <!-- Header Navigation -->
     <header class="sticky top-0 z-50 bg-aot-dark/95 backdrop-blur-md border-b border-gray-900 px-6 py-4">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
             <div class="flex items-center gap-3">
-                <!-- Wings of Freedom SVG Crest (Huy hiệu Cánh hoa Tự do sử thi) -->
+                <!-- SVG Crest Wings of Freedom (Huy hiệu Cánh hoa Tự do sử thi) -->
                 <svg class="w-10 h-10 text-white fill-current animate-pulse drop-shadow-[0_0_10px_rgba(239,68,68,0.5)]" viewBox="0 0 100 100">
-                    <!-- Shield base -->
                     <path d="M50 5 L15 32 L15 70 L50 95 L85 70 L85 32 Z" fill="#121216" stroke="#ef4444" stroke-width="3"/>
-                    <!-- White Wing (Left) -->
                     <path d="M48 20 C42 22, 38 28, 35 35 C32 42, 30 50, 31 58 C32 66, 36 74, 42 78 C39 70, 37 62, 38 53 C39 44, 42 36, 48 30 Z" fill="#ffffff"/>
-                    <!-- Blue Wing (Right) -->
                     <path d="M52 20 C58 22, 62 28, 65 35 C68 42, 70 50, 69 58 C68 66, 64 74, 58 78 C61 70, 63 62, 62 53 C61 44, 58 36, 52 30 Z" fill="#1e40af"/>
-                    <!-- Overlapping details -->
                     <path d="M46 35 L54 35 L54 75 L46 75 Z" fill="#d97706" opacity="0.8"/>
                 </svg>
                 <span class="font-epic text-base tracking-widest text-white font-black text-glow">MILITARY DIGITAL PORTFOLIO</span>
             </div>
             <nav class="flex items-center flex-wrap justify-center gap-6">
-                <a href="#hero" onclick="triggerOdmGrapple(this)" class="hover:text-aot-amber transition-colors text-xs font-bold uppercase tracking-widest">Hồ sơ Cadet</a>
-                <a href="#missions" onclick="triggerOdmGrapple(this)" class="hover:text-aot-amber transition-colors text-xs font-bold uppercase tracking-widest">Bản Đồ Chiến Dịch</a>
-                <a href="#reflection-section" onclick="triggerOdmGrapple(this)" class="hover:text-aot-amber transition-colors text-xs font-bold uppercase tracking-widest">Phục Hồi Thực Trạng</a>
+                <a href="#hero" onclick="triggerOdmGrapple(this)" class="hover:text-aot-amber transition-colors text-xs font-bold uppercase tracking-widest">Giới thiệu</a>
+                <a href="#missions" onclick="triggerOdmGrapple(this)" class="hover:text-aot-amber transition-colors text-xs font-bold uppercase tracking-widest">Dự án báo cáo</a>
+                <a href="#reflection-section" onclick="triggerOdmGrapple(this)" class="hover:text-aot-amber transition-colors text-xs font-bold uppercase tracking-widest">Tổng kết</a>
                 <a href="https://drive.google.com/drive/folders/19DjvcCTxWX0k5wsjL1AS7yeprffwsczT?usp=drive_link" target="_blank" onclick="playOdmSound('blade')" class="bg-aot-forest hover:bg-green-800 text-white text-xs font-bold px-4 py-2 rounded border border-emerald-500 shadow-lg transition-all duration-300 transform hover:scale-105 inline-flex items-center gap-2">
-                    <i class="fab fa-google-drive"></i> Tài liệu Chiến thuật
+                    <i class="fab fa-google-drive"></i> Xem bài tập trên GG Drive
                 </a>
             </nav>
         </div>
@@ -127,16 +123,16 @@
         <div class="relative z-20 max-w-6xl mx-auto px-6 text-center">
             
             <div class="inline-block mb-6 px-4 py-1.5 bg-aot-crimson/20 border border-aot-crimson text-aot-crimson text-xs font-black tracking-widest uppercase rounded animate-pulse">
-                BẢN CHỈ HUY TRINH SÁT SỐ • ĐỖ TIẾN KHÔI
+                DỰ ÁN SỐ HÓA CÁ NHÂN • ĐỖ TIẾN KHÔI
             </div>
             
-            <!-- Flawless Title Rendering (Playfair Display) -->
+            <!-- Flawless Title Rendering (Playfair Display - 100% Sửa lỗi dấu Tiếng Việt) -->
             <h1 class="font-epic text-4xl md:text-6xl lg:text-7xl font-black tracking-tight text-white mb-6 leading-tight">
                 VƯỢT QUA <span class="text-transparent bg-clip-text bg-gradient-to-r from-aot-amber to-aot-crimson text-glow">NHỮNG BỨC TƯỜNG</span>
             </h1>
 
             <p class="text-gray-400 text-sm md:text-base max-w-2xl mx-auto mb-10 leading-relaxed font-light">
-                Ghi chép hành trình rèn luyện, thuần hóa công nghệ số và ứng dụng trí tuệ nhân tạo để đập tan các bức tường rào cản học thuật.
+                Digital Portfolio lưu trữ toàn bộ hành trình rèn luyện, làm chủ các công cụ công nghệ thông tin và áp dụng trí tuệ nhân tạo một cách có hiệu quả và trách nhiệm.
             </p>
             
             <!-- Student Profile Badge Card -->
@@ -148,17 +144,17 @@
                         <img src="Hình 1.jpg" alt="Avatar Đỗ Tiến Khôi" class="relative w-36 h-36 md:w-44 md:h-44 rounded-full object-cover border-4 border-aot-dark shadow-2xl">
                     </div>
                     
-                    <!-- Student Info Deck (100% Fixed Fonts) -->
+                    <!-- Student Info Deck -->
                     <div class="text-left space-y-3 flex-1">
                         <h2 class="font-epic text-3xl text-white font-black">Đỗ Tiến Khôi</h2>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2 text-sm text-gray-300">
                             <p><strong class="text-white"><i class="fas fa-id-card text-aot-crimson mr-2"></i>Mã số học viên:</strong> 25042144</p>
                             <p><strong class="text-white"><i class="fas fa-graduation-cap text-aot-crimson mr-2"></i>Ngành học:</strong> Ngôn ngữ và Văn hoá Nhật Bản</p>
-                            <p class="md:col-span-2"><strong class="text-white"><i class="fas fa-university text-aot-crimson mr-2"></i>Nơi huấn luyện:</strong> Đại học Ngoại ngữ - ĐHQGHN (ULIS)</p>
-                            <p class="md:col-span-2"><strong class="text-white"><i class="fas fa-book-open text-aot-crimson mr-2"></i>Khoá đào tạo:</strong> Nhập môn công nghệ số và ứng dụng trí tuệ nhân tạo</p>
+                            <p class="md:col-span-2"><strong class="text-white"><i class="fas fa-university text-aot-crimson mr-2"></i>Cơ sở đào tạo:</strong> Trường Đại học Ngoại ngữ - ĐHQGHN</p>
+                            <p class="md:col-span-2"><strong class="text-white"><i class="fas fa-book-open text-aot-crimson mr-2"></i>Môn học đào tạo:</strong> Nhập môn công nghệ số và ứng dụng trí tuệ nhân tạo</p>
                         </div>
                         <div class="pt-4 border-t border-gray-800/60 mt-3 text-xs text-gray-400 leading-relaxed italic">
-                            "Mặt đất ngoài bức tường đầy rẫy hiểm họa, nhưng cũng là chân trời tự do. Công nghệ và trí tuệ nhân tạo chính là bộ thiết bị ODM giúp tôi bay cao để thấu suốt bản chất tri thức."
+                            "Môn học này đã trang bị cho tôi những năng lực số và tư duy AI cần thiết, giúp tôi tối ưu hóa quá trình học ngoại ngữ và tự tin hơn trong các dự án học thuật tương lai."
                         </div>
                     </div>
                 </div>
@@ -170,14 +166,14 @@
                     <div class="absolute -top-10 -right-10 w-24 h-24 bg-aot-crimson/5 rounded-full blur-xl group-hover:bg-aot-crimson/10 transition-all"></div>
                     <h3 class="font-epic text-sm text-aot-amber font-bold tracking-wider mb-3"><i class="fas fa-crosshairs mr-2"></i>MỤC TIÊU PORTFOLIO</h3>
                     <p class="text-xs text-gray-400 leading-relaxed">
-                        Tổng hợp, phản ánh trực quan các năng lực số hóa đạt được qua khóa huấn luyện. Thiết lập danh mục minh chứng thực tế, chứng minh khả năng kiểm soát AI, phân tích biện chứng và bảo vệ sự liêm chính học thuật trong môi trường nghiên cứu ngôn ngữ chuyên sâu.
+                        Tổng hợp và lưu trữ một cách trực quan các kỹ năng, sản phẩm số hóa đạt được qua khóa học. Thể hiện năng lực kiểm soát AI, tư duy phân tích học thuật biện chứng và cam kết bảo vệ sự liêm chính học thuật trong nghiên cứu ngoại ngữ.
                     </p>
                 </div>
                 <div class="bg-aot-gray/60 p-6 rounded-xl border border-gray-800/60 relative overflow-hidden group">
                     <div class="absolute -top-10 -right-10 w-24 h-24 bg-aot-crimson/5 rounded-full blur-xl group-hover:bg-aot-crimson/10 transition-all"></div>
-                    <h3 class="font-epic text-sm text-aot-amber font-bold tracking-wider mb-3"><i class="fas fa-compass mr-2"></i>SỨ MỆNH BINH SĨ SỐ</h3>
+                    <h3 class="font-epic text-sm text-aot-amber font-bold tracking-wider mb-3"><i class="fas fa-compass mr-2"></i>ĐỊNH HƯỚNG BẢN THÂN</h3>
                     <p class="text-xs text-gray-400 leading-relaxed">
-                        Định hướng phát triển bản thân thành một nhà nghiên cứu văn hóa ngôn ngữ Nhật Bản thời đại mới. Biết vận dụng sức mạnh AI tạo sinh để bóc tách cấu trúc dữ liệu khó, đồng thời làm chủ tư duy hệ thống chống lại sự lười biếng nhận thức.
+                        Kết hợp nền tảng kiến thức Ngôn ngữ và Văn hóa Nhật Bản với các giải pháp AI tạo sinh tiên tiến. Sử dụng công nghệ thông tin một cách thông minh để tự động hóa các tác vụ lặp lại, nâng cao chất lượng nghiên cứu học thuật của bản thân.
                     </p>
                 </div>
             </div>
@@ -185,7 +181,7 @@
             <!-- Scroll indicator -->
             <div class="animate-bounce">
                 <a href="#missions" class="text-gray-500 hover:text-white transition-colors" onclick="triggerOdmGrapple(this)">
-                    <span class="block text-xs uppercase tracking-widest mb-2 font-bold text-glow text-aot-amber">XÂM NHẬP BẢN ĐỒ CHIẾN DỊCH</span>
+                    <span class="block text-xs uppercase tracking-widest mb-2 font-bold text-glow text-aot-amber">XEM CÁC BÁO CÁO CHI TIẾT</span>
                     <i class="fas fa-chevron-down text-lg text-aot-crimson"></i>
                 </a>
             </div>
@@ -196,9 +192,9 @@
     <section class="py-12 px-6 max-w-7xl mx-auto relative z-20">
         <div class="bg-gradient-to-r from-aot-crimson/15 via-aot-gray to-aot-amber/10 border-y-2 border-aot-crimson/40 rounded-2xl p-8 md:p-12 flex flex-col md:flex-row justify-between items-center gap-8 shadow-2xl">
             <div class="space-y-3 text-center md:text-left">
-                <h3 class="font-epic text-2xl md:text-3xl font-black text-white">LƯU TRỮ HỒ SƠ QUÂN SỰ</h3>
+                <h3 class="font-epic text-2xl md:text-3xl font-black text-white">XEM TOÀN BỘ SẢN PHẨM TRÊN DRIVE</h3>
                 <p class="text-gray-400 text-xs md:text-sm max-w-xl leading-relaxed">
-                    Toàn bộ báo cáo, tệp minh chứng thực địa, slide bài giảng và video thuyết trình gốc dạng PDF đã được lưu trữ bảo mật trên Google Drive chính thức dưới đây.
+                    Tất cả các tệp thực hành, báo cáo nghiên cứu chi tiết dạng PDF, slide Canva và kịch bản thuyết trình đã được lưu trữ đầy đủ và bảo mật trên Google Drive chính thức.
                 </p>
             </div>
             <div>
@@ -214,36 +210,36 @@
         <div class="max-w-7xl mx-auto px-6">
             <div class="wall-line pb-6 mb-12">
                 <h2 class="font-epic text-3xl md:text-4xl text-white font-black tracking-wider flex items-center gap-3">
-                    <span class="text-aot-crimson">02/</span> THỦ THÁCH 6 CHIẾN DỊCH LỚN
+                    <span class="text-aot-crimson">02/</span> KẾT QUẢ CÁC BÀI TẬP THỰC HÀNH
                 </h2>
-                <p class="text-gray-400 text-xs mt-2 font-light">Mỗi chiến dịch tương đương một bức tường ngăn cách tri thức cần phải vượt qua.</p>
+                <p class="text-gray-400 text-xs mt-2 font-light">Bấm vào các nút danh mục dưới đây để xem báo cáo nội dung chi tiết của từng bài tập.</p>
             </div>
 
             <!-- Selection Badges -->
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-10">
                 <button onclick="switchMission(1)" id="btn-m1" class="mission-btn p-4 rounded-xl border border-gray-800 bg-aot-card hover:bg-aot-card/90 transition duration-300 text-center flex flex-col items-center justify-center gap-2 group active-tab">
-                    <span class="text-xs text-aot-amber font-bold tracking-widest">WALL I</span>
-                    <span class="text-xs font-black transition-colors uppercase tracking-wider">QUÂN TRANG SỐ</span>
+                    <span class="text-xs text-aot-amber font-bold tracking-widest">BÀI TẬP 1</span>
+                    <span class="text-xs font-black transition-colors uppercase tracking-wider">TỆP TIN & THƯ MỤC</span>
                 </button>
                 <button onclick="switchMission(2)" id="btn-m2" class="mission-btn p-4 rounded-xl border border-gray-800 bg-aot-gray hover:bg-aot-card/90 transition duration-300 text-center flex flex-col items-center justify-center gap-2 group">
-                    <span class="text-xs text-gray-500 font-bold tracking-widest">WALL II</span>
-                    <span class="text-xs font-black transition-colors uppercase tracking-wider">TRINH SÁT TRÍ THỨC</span>
+                    <span class="text-xs text-gray-500 font-bold tracking-widest">BÀI TẬP 2</span>
+                    <span class="text-xs font-black transition-colors uppercase tracking-wider">TÌM KIẾM HỌC THUẬT</span>
                 </button>
                 <button onclick="switchMission(3)" id="btn-m3" class="mission-btn p-4 rounded-xl border border-gray-800 bg-aot-gray hover:bg-aot-card/90 transition duration-300 text-center flex flex-col items-center justify-center gap-2 group">
-                    <span class="text-xs text-gray-500 font-bold tracking-widest">WALL III</span>
-                    <span class="text-xs font-black transition-colors uppercase tracking-wider">KHUNG MỆNH LỆNH</span>
+                    <span class="text-xs text-gray-500 font-bold tracking-widest">BÀI TẬP 3</span>
+                    <span class="text-xs font-black transition-colors uppercase tracking-wider">VIẾT PROMPT (AI)</span>
                 </button>
                 <button onclick="switchMission(4)" id="btn-m4" class="mission-btn p-4 rounded-xl border border-gray-800 bg-aot-gray hover:bg-aot-card/90 transition duration-300 text-center flex flex-col items-center justify-center gap-2 group">
-                    <span class="text-xs text-gray-500 font-bold tracking-widest">WALL IV</span>
-                    <span class="text-xs font-black transition-colors uppercase tracking-wider">LIÊN QUÂN TÁC CHIẾN</span>
+                    <span class="text-xs text-gray-500 font-bold tracking-widest">BÀI TẬP 4</span>
+                    <span class="text-xs font-black transition-colors uppercase tracking-wider">HỢP TÁC TRỰC TUYẾN</span>
                 </button>
                 <button onclick="switchMission(5)" id="btn-m5" class="mission-btn p-4 rounded-xl border border-gray-800 bg-aot-gray hover:bg-aot-card/90 transition duration-300 text-center flex flex-col items-center justify-center gap-2 group">
-                    <span class="text-xs text-gray-500 font-bold tracking-widest">WALL V</span>
-                    <span class="text-xs font-black transition-colors uppercase tracking-wider">LÒ RÈN NỘI DUNG</span>
+                    <span class="text-xs text-gray-500 font-bold tracking-widest">BÀI TẬP 5</span>
+                    <span class="text-xs font-black transition-colors uppercase tracking-wider">SÁNG TẠO NỘI DUNG</span>
                 </button>
                 <button onclick="switchMission(6)" id="btn-m6" class="mission-btn p-4 rounded-xl border border-gray-800 bg-aot-gray hover:bg-aot-card/90 transition duration-300 text-center flex flex-col items-center justify-center gap-2 group">
-                    <span class="text-xs text-gray-500 font-bold tracking-widest">WALL VI</span>
-                    <span class="text-xs font-black transition-colors uppercase tracking-wider">HIẾN CHƯƠNG ĐẠO ĐỨC</span>
+                    <span class="text-xs text-gray-500 font-bold tracking-widest">BÀI TẬP 6</span>
+                    <span class="text-xs font-black transition-colors uppercase tracking-wider">SỬ DỤNG AI ĐẠO ĐỨC</span>
                 </button>
             </div>
 
@@ -254,8 +250,8 @@
                 <div id="content-m1" class="mission-content space-y-6">
                     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-gray-800 pb-4">
                         <div>
-                            <span class="text-aot-amber text-xs font-bold uppercase tracking-widest">CHIẾN DỊCH I</span>
-                            <h3 class="font-epic text-xl md:text-2xl text-white font-black">QUÂN TRANG SỐ: Quản lý tệp tin và Thư mục</h3>
+                            <span class="text-aot-amber text-xs font-bold uppercase tracking-widest">BÀI THỰC HÀNH 1</span>
+                            <h3 class="font-epic text-xl md:text-2xl text-white font-black">Thao tác cơ bản với Tệp tin và Thư mục trên Hệ điều hành</h3>
                         </div>
                         <span class="bg-emerald-950/80 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full border border-emerald-500/30">Hoàn thành xuất sắc</span>
                     </div>
@@ -263,36 +259,36 @@
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 text-sm">
                         <div class="space-y-4">
                             <p class="text-gray-300 leading-relaxed">
-                                Trước khi xông trận, người chiến sĩ phải thấu suốt từng ngóc ngách trong ba-lô quân trang của mình. Việc làm quen với hệ điều hành MacOS và thiết lập hệ thống thư mục làm việc quy chuẩn là bài huấn luyện bắt buộc để kiểm soát dữ liệu.
+                                Để học tập và nghiên cứu hiệu quả trên máy tính, việc tổ chức tài liệu một cách khoa học là bước chuẩn bị vô cùng quan trọng. Bài thực hành này giúp nắm vững các thao tác quản lý dữ liệu trực quan trên hệ điều hành MacOS.
                             </p>
                             <div class="bg-aot-gray/70 p-5 rounded-xl border border-gray-800/60">
-                                <span class="font-bold text-aot-amber block mb-2"><i class="fas fa-bullseye mr-2"></i>MỤC TIÊU CHIẾN DỊCH:</span>
+                                <span class="font-bold text-aot-amber block mb-2"><i class="fas fa-bullseye mr-2"></i>MỤC TIÊU BÀI TẬP:</span>
                                 <p class="text-xs text-gray-400 leading-relaxed">
-                                    Nắm vững toàn bộ vòng đời của tệp tin và cách thức phân phối thư mục con một cách khoa học trên MacOS. Tránh tuyệt đối việc thất lạc tài liệu chiến thuật trong suốt quá trình học tập.
+                                    Thành thạo vòng đời quản lý tệp tin và tổ chức cấu trúc thư mục con logic. Đảm bảo thói quen lưu trữ ngăn nắp, tránh tối đa việc thất lạc hay mất mát dữ liệu học tập trong quá trình làm tiểu luận và dự án.
                                 </p>
                             </div>
                         </div>
 
                         <!-- Interactive 12 Steps Simulator -->
                         <div class="bg-aot-dark/70 p-6 rounded-xl border border-gray-800 relative">
-                            <div class="absolute -top-3 -left-3 px-2 py-0.5 bg-aot-crimson text-white text-[9px] font-bold tracking-wider rounded">HUD SIMULATOR</div>
+                            <div class="absolute -top-3 -left-3 px-2 py-0.5 bg-aot-crimson text-white text-[9px] font-bold tracking-wider rounded font-mono">BẢNG PHÂN TÍCH QUY TRÌNH</div>
                             <div class="flex justify-between items-center mb-4">
-                                <span class="text-xs font-bold text-aot-crimson uppercase tracking-wider">Mô phỏng 12 bước quân lệnh:</span>
+                                <span class="text-xs font-bold text-aot-crimson uppercase tracking-wider">Chi tiết 12 bước thao tác:</span>
                                 <span id="m1-step-indicator" class="text-xs text-gray-500 font-bold">BƯỚC 1 / 12</span>
                             </div>
                             <div class="min-h-[110px] flex items-center justify-center p-4 bg-aot-card rounded border border-gray-800 text-center">
                                 <p id="m1-step-desc" class="text-gray-200 text-sm font-semibold">1. Khởi động Finder trên hệ điều hành MacOS để kiểm tra thao trường lưu trữ.</p>
                             </div>
                             <div class="flex justify-between mt-4">
-                                <button onclick="prevM1Step()" class="text-[11px] bg-gray-800 hover:bg-gray-700 text-white font-bold px-3 py-1.5 rounded transition-colors"><i class="fas fa-arrow-left mr-1"></i>Thao tác trước</button>
-                                <button onclick="nextM1Step()" class="text-[11px] bg-aot-crimson hover:bg-red-600 text-white font-bold px-3 py-1.5 rounded transition-colors">Thao tác sau<i class="fas fa-arrow-right mr-1"></i></button>
+                                <button onclick="prevM1Step()" class="text-[11px] bg-gray-800 hover:bg-gray-700 text-white font-bold px-3 py-1.5 rounded transition-colors"><i class="fas fa-arrow-left mr-1"></i>Bước trước</button>
+                                <button onclick="nextM1Step()" class="text-[11px] bg-aot-crimson hover:bg-red-600 text-white font-bold px-3 py-1.5 rounded transition-colors">Bước sau<i class="fas fa-arrow-right mr-1"></i></button>
                             </div>
                         </div>
                     </div>
 
                     <div class="text-xs text-gray-500 bg-aot-dark p-4 rounded border border-gray-800/40">
-                        <strong class="text-gray-300 block mb-1"><i class="fas fa-lightbulb mr-2"></i>BÁO CÁO THU HOẠCH:</strong>
-                        Quá trình rèn luyện thao tác cơ bản (tạo tệp, đổi tên thành <em>GhiChuQuanTrong.txt</em>, tạo thư mục con <em>TaiLieu</em>, di chuyển, xóa vào Trash, khôi phục và xóa vĩnh viễn) đã hình thành nên tính kỷ luật tuyệt đối trước các tệp tin thô. Nếu không quản trị được thư mục cá nhân, bạn không bao giờ quản trị được dữ liệu lớn của AI.
+                        <strong class="text-gray-300 block mb-1"><i class="fas fa-lightbulb mr-2"></i>BÀI HỌC KINH NGHIỆM ĐÚC RÚT:</strong>
+                        Việc kiểm soát chặt chẽ quy trình lưu trữ (khởi tạo, đổi tên thành <em>GhiChuQuanTrong.txt</em>, di chuyển vào <em>TaiLieu</em>, xóa tạm thời, khôi phục từ thùng rác và xóa vĩnh viễn) hình thành nên thói quen quản lý tệp tin một cách ngăn nắp và logic. Sự gọn gàng và ngăn nắp trong quản lý thư mục cá nhân chính là nền tảng tối thiểu giúp ta kiểm soát các thư viện dữ liệu phức tạp hơn sau này.
                     </div>
                 </div>
 
@@ -300,41 +296,41 @@
                 <div id="content-m2" class="mission-content space-y-6 hidden">
                     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-gray-800 pb-4">
                         <div>
-                            <span class="text-aot-amber text-xs font-bold uppercase tracking-widest">CHIẾN DỊCH II</span>
-                            <h3 class="font-epic text-xl md:text-2xl text-white font-black">TRINH SÁT TRÍ THỨC: Phân tích rào cản Hán tự (Kanji)</h3>
+                            <span class="text-aot-amber text-xs font-bold uppercase tracking-widest">BÀI THỰC HÀNH 2</span>
+                            <h3 class="font-epic text-xl md:text-2xl text-white font-black">Tìm kiếm nâng cao và Đánh giá nguồn thông tin Học thuật uy tín</h3>
                         </div>
                         <span class="bg-emerald-950/80 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full border border-emerald-500/30">Hoàn thành xuất sắc</span>
                     </div>
 
                     <div class="space-y-4 text-sm">
                         <p class="text-gray-300 leading-relaxed">
-                            Hán tự (Kanji) là bức tường titan khổng lồ mà bất kỳ ai học tiếng Nhật đều phải đối mặt. Để vượt qua bức tường này, tôi đã thực hiện chiến dịch trinh sát tri thức chuyên sâu, thu thập và thẩm định <strong class="text-white">11 nguồn tài liệu học thuật giá trị</strong>.
+                            Trong học tập và nghiên cứu ngoại ngữ, đặc biệt là ngôn ngữ Nhật, chữ Hán (Kanji) luôn là một trong những rào cản nhận thức lớn nhất đối với sinh viên Việt Nam. Để đề xuất giải pháp vượt qua khó khăn này, tôi đã thực hiện chiến dịch tìm kiếm và thẩm định một danh mục gồm <strong class="text-white">11 nguồn tài liệu học thuật giá trị</strong>.
                         </p>
                         
                         <div class="bg-aot-gray/70 p-5 rounded-xl border border-gray-800/60 grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <span class="font-bold text-aot-amber block mb-2"><i class="fas fa-bullseye mr-2"></i>MỤC TIÊU CHIẾN DỊCH:</span>
+                                <span class="font-bold text-aot-amber block mb-2"><i class="fas fa-bullseye mr-2"></i>MỤC TIÊU BÀI TẬP:</span>
                                 <p class="text-xs text-gray-400 leading-relaxed">
-                                    Sàng lọc các bài viết từ Google Scholar, tạp chí chuyên ngành và sách chuẩn mực trong giai đoạn 2017 - 2024. Đánh giá độ uy tín dựa trên 5 lăng kính: Năng lực tác giả, cơ quan xuất bản, phương pháp luận thực tế, tần suất trích dẫn và tính thời sự.
+                                    Sàng lọc các bài viết uy tín từ Google Scholar, thư viện, sách chuyên khảo chuẩn mực trong giai đoạn 2017 - 2024. Đánh giá chất lượng của từng nguồn dựa trên 5 lăng kính cốt lõi: Năng lực tác giả, uy tín cơ quan xuất bản, tính thời sự của thông tin, tính minh bạch của phương pháp và tần suất trích dẫn.
                                 </p>
                             </div>
                             <div>
-                                <span class="font-bold text-aot-amber block mb-2"><i class="fas fa-shield-alt mr-2"></i>KẾT QUẢ THẨM ĐỊNH:</span>
+                                <span class="font-bold text-aot-amber block mb-2"><i class="fas fa-shield-alt mr-2"></i>KẾT QUẢ THẨM ĐỊNH TÀI LIỆU:</span>
                                 <p class="text-xs text-gray-400 leading-relaxed">
-                                    Lọc ra 11 nguồn tài liệu cốt lõi (gồm 6 bài báo khoa học hàng đầu) chia làm các mức độ uy tín từ Rất Cao, Cao đến Khá, giúp định hình giải pháp học tập tối ưu qua công nghệ thông minh.
+                                    Thống kê, phân loại độ tin cậy của 11 nguồn thông tin khác nhau. Chỉ ra rõ những điểm sáng cũng như hạn chế phương pháp luận của từng tài liệu, làm tiền đề nghiên cứu vững chắc cho báo cáo.
                                 </p>
                             </div>
                         </div>
 
-                        <!-- 11 Articles Interactive Table (100% Fixed Vietnamese fonts) -->
+                        <!-- 11 Articles Table (100% Correct Vietnamese Diacritics) -->
                         <div class="overflow-x-auto bg-aot-dark/70 rounded-xl border border-gray-800">
                             <table class="w-full text-left text-xs">
                                 <thead class="bg-aot-card text-aot-amber uppercase font-epic">
                                     <tr>
                                         <th class="p-3">Số</th>
-                                        <th class="p-3">Tác giả (Năm) / Phân loại</th>
+                                        <th class="p-3">Tác giả (Năm) / Thể loại</th>
                                         <th class="p-3">Nơi xuất bản / Nền tảng</th>
-                                        <th class="p-3">Điểm hạn chế</th>
+                                        <th class="p-3">Điểm hạn chế, thiếu sót của tài liệu</th>
                                         <th class="p-3 text-right">Mức độ uy tín</th>
                                     </tr>
                                 </thead>
@@ -343,77 +339,77 @@
                                         <td class="p-3 font-bold text-white">1</td>
                                         <td class="p-3"><strong class="text-white">Nguyen (2021)</strong> / Bài báo khoa học</td>
                                         <td class="p-3">Tạp chí Khoa học Ngoại ngữ</td>
-                                        <td class="p-3">Quy mô khảo sát chỉ tập trung tại 1 trường đại học.</td>
+                                        <td class="p-3">Quy mô khảo sát chỉ tập trung tại một trường Đại học học viên.</td>
                                         <td class="p-3 text-right text-emerald-400 font-bold">Cao</td>
                                     </tr>
                                     <tr class="hover:bg-gray-800/25">
                                         <td class="p-3 font-bold text-white">2</td>
                                         <td class="p-3"><strong class="text-white">Trần (2020)</strong> / Bài báo khoa học</td>
                                         <td class="p-3">TC Nghiên cứu KH Giáo dục</td>
-                                        <td class="p-3">Chưa đối chiếu với các phương pháp học hiện đại khác.</td>
+                                        <td class="p-3">Chưa thực sự đối chiếu hiệu quả với các phương pháp học khác.</td>
                                         <td class="p-3 text-right text-emerald-400 font-bold">Cao</td>
                                     </tr>
                                     <tr class="hover:bg-gray-800/25">
                                         <td class="p-3 font-bold text-white">3</td>
                                         <td class="p-3"><strong class="text-white">Smith & Tanaka (2019)</strong> / Bài báo khoa học</td>
-                                        <td class="p-3">Language Teaching</td>
-                                        <td class="p-3">Đối tượng phương Tây có thể lệch chuẩn với bối cảnh VN.</td>
+                                        <td class="p-3">Journal of Japanese Language Teaching</td>
+                                        <td class="p-3">Đối tượng nghiên cứu là người phương Tây, có thể lệch chuẩn văn hóa VN.</td>
                                         <td class="p-3 text-right text-yellow-500 font-bold">Rất Cao</td>
                                     </tr>
                                     <tr class="hover:bg-gray-800/25">
                                         <td class="p-3 font-bold text-white">4</td>
                                         <td class="p-3"><strong class="text-white">Le (2022)</strong> / Bài báo khoa học</td>
                                         <td class="p-3">TC Khoa học Đại học Mở</td>
-                                        <td class="p-3">Chưa đi sâu vào cơ chế ghi nhớ của các app di động.</td>
+                                        <td class="p-3">Chưa đi sâu mổ xẻ cơ chế ghi nhớ cụ thể của các ứng dụng học tập.</td>
                                         <td class="p-3 text-right text-emerald-400 font-bold">Cao</td>
                                     </tr>
                                     <tr class="hover:bg-gray-800/25">
                                         <td class="p-3 font-bold text-white">5</td>
                                         <td class="p-3"><strong class="text-white">Phạm (2018)</strong> / Kỷ yếu Hội thảo</td>
-                                        <td class="p-3">HT giảng dạy Tiếng Nhật</td>
-                                        <td class="p-3">Thông tin số liệu bắt đầu cũ dần (từ năm 2018).</td>
+                                        <td class="p-3">Hội thảo Quốc gia Giảng dạy Tiếng Nhật</td>
+                                        <td class="p-3">Thông tin số liệu khảo sát bắt đầu cũ dần (tính từ năm 2018).</td>
                                         <td class="p-3 text-right text-emerald-400 font-bold">Cao</td>
                                     </tr>
                                     <tr class="hover:bg-gray-800/25">
                                         <td class="p-3 font-bold text-white">6</td>
                                         <td class="p-3"><strong class="text-white">Đỗ & Nguyễn (2023)</strong> / Bài báo khoa học</td>
                                         <td class="p-3">Tạp chí Khoa học Xã hội</td>
-                                        <td class="p-3">Nặng về tâm lý học hơn là góc độ ngôn ngữ học.</td>
+                                        <td class="p-3">Thiên hướng phân tích tâm lý nhiều hơn khía cạnh thực hành ngôn ngữ.</td>
                                         <td class="p-3 text-right text-emerald-400 font-bold">Cao</td>
                                     </tr>
                                     <tr class="hover:bg-gray-800/25">
                                         <td class="p-3 font-bold text-white">7</td>
                                         <td class="p-3"><strong class="text-white">Kano (2017)</strong> / Sách chuyên khảo</td>
-                                        <td class="p-3">NXB Bonjinsha (Tokyo)</td>
-                                        <td class="p-3">Thiếu sự tích hợp các giải pháp công nghệ hiện đại.</td>
+                                        <td class="p-3">NXB Bonjinsha (Tokyo) (Basic Kanji Book)</td>
+                                        <td class="p-3">Khá thiên hữu về lối học truyền thống, thiếu sự tích hợp công nghệ.</td>
                                         <td class="p-3 text-right text-yellow-500 font-bold">Rất Cao</td>
                                     </tr>
                                     <tr class="hover:bg-gray-800/25">
                                         <td class="p-3 font-bold text-white">8</td>
                                         <td class="p-3"><strong class="text-white">Sato (2021)</strong> / Sách chuyên khảo</td>
                                         <td class="p-3">NXB Giáo dục Tokyo</td>
-                                        <td class="p-3">Hàm lượng học thuật quá cao, gây khó khăn cho tân sinh viên.</td>
+                                        <td class="p-3">Hàm lượng nghiên cứu học thuật cao, tương đối khó tiếp cận cho SV năm nhất.</td>
                                         <td class="p-3 text-right text-yellow-500 font-bold">Rất Cao</td>
                                     </tr>
                                     <tr class="hover:bg-gray-800/25">
                                         <td class="p-3 font-bold text-white">9</td>
                                         <td class="p-3"><strong class="text-white">Vũ (2020)</strong> / Luận văn Thạc sĩ</td>
-                                        <td class="p-3">Thư viện ĐHQGHN</td>
-                                        <td class="p-3">Là tài liệu lưu hành nội bộ, mức phổ cập chưa cao.</td>
+                                        <td class="p-3">Thư viện Đại học Quốc gia Hà Nội</td>
+                                        <td class="p-3">Tài liệu lưu hành nội bộ, mức độ phổ cập rộng rãi chưa cao.</td>
                                         <td class="p-3 text-right text-emerald-400 font-bold">Cao</td>
                                     </tr>
                                     <tr class="hover:bg-gray-800/25">
                                         <td class="p-3 font-bold text-white">10</td>
                                         <td class="p-3"><strong class="text-white">Japan Foundation (2023)</strong> / Nguồn mở</td>
-                                        <td class="p-3">Cổng thông tin JF</td>
-                                        <td class="p-3">Chỉ mang tính định hướng bề mặt, thiếu chiều sâu.</td>
+                                        <td class="p-3">Cổng thông tin Quỹ Giao lưu Quốc tế Nhật Bản</td>
+                                        <td class="p-3">Nội dung chỉ mang tính chất định hướng bề mặt, thiếu khảo sát chuyên sâu.</td>
                                         <td class="p-3 text-right text-yellow-600 font-bold">Khá</td>
                                     </tr>
                                     <tr class="hover:bg-gray-800/25">
                                         <td class="p-3 font-bold text-white">11</td>
                                         <td class="p-3"><strong class="text-white">Tofugu (2022)</strong> / Nguồn mở (Blog)</td>
-                                        <td class="p-3">Blog Tofugu</td>
-                                        <td class="p-3">Không mang tính học thuật, chưa qua hội đồng bình duyệt.</td>
+                                        <td class="p-3">Blog Tofugu (Internet)</td>
+                                        <td class="p-3">Không mang tính học thuật và chưa được thông qua bởi hội đồng khoa học.</td>
                                         <td class="p-3 text-right text-orange-500 font-bold">Trung bình</td>
                                     </tr>
                                 </tbody>
@@ -422,8 +418,8 @@
                     </div>
 
                     <div class="text-xs text-gray-500 bg-aot-dark p-4 rounded border border-gray-800/40">
-                        <strong class="text-gray-300 block mb-1"><i class="fas fa-lightbulb mr-2"></i>BÁO CÁO THU HOẠCH:</strong>
-                        Như việc trinh sát địa hình ngoài bức tường, ta phải biết phân biệt giữa tin đồn của người dân (Blog mạng) và tin tình báo quân sự (Báo cáo khoa học đã qua bình duyệt). Thẩm định chính xác nguồn gốc tài liệu chính là vũ khí giúp xây dựng luận cứ vững chắc, đập tan rào cản Hán tự.
+                        <strong class="text-gray-300 block mb-1"><i class="fas fa-lightbulb mr-2"></i>BÀI HỌC KINH NGHIỆM ĐÚC RÚT:</strong>
+                        Trong môi trường đại học, việc phân biệt rõ giữa thông tin mở từ các trang viết tự do (như blog cá nhân) và thông tin đã qua bình duyệt học thuật nghiêm ngặt (như bài báo khoa học) là bắt buộc. Thẩm định nguồn một cách khách quan giúp sinh viên tiết kiệm thời gian, tăng sức nặng thuyết phục cho các bài nghiên cứu sau này.
                     </div>
                 </div>
 
@@ -431,33 +427,33 @@
                 <div id="content-m3" class="mission-content space-y-6 hidden">
                     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-gray-800 pb-4">
                         <div>
-                            <span class="text-aot-amber text-xs font-bold uppercase tracking-widest">CHIẾN DỊCH III</span>
-                            <h3 class="font-epic text-xl md:text-2xl text-white font-black">KHUNG MỆNH LỆNH: Nghệ thuật Prompting tạo sực thấu cảm (CREATE)</h3>
+                            <span class="text-aot-amber text-xs font-bold uppercase tracking-widest">BÀI THỰC HÀNH 3</span>
+                            <h3 class="font-epic text-xl md:text-2xl text-white font-black">Thiết kế Prompt hiệu quả cho các tác vụ học thuật (Khung CREATE)</h3>
                         </div>
                         <span class="bg-emerald-950/80 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full border border-emerald-500/30">Hoàn thành xuất sắc</span>
                     </div>
 
                     <div class="space-y-4 text-sm">
                         <p class="text-gray-300 leading-relaxed">
-                            AI giống như một thế lực khổng lồ vô tri. Nó chỉ có thể phát huy sức mạnh vượt bậc và có khả năng phản hồi "thấu cảm nhận thức" (Cognitive Empathy) tinh tế khi người điều phối ban ra những mệnh lệnh chuẩn xác thông qua bộ khung <strong class="text-aot-amber font-semibold">C-R-E-A-T-E</strong>.
+                            Trí tuệ nhân tạo (AI) sở hữu lượng thông tin khổng lồ nhưng không có tư duy tự chủ. Nếu câu lệnh (Prompt) quá ngắn hoặc thiếu bối cảnh, AI sẽ trả về kết quả hời hợt hoặc rập khuôn. Việc áp dụng đúng mô hình <strong class="text-aot-amber font-semibold">C-R-E-A-T-E</strong> sẽ tối ưu hóa khả năng phản hồi thấu cảm nhận thức của AI.
                         </p>
 
                         <div class="bg-aot-gray/70 p-5 rounded-xl border border-gray-800/60 grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <span class="font-bold text-aot-amber block mb-2"><i class="fas fa-bullseye mr-2"></i>MỤC TIÊU CHIẾN DỊCH:</span>
+                                <span class="font-bold text-aot-amber block mb-2"><i class="fas fa-bullseye mr-2"></i>MỤC TIÊU BÀI TẬP:</span>
                                 <p class="text-xs text-gray-400 leading-relaxed">
-                                    Ứng dụng kỹ thuật cấu trúc câu lệnh theo khung <strong class="text-white">C-R-E-A-T-E</strong> để kiểm tra (stress-test) khả năng thấu cảm nhận thức của AI đối với các khủng hoảng tâm lý của giới trẻ (FOMO, Peer Pressure, Hustle Culture).
+                                    Thực nghiệm, đánh giá mức độ thay đổi chất lượng văn bản của AI qua các cấp độ câu lệnh. Ứng dụng AI phân tích các hiện tượng xã hội của giới trẻ như hội chứng sợ bị bỏ lỡ (FOMO), áp lực đồng trang lứa và văn hóa hối hả (Hustle Culture).
                                 </p>
                             </div>
                             <div>
-                                <span class="font-bold text-aot-amber block mb-2"><i class="fas fa-brain mr-2"></i>BỘ QUY TẮC C-R-E-A-T-E:</span>
+                                <span class="font-bold text-aot-amber block mb-2"><i class="fas fa-brain mr-2"></i>QUY TẮC PHÁT TRIỂN C-R-E-A-T-E:</span>
                                 <ul class="text-xs text-gray-400 space-y-1">
-                                    <li><strong>C - Context:</strong> Thiết lập bối cảnh đa chiều (làn sóng sa thải post-covid).</li>
-                                    <li><strong>R - Role:</strong> Kích hoạt nhân dạng chuyên gia (Bác sĩ tâm lý hành vi).</li>
-                                    <li><strong>E - Explicit Constraints:</strong> Thiết lập vòng kim cô kỷ luật (cấm gạch đầu dòng).</li>
-                                    <li><strong>A - Audience:</strong> Đồng bộ hóa dải tần số cảm xúc đối tượng tiếp nhận.</li>
-                                    <li><strong>T - Task:</strong> Sử dụng động từ có sức nặng học thuật (Mổ xẻ, biện luận).</li>
-                                    <li><strong>E - Examples:</strong> Đưa ra khuôn mẫu tham chiếu (Few-shot Prompting).</li>
+                                    <li><strong>C - Context (Ngữ cảnh):</strong> Đặt bối cảnh kinh tế, tâm lý cụ thể của vấn đề.</li>
+                                    <li><strong>R - Role (Vai trò):</strong> Chỉ định AI đóng vai một chuyên gia cụ thể có uy tín.</li>
+                                    <li><strong>E - Explicit Constraints (Giới hạn):</strong> Hạn chế lối hành văn sáo rỗng, gạch đầu dòng.</li>
+                                    <li><strong>A - Audience (Độc giả):</strong> Quy định rõ đối tượng tiếp nhận thông tin là ai.</li>
+                                    <li><strong>T - Task (Nhiệm vụ):</strong> Dùng động từ mạnh như biện luận, mổ xẻ, so sánh.</li>
+                                    <li><strong>E - Examples (Ví dụ):</strong> Đưa ra khuôn mẫu cụ thể để AI học theo (Few-shot).</li>
                                 </ul>
                             </div>
                         </div>
@@ -465,22 +461,22 @@
                         <!-- Interactive Prompt Comparison Toggle -->
                         <div class="bg-aot-dark/70 p-6 rounded-xl border border-gray-800">
                             <div class="flex justify-center gap-3 mb-4">
-                                <button onclick="toggleM3Prompt(1)" id="btn-m3p1" class="m3p-btn px-4 py-2 rounded text-xs font-bold bg-aot-crimson text-white transition-all">Prompt thả nổi (Cơ bản)</button>
-                                <button onclick="toggleM3Prompt(2)" id="btn-m3p2" class="m3p-btn px-4 py-2 rounded text-xs font-bold bg-gray-800 text-gray-400 hover:text-white transition-all">Prompt định hướng (Roleplay)</button>
-                                <button onclick="toggleM3Prompt(3)" id="btn-m3p3" class="m3p-btn px-4 py-2 rounded text-xs font-bold bg-gray-800 text-gray-400 hover:text-white transition-all">Mệnh lệnh tối ưu (CREATE)</button>
+                                <button onclick="toggleM3Prompt(1)" id="btn-m3p1" class="m3p-btn px-4 py-2 rounded text-xs font-bold bg-aot-crimson text-white transition-all">Prompt thả nổi (Mức 1)</button>
+                                <button onclick="toggleM3Prompt(2)" id="btn-m3p2" class="m3p-btn px-4 py-2 rounded text-xs font-bold bg-gray-800 text-gray-400 hover:text-white transition-all">Prompt định hướng (Mức 2)</button>
+                                <button onclick="toggleM3Prompt(3)" id="btn-m3p3" class="m3p-btn px-4 py-2 rounded text-xs font-bold bg-gray-800 text-gray-400 hover:text-white transition-all">Prompt tối ưu CREATE (Mức 3)</button>
                             </div>
                             <div id="m3-prompt-display-box" class="p-5 bg-aot-card rounded border border-gray-800">
-                                <span class="text-xs text-aot-crimson font-bold block mb-2">Câu lệnh:</span>
-                                <p id="m3-prompt-text" class="text-gray-300 italic mb-4">"Hãy viết về hội chứng FOMO."</p>
-                                <span class="text-xs text-aot-amber font-bold block mb-2">Đầu ra AI:</span>
+                                <span class="text-xs text-aot-crimson font-bold block mb-2">Câu lệnh mẫu:</span>
+                                <p id="m3-prompt-text" class="text-gray-300 italic mb-4 font-sans text-sm">"Hãy viết về hội chứng FOMO."</p>
+                                <span class="text-xs text-aot-amber font-bold block mb-2">Đầu ra phản hồi của AI:</span>
                                 <p id="m3-prompt-response" class="text-gray-400 text-xs leading-relaxed">Văn bản chuẩn ngữ pháp nhưng khô khan như bách khoa toàn thư, liệt kê các triệu chứng rồi đưa ra lời khuyên hời hợt: "nên tắt máy điện thoại". Không chạm tới được bản chất nhận thức hay cơ chế dopamine thần kinh học.</p>
                             </div>
                         </div>
                     </div>
 
                     <div class="text-xs text-gray-500 bg-aot-dark p-4 rounded border border-gray-800/40">
-                        <strong class="text-gray-300 block mb-1"><i class="fas fa-lightbulb mr-2"></i>BÁO CÁO THU HOẠCH:</strong>
-                        AI đã chứng minh khả năng "tái định hình nhận thức" xuất sắc khi được tiếp cận qua đúng khung ngữ cảnh. Bằng cách mổ xẻ cơ chế "bẫy dopamine" của thuật toán mạng xã hội hay giải phẫu hội chứng Hustle Culture qua lăng kính triết học Byung-Chul Han (con người tự bóc lột chính mình dưới mác thành công cá nhân), AI giúp người tiếp nhận thoát khỏi tư duy tự đổ lỗi (Self-blame) một cách nhân văn.
+                        <strong class="text-gray-300 block mb-1"><i class="fas fa-lightbulb mr-2"></i>BÀI HỌC KINH NGHIỆM ĐÚC RÚT:</strong>
+                        AI thể hiện sự thay đổi ngoạn mục về chất lượng hành văn khi được cung cấp đúng phương pháp. Bằng cách gán vai trò chuyên gia, AI có khả năng tạo ra các ẩn dụ xuất sắc (như việc so sánh nỗ lực của một người với vận tốc máy chạy bộ của người bên cạnh tại phòng tập gym) giúp tháo gỡ tâm lý tự đổ lỗi. Đồng thời, tư duy hệ thống của AI giúp mổ xẻ văn hóa hối hả dưới lăng kính xã hội học biện chứng (sự tự bóc lột được nội tâm hóa của chủ nghĩa tân tự do), từ đó đưa ra lời khuyên có chiều sâu tri thức thực thụ.
                     </div>
                 </div>
 
@@ -488,63 +484,65 @@
                 <div id="content-m4" class="mission-content space-y-6 hidden">
                     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-gray-800 pb-4">
                         <div>
-                            <span class="text-aot-amber text-xs font-bold uppercase tracking-widest">CHIẾN DỊCH IV</span>
-                            <h3 class="font-epic text-xl md:text-2xl text-white font-black">LIÊN QUÂN TÁC CHIẾN: Quản trị dự án & Hợp tác trực tuyến</h3>
+                            <span class="text-aot-amber text-xs font-bold uppercase tracking-widest">BÀI THỰC HÀNH 4</span>
+                            <h3 class="font-epic text-xl md:text-2xl text-white font-black">Ứng dụng công cụ trực tuyến cho hoạt động nhóm</h3>
                         </div>
                         <span class="bg-emerald-950/80 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full border border-emerald-500/30">Hoàn thành xuất sắc</span>
                     </div>
 
                     <div class="space-y-4 text-sm">
                         <p class="text-gray-300 leading-relaxed">
-                            Không một chiến sĩ đơn độc nào có thể đẩy lui được hiểm họa. Để triển khai xuất sắc dự án thuyết trình <strong class="text-white">"Ứng dụng AI trong tự học ngoại ngữ"</strong>, nhóm trinh sát 5 người (Đỗ Thị Dạ Khánh - Trưởng nhóm, Ngô Bảo Ngọc, Trần Thành Đạt, Phùng Thị Hồng Nhung, Đặng Khánh Linh) đã cùng thiết lập quy trình tác chiến nghiêm ngặt.
+                            Làm việc nhóm trực tuyến trong môi trường số đòi hỏi tính kỷ luật và sự kết nối chặt chẽ. Để hoàn thành xuất sắc dự án thuyết trình học thuật với chủ đề <strong class="text-white">"Ứng dụng AI trong tự học ngoại ngữ của sinh viên đại học"</strong>, nhóm 5 thành viên chúng tôi (Đỗ Thị Dạ Khánh - Trưởng nhóm, Ngô Bảo Ngọc, Trần Thành Đạt, Phùng Thị Hồng Nhung, Đặng Khánh Linh) đã phối hợp nhịp nhàng trên không gian số.
                         </p>
 
                         <div class="bg-aot-gray/70 p-5 rounded-xl border border-gray-800/60 grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <span class="font-bold text-aot-amber block mb-2"><i class="fas fa-bullseye mr-2"></i>MỤC TIÊU CHIẾN DỊCH:</span>
+                                <span class="font-bold text-aot-amber block mb-2"><i class="fas fa-bullseye mr-2"></i>MỤC TIÊU BÀI TẬP:</span>
                                 <p class="text-xs text-gray-400 leading-relaxed">
-                                    Ứng dụng các công cụ cộng tác trực tuyến (Notion, Google Drive, Canva, Zalo) để phân rã kịch bản, theo dõi lịch họp định kỳ, phân công công việc cụ thể và giám sát chất lượng đóng góp đồng đẳng.
+                                    Thực hành tích hợp nhiều công cụ cộng tác trực tuyến phổ biến (Notion cho phân công, Google Drive chia sẻ kịch bản văn bản, Canva thiết kế slide và Zalo làm kênh giao tiếp chính). Giám sát tiến trình và xây dựng tinh thần đồng đội.
                                 </p>
                             </div>
                             <div>
-                                <span class="font-bold text-aot-amber block mb-2"><i class="fas fa-shield-alt mr-2"></i>GIẢI QUYẾT 3 THÁCH THỨC CỐT LÕI:</span>
-                                <p class="text-xs text-gray-400 leading-relaxed">
-                                    Xóa bỏ sự thiếu đồng bộ trong giao tiếp bằng các cuộc họp định kỳ; Khắc phục hiện tượng ỷ lại (social loafing) bằng việc chấm điểm minh bạch; Vượt qua bế tắc trong thảo luận bằng bộ quy tắc ứng xử tôn trọng ý kiến thành viên.
-                                </p>
+                                <span class="font-bold text-aot-amber block mb-2"><i class="fas fa-shield-alt mr-2"></i>GIẢI QUYẾT 3 THÁCH THỨC LỚN:</span>
+                                <ul class="text-xs text-gray-400 space-y-1 list-disc list-inside">
+                                    <li><strong>Giao tiếp bất đồng bộ:</strong> Do lệch lịch trình sinh hoạt.</li>
+                                    <li><strong>Sự chênh lệch đóng góp (Social Loafing):</strong> Hiện tượng ỷ lại của thành viên.</li>
+                                    <li><strong>Bế tắc trong ra quyết định:</strong> Xung đột quan điểm cá nhân.</li>
+                                </ul>
                             </div>
                         </div>
 
                         <!-- Mini Interactive Board showing Team division -->
                         <div class="bg-aot-dark/70 p-6 rounded-xl border border-gray-800">
-                            <span class="text-xs font-bold text-aot-crimson uppercase tracking-wider block mb-4">Sơ đồ điều động nhân sự và tiến độ Notion:</span>
+                            <span class="text-xs font-bold text-aot-crimson uppercase tracking-wider block mb-4">Sơ đồ điều động nhân sự và tiến độ Notion nhóm:</span>
                             <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-xs">
                                 <div class="p-3 bg-aot-card rounded border border-gray-800">
                                     <strong class="text-white block mb-1">Xây dựng kịch bản</strong>
                                     <span class="text-emerald-400 block mb-1">Done (10/06)</span>
-                                    <span class="text-gray-500">Do Đỗ Thị Dạ Khánh và cả nhóm thực hiện.</span>
+                                    <span class="text-gray-500 font-light">Do Đỗ Thị Dạ Khánh chủ trì phối hợp với cả nhóm.</span>
                                 </div>
                                 <div class="p-3 bg-aot-card rounded border border-gray-800">
                                     <strong class="text-white block mb-1">Thiết kế Slide Canva</strong>
                                     <span class="text-emerald-400 block mb-1">Done (12/06)</span>
-                                    <span class="text-gray-500">Dạ Khánh, Hồng Nhung & Khánh Linh phụ trách.</span>
+                                    <span class="text-gray-500 font-light">Dạ Khánh, Hồng Nhung & Khánh Linh thực hiện.</span>
                                 </div>
                                 <div class="p-3 bg-aot-card rounded border border-gray-800">
                                     <strong class="text-white block mb-1">Quay & Dựng Video</strong>
                                     <span class="text-emerald-400 block mb-1">Done (14/06)</span>
-                                    <span class="text-gray-500">Bảo Ngọc & Thành Đạt thực hiện quay hiện địa.</span>
+                                    <span class="text-gray-500 font-light">Bảo Ngọc & Thành Đạt thực hiện quay hiện hiện trường thực tế.</span>
                                 </div>
                                 <div class="p-3 bg-aot-card rounded border border-gray-800">
-                                    <strong class="text-white block mb-1">Viết Báo cáo tổng hợp</strong>
+                                    <strong class="text-white block mb-1">Báo cáo & Đánh giá</strong>
                                     <span class="text-yellow-500 block mb-1">In Progress (17/06)</span>
-                                    <span class="text-gray-500">Cả nhóm hoàn thiện dưới sự kiểm soát của nhóm trưởng.</span>
+                                    <span class="text-gray-500 font-light">Cả nhóm hoàn thiện dưới sự quản lý của nhóm trưởng.</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="text-xs text-gray-500 bg-aot-dark p-4 rounded border border-gray-800/40">
-                        <strong class="text-gray-300 block mb-1"><i class="fas fa-lightbulb mr-2"></i>BÁO CÁO THU HOẠCH:</strong>
-                        Sức mạnh của một đội quân không nằm ở tài năng đơn lẻ của một cá nhân, mà nằm ở tính tổ chức. Việc cam kết cao độ, giao tiếp trực tuyến văn minh và theo dõi trực quan bằng Notion đã giúp nhóm tạo nên một "kén bọc" bảo vệ tiến độ dự án, mang lại kết quả xuất sắc phản ánh đúng thực chất năng lực từng người.
+                        <strong class="text-gray-300 block mb-1"><i class="fas fa-lightbulb mr-2"></i>BÀI HỌC KINH NGHIỆM ĐÚC RÚT:</strong>
+                        Để giải quyết triệt để 3 khó khăn trên, nhóm đã ứng dụng 3 giải pháp thực tiễn: 1. Thống nhất kênh liên lạc chính và họp định kỳ qua Google Meet; 2. Phân công công việc rõ ràng dựa trên thế mạnh của từng cá nhân và sử dụng bảng theo dõi tiến độ Notion; 3. Thiết lập bộ quy tắc thảo luận mang tính xây dựng cao và giao quyền cho nhóm trưởng điều phối xung đột. Sự minh bạch và công bằng là chìa khóa duy trì động lực làm việc chung.
                     </div>
                 </div>
 
@@ -552,28 +550,28 @@
                 <div id="content-m5" class="mission-content space-y-6 hidden">
                     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-gray-800 pb-4">
                         <div>
-                            <span class="text-aot-amber text-xs font-bold uppercase tracking-widest">CHIẾN DỊCH V</span>
-                            <h3 class="font-epic text-xl md:text-2xl text-white font-black">LÒ RÈN NỘI DUNG: Sáng tạo nội dung số bằng Trí tuệ nhân tạo</h3>
+                            <span class="text-aot-amber text-xs font-bold uppercase tracking-widest">BÀI THỰC HÀNH 5</span>
+                            <h3 class="font-epic text-xl md:text-2xl text-white font-black">Ứng dụng AI tạo sinh để hỗ trợ sáng tạo nội dung số (Infographic)</h3>
                         </div>
                         <span class="bg-emerald-950/80 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full border border-emerald-500/30">Hoàn thành xuất sắc</span>
                     </div>
 
                     <div class="space-y-4 text-sm">
                         <p class="text-gray-300 leading-relaxed">
-                            Nhờ sự hỗ trợ mạnh mẽ của Generative AI, quy trình sáng tạo không còn là độc quyền thủ công. Tôi đã trực tiếp sử dụng bộ ba công cụ AI để thiết kế nên tác phẩm <strong class="text-white">Infographic "Ứng dụng AI trong tự học ngoại ngữ"</strong> với sự tối giản và chuyên nghiệp cao nhất.
+                            Sự bùng nổ của các mô hình AI thế hệ mới đã mở ra một phương thức thiết kế hoàn toàn khác biệt. Trong nhiệm vụ sáng tạo nên bức ảnh đồ họa học thuật <strong class="text-white">Infographic "Ứng dụng AI trong tự học ngoại ngữ"</strong>, tôi đã thực nghiệm tích hợp bộ ba công cụ AI để tối ưu hóa hiệu suất làm việc.
                         </p>
 
                         <div class="bg-aot-gray/70 p-5 rounded-xl border border-gray-800/60 grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <span class="font-bold text-aot-amber block mb-2"><i class="fas fa-bullseye mr-2"></i>MỤC TIÊU CHIẾN DỊCH:</span>
+                                <span class="font-bold text-aot-amber block mb-2"><i class="fas fa-bullseye mr-2"></i>MỤC TIÊU BÀI TẬP:</span>
                                 <p class="text-xs text-gray-400 leading-relaxed">
-                                    Thử nghiệm tích hợp nhiều AI trong một quy trình duy nhất. Đánh giá tính thực tế của ChatGPT, DALL-E, Canva AI để xem cách chúng tối ưu hóa năng suất hoạt động của con người.
+                                    Thử nghiệm tính hữu ích và giới hạn thực tế của từng công cụ thiết kế tự động. Đánh giá sự dịch chuyển quy trình sáng tạo khi có sự tham gia của trí tuệ nhân tạo.
                                 </p>
                             </div>
                             <div>
-                                <span class="font-bold text-aot-amber block mb-2"><i class="fas fa-history mr-2"></i>BẢN CHẤT SỰ CHUYỂN DỊCH QUY TRÌNH:</span>
+                                <span class="font-bold text-aot-amber block mb-2"><i class="fas fa-history mr-2"></i>SỰ DỊCH CHUYỂN CỦA QUY TRÌNH:</span>
                                 <p class="text-xs text-gray-400 leading-relaxed">
-                                    Trước đây: Tìm tài liệu → Viết → Thiết kế. Hiện nay: Lên ý tưởng bằng AI → Chọn lọc thông tin → Chỉnh sửa sâu → Thiết kế khung → Thẩm định → Hoàn thiện. Thời gian rút ngắn 60%.
+                                    Quy trình cũ mất nhiều ngày: Tìm tài liệu → Viết thô → Thiết kế đồ họa. Quy trình tích hợp AI rút ngắn 60% thời gian: Lên ý tưởng bằng AI → Chọn lọc ý tưởng → Chỉnh sửa chi tiết → Thiết kế layout bằng AI → Thẩm định tính thực tế → Hoàn thiện.
                                 </p>
                             </div>
                         </div>
@@ -581,26 +579,26 @@
                         <!-- 3 Tools Comparative Grid -->
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div class="p-4 bg-aot-dark/60 rounded-xl border border-gray-800">
-                                <span class="text-xs text-aot-amber font-bold block mb-2">1. ChatGPT (Ý tưởng & Chữ)</span>
-                                <p class="text-xs text-gray-400 mb-2"><strong>Thế mạnh:</strong> Lên dàn ý cực nhanh, tư duy logic, phân mảnh slide rõ ràng.</p>
-                                <p class="text-xs text-gray-500"><strong>Hạn chế:</strong> Thiếu trực quan hình ảnh, dễ bị lặp từ học thuật khô khan.</p>
+                                <span class="text-xs text-aot-amber font-bold block mb-2">1. ChatGPT (Xây dựng kịch bản)</span>
+                                <p class="text-xs text-gray-400 mb-2"><strong>Điểm mạnh:</strong> Xây dựng khung nội dung súc tích, phân đoạn slide logic và khoa học.</p>
+                                <p class="text-xs text-gray-500 font-light"><strong>Hạn chế:</strong> Thiếu trực quan về màu sắc, đôi khi có văn phong lặp ý.</p>
                             </div>
                             <div class="p-4 bg-aot-dark/60 rounded-xl border border-gray-800">
-                                <span class="text-xs text-aot-amber font-bold block mb-2">2. DALL-E (Hình minh họa)</span>
-                                <p class="text-xs text-gray-400 mb-2"><strong>Thế mạnh:</strong> Tạo hình ảnh hiện đại phẳng (flat art) cực chuẩn theo tông màu chủ đạo.</p>
-                                <p class="text-xs text-gray-500"><strong>Hạn chế:</strong> Dễ tạo text rác biến dạng, khó tạo đúng 100% ý muốn ngay lần đầu.</p>
+                                <span class="text-xs text-aot-amber font-bold block mb-2">2. DALL-E (Vẽ minh họa)</span>
+                                <p class="text-xs text-gray-400 mb-2"><strong>Điểm mạnh:</strong> Tạo ra các nét vẽ phẳng (flat art) hiện đại đúng theo tông màu xanh trắng chủ đạo yêu cầu.</p>
+                                <p class="text-xs text-gray-500 font-light"><strong>Hạn chế:</strong> Khó tạo văn bản chữ chính xác trong ảnh, dễ có chi tiết thừa.</p>
                             </div>
                             <div class="p-4 bg-aot-dark/60 rounded-xl border border-gray-800">
-                                <span class="text-xs text-aot-amber font-bold block mb-2">3. Canva AI (Layout & Font)</span>
-                                <p class="text-xs text-gray-400 mb-2"><strong>Thế mạnh:</strong> Đồng bộ khoảng trắng, gợi ý bố cục đẹp mắt, tích hợp icon tinh xảo.</p>
-                                <p class="text-xs text-gray-500"><strong>Hạn chế:</strong> Các mẫu thiết kế mặc định dễ bị rập khuôn, thiếu cá tính.</p>
+                                <span class="text-xs text-aot-amber font-bold block mb-2">3. Canva AI (Tổ chức Layout)</span>
+                                <p class="text-xs text-gray-400 mb-2"><strong>Điểm mạnh:</strong> Gợi ý phông chữ đồng bộ, phân phối khoảng trắng tối ưu và đa dạng icon đồ họa.</p>
+                                <p class="text-xs text-gray-500 font-light"><strong>Hạn chế:</strong> Các bố cục mặc định có phần rập khuôn, cần con người tùy chỉnh sâu.</p>
                             </div>
                         </div>
                     </div>
 
                     <div class="text-xs text-gray-500 bg-aot-dark p-4 rounded border border-gray-800/40">
-                        <strong class="text-gray-300 block mb-1"><i class="fas fa-lightbulb mr-2"></i>BÁO CÁO THU HOẠCH:</strong>
-                        AI là lò rèn vũ khí, còn tư duy thẩm định và bộ lọc của con người mới là thứ quyết định độ sắc bén của lưỡi kiếm. Khoảng 40% sản phẩm cuối cùng là kết quả xử lý của AI, trong khi 60% còn lại đòi hỏi sự chỉnh sửa văn bản, kiểm chứng dữ liệu thực tế và bố cục sáng tạo cá nhân của tôi.
+                        <strong class="text-gray-300 block mb-1"><i class="fas fa-lightbulb mr-2"></i>BÀI HỌC KINH NGHIỆM ĐÚC RÚT:</strong>
+                        Mặc dù AI hỗ trợ rất nhanh, sản phẩm cuối cùng chỉ thực sự hoàn thiện nhờ vai trò kiểm soát của con người. Khoảng 40% sản phẩm là đầu ra của AI và 60% còn lại là thời gian tôi trực tiếp chỉnh sửa văn bản, kiểm chứng dữ liệu thực tế và căn chỉnh bố cục để sản phẩm mang đậm dấu ấn cá nhân và đảm bảo tính học thuật cao.
                     </div>
                 </div>
 
@@ -608,71 +606,71 @@
                 <div id="content-m6" class="mission-content space-y-6 hidden">
                     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-gray-800 pb-4">
                         <div>
-                            <span class="text-aot-amber text-xs font-bold uppercase tracking-widest">CHIẾN DỊCH VI</span>
-                            <h3 class="font-epic text-xl md:text-2xl text-white font-black">HIẾN CHƯƠNG ĐẠO ĐỨC: Sử dụng AI có trách nhiệm học thuật</h3>
+                            <span class="text-aot-amber text-xs font-bold uppercase tracking-widest">BÀI THỰC HÀNH 6</span>
+                            <h3 class="font-epic text-xl md:text-2xl text-white font-black">Sử dụng AI có trách nhiệm trong học tập và nghiên cứu</h3>
                         </div>
                         <span class="bg-emerald-950/80 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full border border-emerald-500/30">Hoàn thành xuất sắc</span>
                     </div>
 
                     <div class="space-y-4 text-sm">
                         <p class="text-gray-300 leading-relaxed">
-                            Cánh cửa mà trường đại học ngoại ngữ ULIS mở ra cho AI không phải là lời mời gọi lười biếng, mà là thử thách đạo đức lớn nhất đối với mỗi sinh viên. Chúng ta phải bảo vệ tư duy độc lập của mình trước những hiểm họa vô thức của thời đại tự động hóa nhận thức.
+                            Quan điểm của trường đại học ULIS thể hiện rõ tinh thần tích cực đón nhận AI trong dạy học và nghiên cứu khoa học. Tuy nhiên, việc thiếu hướng dẫn phù hợp dễ dẫn đến các nguy cơ lạm dụng, giảm sút tư duy và vi phạm đạo đức nghiêm trọng.
                         </p>
 
                         <div class="bg-aot-gray/70 p-5 rounded-xl border border-gray-800/60 grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <span class="font-bold text-aot-amber block mb-2"><i class="fas fa-bullseye mr-2"></i>MỤC TIÊU CHIẾN DỊCH:</span>
+                                <span class="font-bold text-aot-amber block mb-2"><i class="fas fa-bullseye mr-2"></i>MỤC TIÊU BÀI TẬP:</span>
                                 <p class="text-xs text-gray-400 leading-relaxed">
-                                    Phân tích các chính sách liên quan đến AI trong môi trường học đường. Xây dựng bộ quy tắc cá nhân gồm 7 lời thề cam kết sử dụng AI có trách nhiệm và giữ vững liêm chính học thuật.
+                                    Nghiên cứu chính sách sử dụng AI tại Việt Nam và trên thế giới. Xây dựng bản quy tắc ứng xử cá nhân gồm 7 nguyên tắc đạo đức cốt lõi để duy trì sự liêm chính trong học thuật.
                                 </p>
                             </div>
                             <div>
-                                <span class="font-bold text-aot-amber block mb-2"><i class="fas fa-exclamation-triangle mr-2"></i>4 HỐ SÂU ĐẠO ĐỨC CỦA AI:</span>
+                                <span class="font-bold text-aot-amber block mb-2"><i class="fas fa-exclamation-triangle mr-2"></i>4 NGUY CƠ ĐẠO ĐỨC CỦA AI:</span>
                                 <p class="text-xs text-gray-400 leading-relaxed">
-                                    <strong>Con vẹt ngẫu nhiên (Stochastic Parrot):</strong> Tạo câu chữ dựa trên xác suất, không có ý thức chân lý. <strong>WEIRD Bias:</strong> Thiên kiến phương Tây (Ví dụ tư vấn cắt đứt cha mẹ độc hại) đi ngược với đạo hiếu và tính gắn kết cộng đồng Á Đông. <strong>Suy thoái tư duy:</strong> Thuê ngoài suy nghĩ hủy hoại các nếp nhăn thần kinh. <strong>Bảo mật:</strong> Rò rỉ thông tin cá nhân cho Big Tech.
+                                    <strong>Con vẹt ngẫu nhiên (Stochastic Parrot):</strong> Tạo văn bản không dựa trên ý thức chân lý, dễ gây ảo giác thông tin. <strong>WEIRD Bias:</strong> Thiên kiến văn hóa phương Tây (Đề cao chủ nghĩa cá nhân tuyệt đối, đôi khi xung đột với đạo hiếu gia đình Á Đông). <strong>Suy thoái tư duy:</strong> Thuê ngoài quá trình suy nghĩ làm cùn mòn tư duy phản biện. <strong>Rò rỉ dữ liệu cá nhân cho Big Tech.</strong>
                                 </p>
                             </div>
                         </div>
 
                         <!-- Parchment Code of Conduct -->
                         <div class="bg-gradient-to-r from-amber-950/20 to-aot-dark p-6 rounded-xl border border-aot-amber/30 text-xs text-gray-300 space-y-3 shadow-lg">
-                            <span class="font-epic text-sm text-aot-amber font-bold block border-b border-aot-amber/20 pb-2"><i class="fas fa-feather-alt mr-2"></i>HIẾN CHƯƠNG ĐẠO ĐỨC SỐ (7 LỜI THỀ BẢN THÂN):</span>
+                            <span class="font-epic text-sm text-aot-amber font-bold block border-b border-aot-amber/20 pb-2"><i class="fas fa-feather-alt mr-2"></i>BỘ NGUYÊN TẮC CÁ NHÂN VỀ SỬ DỤNG AI CÓ TRÁCH NHIỆM:</span>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                                 <div class="flex items-start gap-2">
                                     <i class="fas fa-shield-alt text-aot-crimson mt-0.5"></i>
-                                    <span>1. Luôn khai báo trung thực, minh bạch sự tham gia của AI trong mọi sản phẩm học thuật.</span>
+                                    <span>1. Luôn khai báo trung thực và minh bạch sự tham gia của AI trong các bài tập học thuật.</span>
                                 </div>
                                 <div class="flex items-start gap-2">
                                     <i class="fas fa-shield-alt text-aot-crimson mt-0.5"></i>
-                                    <span>2. Tuyệt đối không sao chép nguyên văn hay biến sản phẩm của AI thành sản phẩm hoàn toàn của mình.</span>
+                                    <span>2. Không sao chép nguyên văn nội dung do AI tạo ra để nộp dưới dạng bài của cá nhân.</span>
                                 </div>
                                 <div class="flex items-start gap-2">
                                     <i class="fas fa-shield-alt text-aot-crimson mt-0.5"></i>
-                                    <span>3. Luôn kiểm chứng, đối chiếu mọi đầu ra của AI với các nghiên cứu học thuật đáng tin cậy.</span>
+                                    <span>3. Luôn kiểm chứng, đối chiếu mọi thông tin của AI bằng các tài liệu nghiên cứu đáng tin cậy.</span>
                                 </div>
                                 <div class="flex items-start gap-2">
                                     <i class="fas fa-shield-alt text-aot-crimson mt-0.5"></i>
-                                    <span>4. Giữ vững trách nhiệm cuối cùng của con người đối với độ chính xác và tính đúng đắn của tài liệu.</span>
+                                    <span>4. Nhìn nhận AI chỉ là công cụ hỗ trợ tìm kiếm ý tưởng, không để AI thay thế tư duy cá nhân.</span>
                                 </div>
                                 <div class="flex items-start gap-2">
                                     <i class="fas fa-shield-alt text-aot-crimson mt-0.5"></i>
-                                    <span>5. Tôn trọng bản quyền, trích dẫn đầy đủ các nguồn thông tin và tác giả gốc.</span>
+                                    <span>5. Tôn trọng bản quyền học thuật, tuyệt đối không xem AI là tác giả của nghiên cứu khoa học.</span>
                                 </div>
                                 <div class="flex items-start gap-2">
                                     <i class="fas fa-shield-alt text-aot-crimson mt-0.5"></i>
-                                    <span>6. Bảo vệ bí mật cá nhân, tuyệt đối không tải dữ liệu nhạy cảm hoặc nhật ký riêng tư lên AI.</span>
+                                    <span>6. Đảm bảo bảo mật thông tin, không nhập dữ liệu cá nhân hay tài liệu nội bộ nhạy cảm lên AI.</span>
                                 </div>
                                 <div class="flex items-start gap-2 col-span-1 md:col-span-2">
                                     <i class="fas fa-shield-alt text-aot-crimson mt-0.5"></i>
-                                    <span>7. Định vị AI chỉ là trợ lý đắc lực hỗ trợ tìm ý tưởng, không để AI thay thế tư duy sáng tạo của mình.</span>
+                                    <span>7. Chịu trách nhiệm hoàn toàn 100% đối với sản phẩm cuối cùng nộp cho giảng viên, dù có sự trợ giúp của AI.</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="text-xs text-gray-500 bg-aot-dark p-4 rounded border border-gray-800/40">
-                        <strong class="text-gray-300 block mb-1"><i class="fas fa-lightbulb mr-2"></i>BÁO CÁO THU HOẠCH:</strong>
-                        Hiến chương đạo đức học thuật không phải là rào cản ngăn cấm, mà là lá chắn bảo vệ linh hồn độc lập của một nhà trinh sát số. Kỷ nguyên AI không cần thêm những cỗ máy tự động sao chép, mà cần những bộ óc có tư duy phản biện kiên cường.
+                        <strong class="text-gray-300 block mb-1"><i class="fas fa-lightbulb mr-2"></i>BÀI HỌC KINH NGHIỆM ĐÚC RÚT:</strong>
+                        Cam kết đạo đức học thuật không phải là nghĩa vụ bắt buộc một cách máy móc, mà là ranh giới bảo vệ liêm chính cá nhân. Trong kỷ nguyên tự động hóa thông tin, năng lực đặt ra câu hỏi và tư duy phản biện sáng tạo mới là thứ khẳng định bản sắc của người học, chứ không phải sự lưu loát sao chép của máy móc.
                     </div>
                 </div>
 
@@ -684,46 +682,46 @@
     <section id="reflection-section" class="py-24 px-6 max-w-6xl mx-auto relative z-20">
         <div class="wall-line pb-6 mb-12">
             <h2 class="font-epic text-3xl md:text-4xl text-white font-black tracking-wider flex items-center gap-3">
-                <span class="text-aot-crimson">03/</span> SUY NGẪM SAU CHIẾN DỊCH
+                <span class="text-aot-crimson">03/</span> TỔNG KẾT VÀ SUY NGẪM BẢN THÂN
             </h2>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10 text-sm">
-            <div class="bg-aot-gray/70 p-6 rounded-xl border border-gray-800/60">
-                <h3 class="font-epic text-sm text-aot-amber font-bold tracking-wider mb-3"><i class="fas fa-thumbs-up mr-2"></i>THUẬN LỢI ĐẠT ĐƯỢC</h3>
-                <p class="text-xs text-gray-400 leading-relaxed">
-                    Được rèn luyện trong môi trường học tập cởi mở của ULIS - nơi không cấm đoán AI mà khuyến khích năng lực số hóa mới. Sự hỗ trợ đắc lực từ các LLMs thế hệ mới giúp giải phóng tối đa năng lực phác thảo, hỗ trợ tìm kiếm tài liệu chuẩn xác và thiết kế slide khoa học chỉ trong thời gian ngắn.
+            <div class="bg-aot-gray/70 p-6 rounded-xl border border-gray-800/60 relative overflow-hidden">
+                <h3 class="font-epic text-sm text-aot-amber font-bold tracking-wider mb-3"><i class="fas fa-thumbs-up mr-2"></i>THUẬN LỢI</h3>
+                <p class="text-xs text-gray-400 leading-relaxed font-light">
+                    Sự hỗ trợ mạnh mẽ từ chính sách cởi mở của nhà trường ULIS tạo điều kiện tối đa để sinh viên tiếp cận các mô hình ngôn ngữ lớn (LLMs). Đồng thời, sự phong phú và dễ tiếp cận của các tài nguyên trực tuyến giúp tôi tối ưu hóa đáng kể thời gian phác thảo ý tưởng và lên khung bài thuyết trình.
                 </p>
             </div>
-            <div class="bg-aot-gray/70 p-6 rounded-xl border border-gray-800/60">
-                <h3 class="font-epic text-sm text-aot-amber font-bold tracking-wider mb-3"><i class="fas fa-exclamation-triangle mr-2"></i>KHÓ KHĂN ĐỐI MẶT</h3>
-                <p class="text-xs text-gray-400 leading-relaxed">
-                    Sự cám dỗ của việc lười suy nghĩ khi đứng trước câu trả lời quá mượt mà của máy móc. Cuộc chiến nội tâm để không "thuê ngoài" toàn bộ nếp nhăn thần kinh cho AI. Đồng thời, việc quản lý thời gian phối hợp nhóm trực tuyến và xử lý lỗi "ảo giác thông tin" của AI cũng là những rào cản vô cùng vất vả.
+            <div class="bg-aot-gray/70 p-6 rounded-xl border border-gray-800/60 relative overflow-hidden">
+                <h3 class="font-epic text-sm text-aot-amber font-bold tracking-wider mb-3"><i class="fas fa-exclamation-triangle mr-2"></i>KHÓ KHĂN</h3>
+                <p class="text-xs text-gray-400 leading-relaxed font-light">
+                    Sự cám dỗ của việc lười tư duy khi AI luôn có sẵn câu trả lời mượt mà, dễ gây ra hiện tượng ỷ lại nhận thức. Ngoài ra, việc phối hợp đồng bộ múi giờ làm việc trực tuyến của các thành viên trong nhóm và giải quyết hiện tượng ảo giác thông tin của AI cũng đòi hỏi nỗ lực rà soát và kiểm chứng rất lớn.
                 </p>
             </div>
-            <div class="bg-aot-gray/70 p-6 rounded-xl border border-gray-800/60">
+            <div class="bg-aot-gray/70 p-6 rounded-xl border border-gray-800/60 relative overflow-hidden">
                 <h3 class="font-epic text-sm text-aot-amber font-bold tracking-wider mb-3"><i class="fas fa-brain mr-2"></i>BÀI HỌC VÔ GIÁ</h3>
-                <p class="text-xs text-gray-400 leading-relaxed">
-                    Không một AI nào có thể thay thế một tâm hồn có lòng trắc ẩn và tư duy độc lập. AI có thể viết một đoạn văn an ủi rất hay bằng xác suất thống kê, nhưng nó mãi mãi dừng lại ở tầng nhận thức học thuật chứ không bao giờ cùng ta rơi một giọt nước mắt thực sự. Hãy rèn luyện nội lực trước khi chạm tay vào công nghệ.
+                <p class="text-xs text-gray-400 leading-relaxed font-light">
+                    Học cách xem AI như một "co-pilot" (trợ lý bay) đồng hành thay vì "pilot" (người lái chính). Công nghệ chỉ thực sự thăng hoa khi được dẫn dắt bởi một bộ óc có chiều sâu tri thức nền tảng và ý thức bảo vệ đạo đức khoa học. Tuyệt đối không để sự tiện lợi tạm thời làm xói mòn khả năng tự học sâu.
                 </p>
             </div>
         </div>
 
         <div class="bg-aot-card p-8 rounded-2xl border border-gray-800/80 text-sm space-y-6 text-gray-300 leading-relaxed">
             <p>
-                Trải qua 6 chiến dịch lớn, tôi nhận ra công nghệ không phải là cứu cánh vạn năng, mà chỉ là hệ số nhân. Nếu năng lực thật sự của bạn là số 0, thì nhân với bất kỳ công nghệ khổng lồ nào vẫn chỉ là số 0. Nhưng nếu bạn rèn luyện cho mình một bộ óc có chiều sâu tri thức, có tinh thần hoài nghi khoa học và một trái tim đầy nhân văn, công nghệ sẽ là đôi cánh giúp bạn vươn xa không giới hạn.
+                Trải qua 6 bài học lớn, tôi nhận thấy công nghệ chỉ là bộ trang bị bên ngoài giúp tăng tốc độ làm việc. Nếu năng lực nội tại thực tế của sinh viên là con số không, thì nhân với bất kỳ hệ số nhân khổng lồ nào của công nghệ vẫn cho ra kết quả bằng không. Nhưng nếu ta không ngừng trau dồi tri thức cốt lõi, công nghệ sẽ trở thành đòn bẩy vĩ đại giúp ta tiến tới các cột mốc tri thức mới.
             </p>
             <p>
-                Với tư cách là một học viên chuyên ngành Ngôn ngữ và Văn hóa Nhật Bản, tôi cam kết sẽ tiếp tục áp dụng "bộ trang bị di chuyển lập thể" số này để khai phá các vùng đất tri thức mới, giữ vững tinh thần dũng cảm và kỷ luật thép của một chiến sĩ trinh sát thực thụ.
+                Với tư cách là một học viên chuyên ngành Ngôn ngữ và Văn hóa Nhật Bản, tôi cam kết sẽ tiếp tục áp dụng các công cụ kỹ thuật số một cách thông minh, chuẩn mực để phục vụ học tập, không ngừng hoàn thiện bản thân trong kỷ nguyên số.
             </p>
             
             <div class="flex flex-col md:flex-row justify-between items-center gap-6 pt-8 border-t border-gray-800/60">
                 <div class="text-center md:text-left">
-                    <span class="text-xs text-gray-500 uppercase tracking-widest block mb-1">Xác nhận của chiến sĩ trinh sát</span>
+                    <span class="text-xs text-gray-500 uppercase tracking-widest block mb-1 font-light">Xác nhận của học viên thực hiện</span>
                     <span class="font-epic text-lg text-white font-bold">Đỗ Tiến Khôi</span>
                 </div>
                 <div class="text-center md:text-right">
-                    <span class="text-xs text-gray-500 uppercase tracking-widest block mb-1">Đơn vị huấn luyện</span>
+                    <span class="text-xs text-gray-500 uppercase tracking-widest block mb-1 font-light">Đơn vị đào tạo trực thuộc</span>
                     <span class="text-sm text-aot-amber font-bold">Khoa Ngôn ngữ và Văn hóa Nhật Bản - ULIS</span>
                 </div>
             </div>
@@ -733,14 +731,14 @@
     <!-- Footer -->
     <footer class="bg-aot-dark border-t border-gray-900/80 py-12 px-6 text-center text-xs text-gray-500">
         <div class="max-w-7xl mx-auto space-y-3">
-            <p>© 2026 Đỗ Tiến Khôi (25042144). Thiết kế đồng bộ hoàn toàn theo phong cách sử thi Attack on Titan (back.jpg).</p>
-            <p class="text-[10px] text-gray-600 font-light">Tất cả dữ liệu được biên soạn dựa trên báo cáo thực tế. Minh chứng lưu trữ chuẩn hóa trên Google Drive của tôi.</p>
+            <p>© 2026 Đỗ Tiến Khôi (MSV: 25042144). Thiết kế đồng bộ hoàn toàn theo phong cách sử thi Attack on Titan (back.jpg).</p>
+            <p class="text-[10px] text-gray-600 font-light">Tất cả dữ liệu được biên soạn dựa trên báo cáo thực tế. Minh chứng lưu trữ chuẩn hóa trên Google Drive cá nhân.</p>
         </div>
     </footer>
 
     <!-- Interactive JS Core Logic (Tactical switching & Audio effects) -->
     <script>
-        /* Web Audio API - Synthesis of ODM Gear Gas Release & Blade clinks (Kỹ thuật âm thanh thực tế đỉnh cao) */
+        /* Web Audio API - Synthesis of ODM Gear Gas Release & Blade clinks */
         let audioCtx;
         function initAudio() {
             if (!audioCtx) {
@@ -781,7 +779,7 @@
                 gain.connect(audioCtx.destination);
                 noise.start();
             } else if (type === 'blade') {
-                // Blade Slash / Metal clash (high freq triangle & decay)
+                // Blade clink sound (high freq triangle sweep)
                 const osc = audioCtx.createOscillator();
                 osc.type = 'triangle';
                 osc.frequency.setValueAtTime(1200, audioCtx.currentTime);
@@ -870,7 +868,7 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             particles = particles.filter(p => p.alpha > 0);
             
-            // Refill floating background embers if they die
+            // Refill background embers
             const currentBackCount = particles.filter(p => !p.isSpark).length;
             if (currentBackCount < particleCount) {
                 particles.push(new Particle());
@@ -884,7 +882,7 @@
         }
         animateEmbers();
 
-        /* Interactive Grapple Hook wire drawing on navigation click */
+        /* Grapple Hook wire drawing on navigation click */
         const wireCanvas = document.getElementById('wireCanvas');
         const wCtx = wireCanvas.getContext('2d');
         function resizeWireCanvas() {
@@ -902,11 +900,10 @@
 
             const targetRect = targetNode.getBoundingClientRect();
             const startX = window.innerWidth / 2;
-            const startY = 80; // Starting point anchor (the belt of ODM)
+            const startY = 80; 
             const endX = targetRect.left + window.scrollX + (targetRect.width / 2);
             const endY = targetRect.top + window.scrollY;
 
-            // Wire Animation Logic
             let progress = 0;
             function drawWire() {
                 wCtx.clearRect(0, 0, wireCanvas.width, wireCanvas.height);
@@ -923,7 +920,6 @@
                     wCtx.shadowBlur = 0;
                     requestAnimationFrame(drawWire);
                 } else {
-                    // Hold wire for a split second, then snap clear
                     wCtx.strokeStyle = '#ef4444';
                     wCtx.lineWidth = 1.5;
                     wCtx.beginPath();
@@ -962,18 +958,18 @@
 
         /* Mission 1 Steps - Detailed 12 Steps Simulator */
         const m1Steps = [
-            "1. Khởi động Finder trên hệ điều hành MacOS để kiểm tra thao trường lưu trữ.",
-            "2. Truy cập vào Desktop, chuột phải chọn New Folder để kiến tạo căn cứ chứa tệp tin.",
-            "3. Thiết lập tên thư mục chuẩn hóa thành: 'ThucHanh_DoTienKhoi' đại diện cho chủ quyền học tập.",
-            "4. Tiến hành tạo mới một tệp tin văn bản (Text Document) trống bên trong thư mục vừa tạo.",
-            "5. Đặt tên tệp tin ban đầu là 'GhiChu.txt' để chuẩn bị ghi chép chiến trạng.",
-            "6. Thực hiện đổi tên tệp tin thành 'GhiChuQuanTrong.txt' nhằm bảo mật tài nguyên thông tin.",
-            "7. Khởi tạo một thư mục con nằm sâu bên trong để làm kho chứa an toàn mang tên 'TaiLieu'.",
+            "1. Khởi động công cụ Finder trên hệ điều hành MacOS để kiểm tra không gian lưu trữ hiện tại.",
+            "2. Truy cập vào mục Desktop của máy tính, nhấp chuột phải và chọn New Folder để tạo thư mục gốc mới.",
+            "3. Thiết lập tên thư mục gốc vừa tạo một cách quy chuẩn thành: 'ThucHanh_DoTienKhoi'.",
+            "4. Tiến hành tạo mới một tệp tin văn bản trống (Text Document) trực tiếp bên trong thư mục vừa tạo.",
+            "5. Đặt tên tệp tin ban đầu là 'GhiChu.txt' để sẵn sàng cho việc ghi chép, soạn thảo.",
+            "6. Thực hiện đổi tên tệp tin văn bản đó thành 'GhiChuQuanTrong.txt' để đánh dấu mức độ bảo mật dữ liệu.",
+            "7. Khởi tạo một thư mục con nằm sâu bên trong thư mục gốc và đặt tên thư mục con này là 'TaiLieu'.",
             "8. Sao chép (Copy) tệp 'GhiChuQuanTrong.txt' từ thư mục gốc và dán (Paste) vào thư mục con 'TaiLieu'.",
-            "9. Kiểm tra tính đồng bộ của tệp tin ở cả hai đường dẫn để chắc chắn dữ liệu không bị lỗi.",
-            "10. Tiến hành di chuyển (Move) một tệp tin khác vào thư mục lưu trữ để phân loại sâu hơn.",
-            "11. Thực hiện xóa tệp tin cũ bằng cách kéo thả vào Trash (Thùng rác) để dọn dẹp không gian.",
-            "12. Mở Trash kiểm tra, thực hiện cứu vãn (Restore) tệp tin bị xóa lầm trở lại vị trí gốc an toàn."
+            "9. Kiểm tra, rà soát lại sự tồn tại độc lập của tệp tin ở cả hai thư mục để đảm bảo không bị lỗi dữ liệu.",
+            "10. Tiến hành di chuyển (Move) một tệp tin bất kỳ từ Desktop vào thư mục làm việc để quản lý tập trung.",
+            "11. Thực hiện xóa tệp tin 'GhiChuQuanTrong.txt' ở thư mục gốc bằng cách kéo thả vào Trash (Thùng rác).",
+            "12. Mở Trash, thực hiện thao tác khôi phục (Restore) để đưa tệp tin bị xóa lầm trở lại thư mục gốc ban đầu."
         ];
         let m1StepIdx = 0;
         function nextM1Step() {
