@@ -3,41 +3,1337 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thông tin sinh viên</title>
+    <title>Digital Portfolio | Đỗ Tiến Khôi</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Lora:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
-            font-family: sans-serif;
-            background-color: #1a1a1a;
-            color: #ffffff;
-            padding: 20px;
+        :root {
+            --primary-blue: #1c3d5a;
+            --sky-blue: #38bdf8;
+            --amber-gold: #c49b6c;
+            --dark-steel: #0d0e12;
+            --card-bg: rgba(26, 28, 35, 0.85);
+            --text-light: #f3f4f6;
+            --text-gray: #9ca3af;
+            --success: #10b981;
+            --border-glow: rgba(196, 155, 108, 0.3);
+            --transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
         }
-        .container {
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Lora', serif;
+            background-color: var(--dark-steel);
+            color: var(--text-light);
+            overflow-x: hidden;
+            line-height: 1.7;
+        }
+
+        /* Tối ưu hóa thanh cuộn */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--dark-steel);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--amber-gold);
+            border-radius: 4px;
+        }
+
+        /* CANVAS BACKGROUND FOR SPARKS */
+        #sparks-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        /* HEADER & NAVIGATION */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem 10%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(13, 14, 18, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(196, 155, 108, 0.15);
+            transition: var(--transition);
+        }
+
+        .logo {
+            font-family: 'Cinzel', serif;
+            font-weight: 900;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo span {
+            color: var(--sky-blue);
+        }
+
+        .wings-icon {
+            width: 32px;
+            height: 32px;
+            fill: var(--sky-blue);
+            filter: drop-shadow(0 0 5px var(--sky-blue));
+            transition: var(--transition);
+        }
+
+        .logo:hover .wings-icon {
+            transform: rotate(15deg) scale(1.1);
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        nav a {
+            font-family: 'Montserrat', sans-serif;
+            text-decoration: none;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--sky-blue);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--sky-blue);
+            transition: var(--transition);
+        }
+
+        nav a:hover::after, nav a.active::after {
+            width: 100%;
+        }
+
+        .btn-drive {
+            font-family: 'Montserrat', sans-serif;
+            padding: 0.6rem 1.2rem;
+            border-radius: 4px;
+            background: transparent;
+            border: 1px solid var(--amber-gold);
+            color: var(--amber-gold);
+            font-weight: 600;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-drive:hover {
+            background: var(--amber-gold);
+            color: var(--dark-steel);
+            box-shadow: 0 0 15px rgba(196, 155, 108, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* HERO SECTION WITH PARALLAX & TITAN VIBE */
+        .hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 10%;
+            background: linear-gradient(to bottom, rgba(13, 14, 18, 0.3), var(--dark-steel)), url('back.jpg') no-repeat center center/cover;
+            background-attachment: fixed;
+            z-index: 2;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, transparent 40%, rgba(13, 14, 18, 0.8) 100%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 900px;
+            transform: translateY(30px);
+            opacity: 0;
+            animation: fadeInUp 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            z-index: 3;
+        }
+
+        .scout-badge {
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            color: var(--sky-blue);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .scout-badge::before, .scout-badge::after {
+            content: '';
+            width: 40px;
+            height: 1px;
+            background: var(--sky-blue);
+        }
+
+        .hero-content h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 4rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: var(--text-light);
+            text-shadow: 0 4px 20px rgba(0,0,0,0.6);
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: var(--text-gray);
+            margin-bottom: 2.5rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .avatar-container {
+            position: relative;
+            width: 160px;
+            height: 160px;
+            margin: 0 auto 2rem;
+            border-radius: 50%;
+            padding: 5px;
+            background: linear-gradient(45deg, var(--sky-blue), var(--amber-gold));
+            box-shadow: 0 0 25px rgba(56, 189, 248, 0.3);
+            transition: var(--transition);
+        }
+
+        .avatar-container:hover {
+            transform: scale(1.05) rotate(5deg);
+            box-shadow: 0 0 35px rgba(196, 155, 108, 0.5);
+        }
+
+        .avatar-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            background-color: var(--dark-steel);
+        }
+
+        .scroll-down {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-gray);
+            text-decoration: none;
             display: flex;
             flex-direction: column;
+            align-items: center;
             gap: 10px;
-            max-width: 500px;
+            transition: var(--transition);
         }
-        .info-box {
-            background-color: #2d3238;
-            border: 1px solid #3e444d;
+
+        .scroll-down i {
+            animation: bounce 2s infinite;
+            color: var(--sky-blue);
+        }
+
+        /* SECTION LAYOUT */
+        section {
+            padding: 8rem 10% 4rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .section-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-light);
+            margin-bottom: 3rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--amber-gold);
+            box-shadow: 0 0 8px var(--amber-gold);
+        }
+
+        /* INTRODUCE SECTION */
+        .intro-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .intro-text h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem;
+            color: var(--sky-blue);
+            margin-bottom: 1.5rem;
+        }
+
+        .intro-text p {
+            font-size: 1.1rem;
+            color: var(--text-gray);
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+
+        .recruit-profile {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            padding: 2.5rem;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .recruit-profile::before {
+            content: 'SOLDIER';
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            font-family: 'Cinzel', serif;
+            font-size: 4rem;
+            font-weight: 900;
+            color: rgba(255,255,255,0.02);
+            pointer-events: none;
+        }
+
+        .profile-row {
+            display: flex;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding: 1rem 0;
+            font-size: 1.05rem;
+        }
+
+        .profile-row:last-child {
+            border: none;
+        }
+
+        .profile-label {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            width: 140px;
+            color: var(--amber-gold);
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .profile-value {
+            color: var(--text-light);
+        }
+
+        /* INTERACTIVE MISSIONS (TASKS) SECTION */
+        .missions-container {
+            margin-top: 2rem;
+        }
+
+        .missions-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 3rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding-bottom: 1rem;
+        }
+
+        .mission-tab {
+            font-family: 'Montserrat', sans-serif;
+            padding: 0.8rem 1.5rem;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            color: var(--text-gray);
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .mission-tab:hover, .mission-tab.active {
+            color: var(--sky-blue);
+            border-color: var(--sky-blue);
+            background: rgba(56, 189, 248, 0.05);
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .mission-tab.active {
+            background: linear-gradient(45deg, rgba(28, 61, 90, 0.4), rgba(56, 189, 248, 0.1));
+        }
+
+        .mission-content {
+            display: none;
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 8px;
+            padding: 3rem;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            animation: slideIn 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .mission-content.active {
+            display: block;
+        }
+
+        .mission-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid rgba(196, 155, 108, 0.2);
+            padding-bottom: 1.5rem;
+        }
+
+        .mission-title-area h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .mission-title-area span {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--sky-blue);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+        }
+
+        .mission-objective {
+            background: rgba(196, 155, 108, 0.05);
+            border-left: 3px solid var(--amber-gold);
+            padding: 1rem 1.5rem;
+            margin-bottom: 2rem;
+            font-style: italic;
+            border-radius: 0 4px 4px 0;
+            font-size: 1.05rem;
+        }
+
+        /* STYLE CỤ THỂ CHO TỪNG BÀI */
+        /* Bài 1: Terminal Simulator */
+        .terminal {
+            background: #08090c;
+            border: 1px solid #1f2937;
             border-radius: 6px;
+            padding: 1.5rem;
+            font-family: 'Courier New', Courier, monospace;
+            color: #10b981;
+            margin-top: 1.5rem;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+        }
+
+        .terminal-header {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 1rem;
+        }
+
+        .terminal-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .terminal-dot.red { background: #ef4444; }
+        .terminal-dot.yellow { background: #f59e0b; }
+        .terminal-dot.green { background: #10b981; }
+
+        .terminal-content p {
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .terminal-input {
+            color: #f3f4f6;
+        }
+
+        /* Bài 2: Kanji Table */
+        .kanji-table-container {
+            overflow-x: auto;
+            margin-top: 2rem;
+        }
+
+        .kanji-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            text-align: left;
+        }
+
+        .kanji-table th, .kanji-table td {
             padding: 12px 16px;
-            font-size: 16px;
-            width: fit-content;
-            max-width: 100%;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .kanji-table th {
+            background-color: rgba(196, 155, 108, 0.1);
+            color: var(--amber-gold);
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .kanji-table tr:hover {
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+
+        .badge-trust {
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .badge-trust.high {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+
+        .badge-trust.medium {
+            background: rgba(245, 158, 11, 0.15);
+            color: #f59e0b;
+            border: 1px solid #f59e0b;
+        }
+
+        /* Bài 3: Prompt Compare Tool */
+        .prompt-interactive {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .prompt-box {
+            background: rgba(13, 14, 18, 0.6);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 6px;
+            padding: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .prompt-box:hover {
+            border-color: var(--sky-blue);
+            box-shadow: 0 5px 15px rgba(56, 189, 248, 0.1);
+        }
+
+        .prompt-box h4 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--amber-gold);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .prompt-text {
+            background: rgba(0,0,0,0.3);
+            padding: 1rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            color: #38bdf8;
+            margin-bottom: 1rem;
+            border-left: 2px solid var(--sky-blue);
+        }
+
+        .output-text {
+            font-size: 0.95rem;
+            color: var(--text-gray);
+        }
+
+        /* Bài 4: Teamwork board */
+        .teamwork-board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .team-col {
+            background: rgba(13, 14, 18, 0.4);
+            border: 1px solid rgba(255,255,255,0.03);
+            border-radius: 6px;
+            padding: 1.5rem;
+        }
+
+        .team-col h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid;
+        }
+
+        .team-col.todo h4 { border-color: var(--text-gray); color: var(--text-gray); }
+        .team-col.doing h4 { border-color: var(--sky-blue); color: var(--sky-blue); }
+        .team-col.done h4 { border-color: var(--success); color: var(--success); }
+
+        .task-card {
+            background: var(--dark-steel);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .task-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--amber-gold);
+        }
+
+        /* Drive CTA banner */
+        .drive-banner {
+            background: linear-gradient(45deg, rgba(28, 61, 90, 0.7), rgba(196, 155, 108, 0.2)), url('back.jpg') no-repeat center center/cover;
+            border: 1px solid var(--amber-gold);
+            border-radius: 8px;
+            padding: 4rem;
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
+            overflow: hidden;
+            z-index: 2;
+        }
+
+        .drive-banner-content {
+            position: relative;
+            z-index: 3;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .drive-banner h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+
+        .drive-banner p {
+            color: var(--text-gray);
+            margin-bottom: 2rem;
+            font-size: 1.05rem;
+        }
+
+        .drive-banner .btn-drive {
+            display: inline-flex;
+            margin: 0 auto;
+            padding: 0.8rem 2rem;
+            font-size: 0.9rem;
+        }
+
+        /* REFLECTION / CONCLUSION */
+        .reflection-block {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .reflection-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .stat-box {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            padding: 2rem;
+            border-radius: 6px;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .stat-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(196, 155, 108, 0.2);
+        }
+
+        .stat-box h4 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            color: var(--sky-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-box p {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-gray);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .reflection-text blockquote {
+            font-size: 1.2rem;
+            font-style: italic;
+            border-left: 4px solid var(--sky-blue);
+            padding-left: 1.5rem;
+            margin-bottom: 2rem;
+            color: var(--text-light);
+        }
+
+        /* FOOTER */
+        footer {
+            background: #08090c;
+            padding: 4rem 10% 2rem;
+            border-top: 1px solid rgba(196, 155, 108, 0.15);
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .footer-logo {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--amber-gold);
+            margin-bottom: 1.5rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-links a {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text-gray);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--sky-blue);
+        }
+
+        .footer-quote {
+            font-size: 0.95rem;
+            color: var(--text-gray);
+            font-style: italic;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .copyright {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem;
+            color: #4b5563;
+            letter-spacing: 1px;
+        }
+
+        /* KEYFRAMES */
+        @keyframes fadeInUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(15px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* MOBILE RESPONSIVE */
+        @media (max-width: 968px) {
+            header {
+                padding: 1.5rem 5%;
+            }
+            nav {
+                display: none; /* Thu gọn trên thiết bị di động */
+            }
+            .hero-content h1 {
+                font-size: 2.8rem;
+            }
+            .intro-grid, .reflection-block {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            .prompt-interactive {
+                grid-template-columns: 1fr;
+            }
+            .teamwork-board {
+                grid-template-columns: 1fr;
+            }
+            section {
+                padding: 6rem 5% 3rem;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="info-box">Hán Nguyễn Thuỳ Dung</div>
-        <div class="info-box">25042071</div>
-        <div class="info-box">Ngôn ngữ và Văn hoá Nhật</div>
-        <div class="info-box">Đại học Ngoại Ngữ - ĐHQGHN</div>
-        <div class="info-box">Nhập môn công nghệ số và ứng dụng trí tuệ nhân tạo</div>
-    </div>
+    <!-- Sparkles canvas representing the golden titan sparks -->
+    <canvas id="sparks-canvas"></canvas>
 
+    <!-- HEADER / NAVIGATION -->
+    <header>
+        <a href="#" class="logo">
+            <svg class="wings-icon" viewBox="0 0 100 100">
+                <!-- Scout Regiment Simplified CSS/SVG Path representing Wings of Freedom -->
+                <path d="M 30,20 C 30,20 50,25 50,45 C 50,25 70,20 70,20 C 70,20 80,45 50,75 C 20,45 30,20 30,20 Z" fill="none" stroke="currentColor" stroke-width="3"/>
+                <path d="M 50,30 L 50,65" stroke="currentColor" stroke-width="3"/>
+                <path d="M 40,35 Q 45,45 50,45" stroke="currentColor" stroke-width="2" fill="none"/>
+                <path d="M 60,35 Q 55,45 50,45" stroke="currentColor" stroke-width="2" fill="none"/>
+            </svg>
+            SHINGEKI<span>PORTFOLIO</span>
+        </a>
+        <nav>
+            <a href="#about" class="active">Bản Thân</a>
+            <a href="#missions">Nhật Ký Chiến Dịch</a>
+            <a href="#summary">Đúc Kết</a>
+            <a href="https://drive.google.com/drive/folders/19DjvcCTxWX0k5wsjL1AS7yeprffwsczT?usp=drive_link" target="_blank" class="btn-drive">
+                <i class="fa-solid fa-cloud-arrow-up"></i> Bài tập trên GG drive
+            </a>
+        </nav>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="avatar-container">
+                <img src="Hình 1.jpg" alt="Avatar Đỗ Tiến Khôi">
+            </div>
+            <div class="scout-badge">Tân binh khóa 25</div>
+            <h1>ĐỖ TIẾN KHÔI</h1>
+            <p>Sinh viên khoa Ngôn ngữ và Văn hoá Nhật Bản, ULIS. Hành trình khai phóng tư duy ngoại ngữ bằng công nghệ số và ứng dụng trí tuệ nhân tạo.</p>
+            <a href="#missions" class="btn-drive" style="display:inline-flex; border-color:var(--sky-blue); color:var(--sky-blue);">
+                <i class="fa-solid fa-map-location-dot"></i> Khám phá chiến dịch
+            </a>
+        </div>
+        <a href="#about" class="scroll-down">
+            Khởi hành
+            <i class="fa-solid fa-chevron-down"></i>
+        </a>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section id="about">
+        <div class="container">
+            <h2 class="section-title">Nhật ký tân binh</h2>
+            <div class="intro-grid">
+                <div class="intro-text">
+                    <h3>Vượt qua những bức tường thành của giới hạn</h3>
+                    <p>Việc chinh phục một ngoại ngữ mới, đặc biệt là tiếng Nhật với hệ chữ Kanji tượng hình phức tạp, luôn là một rào cản tâm lý lớn không khác gì những bức tường khổng lồ kiên cố. Nhưng trong kỷ nguyên số, chúng ta không cần chiến đấu đơn độc.</p>
+                    <p>Chào bạn, mình là Tiến Khôi. Digital Portfolio này không chỉ ghi lại tiến độ học tập môn "Nhập môn công nghệ số và ứng dụng trí tuệ nhân tạo" tại trường ULIS, mà còn là bản đồ chiến dịch thể hiện sự kết hợp bền bỉ giữa văn hóa phương Đông truyền thống và sức mạnh công nghệ đột phá của kỷ nguyên AI.</p>
+                </div>
+                <div class="recruit-profile">
+                    <div class="profile-row">
+                        <span class="profile-label"><i class="fa-solid fa-signature"></i> Họ Tên:</span>
+                        <span class="profile-value">Đỗ Tiến Khôi</span>
+                    </div>
+                    <div class="profile-row">
+                        <span class="profile-label"><i class="fa-solid fa-id-card"></i> Mã số:</span>
+                        <span class="profile-value">25042144</span>
+                    </div>
+                    <div class="profile-row">
+                        <span class="profile-label"><i class="fa-solid fa-graduation-cap"></i> Chuyên ngành:</span>
+                        <span class="profile-value">Ngôn ngữ & Văn hoá Nhật Bản</span>
+                    </div>
+                    <div class="profile-row">
+                        <span class="profile-label"><i class="fa-solid fa-university"></i> Học viện:</span>
+                        <span class="profile-value">Đại học Ngoại ngữ - ĐHQGHN</span>
+                    </div>
+                    <div class="profile-row">
+                        <span class="profile-label"><i class="fa-solid fa-book"></i> Môn học:</span>
+                        <span class="profile-value">Ứng dụng CNTT & Trí tuệ Nhân tạo</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DRIVE CTA BANNER -->
+    <section style="padding: 2rem 10% 0;">
+        <div class="drive-banner">
+            <div class="drive-banner-content">
+                <h2>Bản đồ lưu trữ chiến dịch</h2>
+                <p>Để theo dõi đầy đủ hồ sơ trực quan, báo cáo PDF chi tiết cùng các slide thuyết trình gốc, bạn có thể truy cập kho dữ liệu đám mây chính thức của tôi.</p>
+                <a href="https://drive.google.com/drive/folders/19DjvcCTxWX0k5wsjL1AS7yeprffwsczT?usp=drive_link" target="_blank" class="btn-drive">
+                    <i class="fa-brands fa-google-drive"></i> Xem bài tập trên GG Drive
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- MISSIONS (PORTFOLIO PROJECTS) SECTION -->
+    <section id="missions">
+        <h2 class="section-title">Nhật ký chiến dịch (Missions)</h2>
+        <div class="missions-container">
+            <div class="missions-nav">
+                <button class="mission-tab active" onclick="openMission(event, 'm1')">B1: Tổ chức tệp</button>
+                <button class="mission-tab" onclick="openMission(event, 'm2')">B2: Tra cứu Kanji</button>
+                <button class="mission-tab" onclick="openMission(event, 'm3')">B3: Thấu cảm AI</button>
+                <button class="mission-tab" onclick="openMission(event, 'm4')">B4: Làm việc nhóm</button>
+                <button class="mission-tab" onclick="openMission(event, 'm5')">B5: Sáng tạo số</button>
+                <button class="mission-tab" onclick="openMission(event, 'm6')">B6: Đạo đức AI</button>
+            </div>
+
+            <!-- MISSION 1 -->
+            <div id="m1" class="mission-content active">
+                <div class="mission-header">
+                    <div class="mission-title-area">
+                        <h3>Chiến dịch 1: Tối ưu hóa cấu trúc tệp tin</h3>
+                        <span>Quản lý dữ liệu hệ thống học thuật</span>
+                    </div>
+                </div>
+                <div class="mission-objective">
+                    <strong>Mục tiêu:</strong> Thiết lập thói quen lưu trữ khoa học, đặt tên tệp tối ưu để quản trị dữ liệu hiệu quả trong suốt những năm đại học.
+                </div>
+                <p>Quản lý dữ liệu giống như việc sắp xếp kho vũ khí quân nhu trước khi ra trận. Một thư mục hỗn loạn sẽ triệt tiêu hiệu suất làm việc. Trong thực hành này, mình đã chuẩn hóa quy trình quản trị tệp tin trên máy tính qua các thao tác căn bản nhưng có kỷ luật:</p>
+                
+                <div class="terminal">
+                    <div class="terminal-header">
+                        <span class="terminal-dot red"></span>
+                        <span class="terminal-dot yellow"></span>
+                        <span class="terminal-dot green"></span>
+                    </div>
+                    <div class="terminal-content">
+                        <p><span class="terminal-input">khoi-recruit@ulis-terminal ~ %</span> mkdir -p ThucHanh_DoTienKhoi/TaiLieu</p>
+                        <p><span class="terminal-input">khoi-recruit@ulis-terminal ~ %</span> touch ThucHanh_DoTienKhoi/GhiChu.txt</p>
+                        <p><span class="terminal-input">khoi-recruit@ulis-terminal ~ %</span> mv ThucHanh_DoTienKhoi/GhiChu.txt ThucHanh_DoTienKhoi/GhiChuQuanTrong.txt</p>
+                        <p><span class="terminal-input">khoi-recruit@ulis-terminal ~ %</span> cp ThucHanh_DoTienKhoi/GhiChuQuanTrong.txt ThucHanh_DoTienKhoi/TaiLieu/</p>
+                        <p><span class="terminal-input">khoi-recruit@ulis-terminal ~ %</span> rm ThucHanh_DoTienKhoi/GhiChuQuanTrong.txt <span style="color:#ef4444;"># Di chuyển vào Thùng rác</span></p>
+                        <p><span class="terminal-input">khoi-recruit@ulis-terminal ~ %</span> ls -R ThucHanh_DoTienKhoi</p>
+                        <p style="color:#38bdf8;">ThucHanh_DoTienKhoi/TaiLieu/GhiChuQuanTrong.txt</p>
+                    </div>
+                </div>
+                <p style="margin-top:1.5rem; color:var(--text-gray);">Các thao tác được thực hiện trực quan: khởi tạo tệp tin văn bản, đổi tên thành <code>GhiChuQuanTrong.txt</code>, tổ chức thư mục con <code>TaiLieu</code>, sao chép để dự phòng, xóa an toàn và khôi phục từ Trash để đảm bảo tính an toàn của dữ liệu.</p>
+            </div>
+
+            <!-- MISSION 2 -->
+            <div id="m2" class="mission-content">
+                <div class="mission-header">
+                    <div class="mission-title-area">
+                        <h3>Chiến dịch 2: Nghiên cứu rào cản Hán tự (Kanji)</h3>
+                        <span>Đánh giá tài liệu học thuật bài bản</span>
+                    </div>
+                </div>
+                <div class="mission-objective">
+                    <strong>Mục tiêu:</strong> Xây dựng báo cáo tìm kiếm khoa học, đánh giá độ tin cậy của 11 tài liệu liên quan đến phương pháp học Kanji cho người Việt trình độ cơ bản (N5 - N4).
+                </div>
+                <p>Nghiên cứu khoa học không cho phép sử dụng nguồn tài liệu mập mờ. Để tìm giải pháp giảm "cú sốc tâm lý" cho tân binh học chữ tượng hình, mình đã thực hiện tìm kiếm trên Google Scholar, Microsoft Academic và hệ thống thư viện quốc tế, sàng lọc kỹ càng qua 5 tiêu chí uy tín:</p>
+                
+                <div class="kanji-table-container">
+                    <table class="kanji-table">
+                        <thead>
+                            <tr>
+                                <th>Tác giả (Năm) / Thể loại</th>
+                                <th>Nền tảng xuất bản</th>
+                                <th>Điểm mạnh cốt lõi</th>
+                                <th>Điểm hạn chế</th>
+                                <th>Độ uy tín</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Nguyen (2021)</strong> / Bài báo khoa học</td>
+                                <td>Tạp chí Khoa học Ngoại ngữ</td>
+                                <td>Khảo sát thực tế 200 sinh viên chuyên ngành.</td>
+                                <td>Phạm vi lấy mẫu giới hạn tại 1 trường.</td>
+                                <td><span class="badge-trust high">Cao</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Kano (2017)</strong> / Sách chuyên khảo</td>
+                                <td>Bonjinsha (Tokyo)</td>
+                                <td>Bộ giáo trình chuẩn mực toàn cầu (Basic Kanji).</td>
+                                <td>Thiếu vắng cập nhật công nghệ hiện đại.</td>
+                                <td><span class="badge-trust high">Rất Cao</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Tofugu (2022)</strong> / Trang web mở</td>
+                                <td>Blog Tofugu</td>
+                                <td>Gợi ý Mnemonics trực quan và mẹo Anki.</td>
+                                <td>Không có tính hàn lâm, chưa bình duyệt.</td>
+                                <td><span class="badge-trust medium">Khá</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p style="margin-top:1.5rem; color:var(--text-gray);">Phương pháp tiếp cận đa chiều từ lý thuyết kinh điển đến ứng dụng hiện đại mang lại bộ khung tham chiếu khoa học vững chắc giúp giải quyết triệt để rào cản ghi nhớ nét chữ cho sinh viên.</p>
+            </div>
+
+            <!-- MISSION 3 -->
+            <div id="m3" class="mission-content">
+                <div class="mission-header">
+                    <div class="mission-title-area">
+                        <h3>Chiến dịch 3: Giải mã trí tuệ nhân tạo thấu cảm</h3>
+                        <span>Ứng dụng khung tương tác C-R-E-A-T-E</span>
+                    </div>
+                </div>
+                <div class="mission-objective">
+                    <strong>Mục tiêu:</strong> Khảo sát khả năng "thấu cảm nhận thức" (Cognitive Empathy) của các mô hình LLM khi tư vấn các hiện tượng xã hội của giới trẻ (FOMO, Peer Pressure, Hustle Culture).
+                </div>
+                <p>Một cỗ máy làm bằng silicon có thể an ủi con người? Nghiên cứu của mình chỉ ra AI hoàn toàn vô năng về mặt sinh học nhưng có khả năng mô phỏng thấu cảm xuất sắc nếu được dẫn dắt bởi kỹ thuật **Prompt Engineering** tinh chuẩn. Mình đã phát triển và chuẩn hóa khung tương tác **C-R-E-A-T-E**:</p>
+
+                <div class="prompt-interactive">
+                    <div class="prompt-box">
+                        <h4><i class="fa-solid fa-triangle-exclamation" style="color:#ef4444;"></i> Prompt thả nổi (Thiếu ngữ cảnh)</h4>
+                        <div class="prompt-text">"Hãy viết về hội chứng FOMO."</div>
+                        <div class="output-text"><strong>Đầu ra AI:</strong> Trả về bài viết khô khan như bách khoa toàn thư, liệt kê định nghĩa, triệu chứng và khuyên tắt điện thoại một cách sáo rỗng (Toxic Positivity).</div>
+                    </div>
+                    <div class="prompt-box">
+                        <h4><i class="fa-solid fa-circle-check" style="color:var(--success);"></i> Prompt tối ưu C-R-E-A-T-E</h4>
+                        <div class="prompt-text">"Đóng vai chuyên gia thần kinh học... Hãy phân tích cơ chế bẫy Dopamine của ứng dụng mxh cho một sinh viên 20 tuổi đang mất ngủ vì FOMO..."</div>
+                        <div class="output-text"><strong>Đầu ra AI:</strong> "Chào em, kéo ghế ngồi xuống... Nỗi lo âu lúc 2 giờ sáng không phải sự kém cỏi của em, đó là kết quả khi Amygdala bị tấn công..." Đưa ra giải pháp "Tái định hình nhận thức" đầy thấu cảm.</div>
+                    </div>
+                </div>
+                <p style="margin-top:1.5rem; color:var(--text-gray);">Bên cạnh sự tinh tế trong ngôn từ, nghiên cứu cũng đặt ra những cảnh báo khắt khe về định lý "Con vẹt ngẫu nhiên" (Stochastic Parrot), rủi ro ảo giác thông tin và thiên kiến văn hóa phương Tây (WEIRD Bias) khi áp dụng AI vào đời sống tinh thần Á Đông.</p>
+            </div>
+
+            <!-- MISSION 4 -->
+            <div id="m4" class="mission-content">
+                <div class="mission-header">
+                    <div class="mission-title-area">
+                        <h3>Chiến dịch 4: Phối hợp đồng đội trực tuyến</h3>
+                        <span>Giải quyết mâu thuẫn và vận hành nhóm số</span>
+                    </div>
+                </div>
+                <div class="mission-objective">
+                    <strong>Mục tiêu:</strong> Phân tích và giải quyết các bài toán thực tế khi hợp tác trực tuyến bằng Notion, Google Drive và Canva để tối ưu hiệu suất nhóm.
+                </div>
+                <p>Làm việc tập thể không bao giờ là dễ dàng. Sự chênh lệch phong cách làm việc, hiện tượng "ỷ lại tập thể" (social loafing) hay thói quen kiểm soát quá mức đều có thể phá hủy một dự án. Trong chiến dịch này, nhóm mình đã xây dựng quy trình kiểm soát chặt chẽ:</p>
+
+                <div class="teamwork-board">
+                    <div class="team-col todo">
+                        <h4><i class="fa-solid fa-list-check"></i> Thách thức (Problems)</h4>
+                        <div class="task-card">Lệch pha trong phong cách giao tiếp và múi giờ sinh hoạt của các thành viên.</div>
+                        <div class="task-card">Rủi ro từ hiện tượng "ỷ lại" hoặc phân phối công việc không đều, mất cân bằng.</div>
+                    </div>
+                    <div class="team-col doing">
+                        <h4><i class="fa-solid fa-spinner"></i> Giải pháp (Solutions)</h4>
+                        <div class="task-card">Thống nhất duy nhất một kênh liên lạc chính thức và lưu trữ biên bản cuộc họp định kỳ.</div>
+                        <div class="task-card">Đồng thuận quy tắc phản hồi mang tính chất xây dựng, phân công dựa trên thế mạnh.</div>
+                    </div>
+                    <div class="team-col done">
+                        <h4><i class="fa-solid fa-circle-check"></i> Kết quả (Results)</h4>
+                        <div class="task-card" style="border-left:3px solid var(--success);">100% công việc hoàn thành đúng hạn nhờ sơ đồ quản trị minh bạch trên Notion.</div>
+                        <div class="task-card" style="border-left:3px solid var(--success);">Giải quyết thành công tranh chấp ý tưởng slide thuyết trình bằng bình chọn đồng đẳng.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MISSION 5 -->
+            <div id="m5" class="mission-content">
+                <div class="mission-header">
+                    <div class="mission-title-area">
+                        <h3>Chiến dịch 5: Đồng sáng tạo nội dung số với AI</h3>
+                        <span>Mô hình kết hợp 40% AI - 60% Con người</span>
+                    </div>
+                </div>
+                <div class="mission-objective">
+                    <strong>Mục tiêu:</strong> Tạo lập Infographic hoàn chỉnh chủ đề "Ứng dụng AI trong tự học ngoại ngữ của sinh viên đại học" bằng cách phối hợp ChatGPT, DALL-E và Canva AI.
+                </div>
+                <p>Công cụ AI giúp chúng ta bứt phá tốc độ, nhưng tư duy phản biện mới là thứ mang lại linh hồn cho sản phẩm. Dự án Infographic này được thực hiện dựa trên quy trình hợp tác nghiêm ngặt, trong đó máy móc đóng góp tốc độ tạo dựng ban đầu, còn mình định hình chiều sâu và tính xác thực:</p>
+                
+                <div class="prompt-interactive" style="margin-top:2rem;">
+                    <div class="prompt-box">
+                        <h4><i class="fa-solid fa-robot"></i> Đóng góp của AI (40%)</h4>
+                        <p class="output-text"><strong>ChatGPT:</strong> Phác thảo cấu trúc 5 khối nội dung chính cho Infographic một cách nhanh chóng.<br><strong>DALL-E:</strong> Tạo hình minh họa phẳng (flat-style) theo tone màu xanh chủ đạo.<br><strong>Canva AI:</strong> Gợi ý các bảng màu học thuật và font chữ tương thích tốt.</p>
+                    </div>
+                    <div class="prompt-box">
+                        <h4><i class="fa-solid fa-user-ninja"></i> Chỉnh sửa cá nhân (60%)</h4>
+                        <p class="output-text"><strong>Kiểm chứng dữ liệu:</strong> Loại bỏ các số liệu "ảo giác" do AI tự bịa ra.<br><strong>Địa phương hóa:</strong> Đưa các ứng dụng thực tế phổ biến tại Việt Nam (ELSA Speak, Duolingo) vào infographic.<br><strong>Bố cục:</strong> Sắp xếp khoảng trắng và tích hợp logo nhận diện thương hiệu của ULIS.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MISSION 6 -->
+            <div id="m6" class="mission-content">
+                <div class="mission-header">
+                    <div class="mission-title-area">
+                        <h3>Chiến dịch 6: Đạo đức & Trách nhiệm học thuật</h3>
+                        <span>Hiến chương 7 nguyên tắc vàng của tân binh</span>
+                    </div>
+                </div>
+                <div class="mission-objective">
+                    <strong>Mục tiêu:</strong> Phân tích chính sách AI tích cực của ULIS so với thế giới và xây dựng bộ nguyên tắc cá nhân khi ứng dụng AI có trách nhiệm.
+                </div>
+                <p>Thay vì cấm đoán, ULIS đã có bước đi táo bạo và tiến bộ khi chủ động tổ chức các hội thảo hướng dẫn sinh viên khai phóng năng lực của AI một cách thông minh. Để tránh việc biến bộ não trở nên "lười biếng", mình tự đặt ra hiến chương hành động gồm 7 điều cam kết:</p>
+                
+                <ul style="list-style-type: none; margin-top: 1.5rem; padding-left: 0;">
+                    <li style="margin-bottom: 0.8rem; display:flex; align-items:center; gap:10px;"><i class="fa-solid fa-feather-pointed" style="color:var(--amber-gold);"></i> 1. Luôn khai báo trung thực các phân đoạn bài tập có sử dụng AI hỗ trợ.</li>
+                    <li style="margin-bottom: 0.8rem; display:flex; align-items:center; gap:10px;"><i class="fa-solid fa-feather-pointed" style="color:var(--amber-gold);"></i> 2. Tuyệt đối không sao chép nguyên văn (Copy-Paste) đầu ra từ chatbot.</li>
+                    <li style="margin-bottom: 0.8rem; display:flex; align-items:center; gap:10px;"><i class="fa-solid fa-feather-pointed" style="color:var(--amber-gold);"></i> 3. Đối chiếu mọi thông tin AI tạo ra với các nguồn hàn lâm đáng tin cậy.</li>
+                    <li style="margin-bottom: 0.8rem; display:flex; align-items:center; gap:10px;"><i class="fa-solid fa-feather-pointed" style="color:var(--amber-gold);"></i> 4. Coi AI là trợ lý tư duy, không để AI thay thế quá trình suy luận độc lập.</li>
+                    <li style="margin-bottom: 0.8rem; display:flex; align-items:center; gap:10px;"><i class="fa-solid fa-feather-pointed" style="color:var(--amber-gold);"></i> 5. Tôn trọng bản quyền tác giả và trích dẫn khoa học theo định dạng chuẩn.</li>
+                    <li style="margin-bottom: 0.8rem; display:flex; align-items:center; gap:10px;"><i class="fa-solid fa-feather-pointed" style="color:var(--amber-gold);"></i> 6. Bảo mật dữ liệu cá nhân, không cung cấp dữ liệu nhạy cảm vào đám mây AI công cộng.</li>
+                    <li style="margin-bottom: 0.8rem; display:flex; align-items:center; gap:10px;"><i class="fa-solid fa-feather-pointed" style="color:var(--amber-gold);"></i> 7. Chịu trách nhiệm tối cao và duy nhất đối với chất lượng của sản phẩm cuối cùng.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- SUMMARY SECTION -->
+    <section id="summary">
+        <div class="container">
+            <h2 class="section-title">Nhìn lại hành trình</h2>
+            <div class="reflection-block">
+                <div class="reflection-stats">
+                    <div class="stat-box">
+                        <h4>6</h4>
+                        <p>Chiến dịch hoàn tất</p>
+                    </div>
+                    <div class="stat-box">
+                        <h4>11</h4>
+                        <p>Tài liệu Kanji bình duyệt</p>
+                    </div>
+                    <div class="stat-box">
+                        <h4>100%</h4>
+                        <p>Trách nhiệm học thuật</p>
+                    </div>
+                    <div class="stat-box">
+                        <h4>40/60</h4>
+                        <p>Tỷ lệ đồng sáng tạo</p>
+                    </div>
+                </div>
+                <div class="reflection-text">
+                    <blockquote>
+                        "Cánh chim tự do (Wings of Freedom) không chỉ đại diện cho khát vọng vượt khỏi những bức tường thành vật lý, nó còn đại diện cho sự bứt phá của tri thức vượt qua những rào cản nhận thức cổ hủ."
+                    </blockquote>
+                    <p>Trải qua một học kỳ đồng hành cùng công nghệ số và trí tuệ nhân tạo, bài học giá trị nhất mà mình nhận lại được không nằm ở những câu lệnh Prompt phức tạp, mà là nhận thức rõ ràng về ranh giới giữa con người và máy móc.</p>
+                    <p>AI có thể mô phỏng một bài luận xuất sắc, có thể dựng lên một hình ảnh đồ họa tuyệt mỹ chỉ trong vài giây. Nhưng máy móc mãi mãi không thể thay thế sự tĩnh lặng sâu lắng của một tư duy phản tỉnh, lòng trắc ẩn đích thực giữa người với người và niềm hạnh phúc thầm lặng khi tự tay viết nên một nét Kanji chuẩn xác sau nhiều giờ rèn luyện.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-logo">
+            <i class="fa-solid fa-shield-halved"></i> SHINGEKI PORTFOLIO
+        </div>
+        <div class="footer-links">
+            <a href="#about">Về tôi</a>
+            <a href="#missions">Nhật ký nhiệm vụ</a>
+            <a href="https://drive.google.com/drive/folders/19DjvcCTxWX0k5wsjL1AS7yeprffwsczT?usp=drive_link" target="_blank">Google Drive</a>
+        </div>
+        <div class="footer-quote">
+            "Nếu bạn không chiến đấu, bạn không thể chiến thắng." — Eren Yeager. <br>Học tập là một cuộc chiến dai dẳng để làm chủ chính bản thân mình.
+        </div>
+        <div class="copyright">
+            © 2026 Đỗ Tiến Khôi. Bản quyền thiết kế thuộc về Binh đoàn Trinh sát số 25.
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE JAVASCRIPT EFFECTS -->
+    <script>
+        // 1. Interactive Tabs for Mission Details
+        function openMission(evt, missionId) {
+            let i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("mission-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+                tabcontent[i].classList.remove("active");
+            }
+            tablinks = document.getElementsByClassName("mission-tab");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+            }
+            document.getElementById(missionId).style.display = "block";
+            setTimeout(() => {
+                document.getElementById(missionId).classList.add("active");
+            }, 10);
+            evt.currentTarget.classList.add("active");
+        }
+
+        // 2. Parallax Scrolling Effect for Header Active States
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('nav a');
+            let current = '';
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Compact header on scroll
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.style.padding = '0.8rem 10%';
+                header.style.background = 'rgba(13, 14, 18, 0.95)';
+            } else {
+                header.style.padding = '1.5rem 10%';
+                header.style.background = 'rgba(13, 14, 18, 0.8)';
+            }
+        });
+
+        // 3. Canvas Particle Engine: Golden Titan sparks drifting upwards
+        const canvas = document.getElementById('sparks-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Spark {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height + Math.random() * 100;
+                this.size = Math.random() * 2 + 1;
+                this.speedY = -(Math.random() * 1.5 + 0.5);
+                this.speedX = Math.random() * 1 - 0.5;
+                this.opacity = Math.random() * 0.5 + 0.3;
+                this.decay = Math.random() * 0.003 + 0.001;
+            }
+
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX;
+                this.opacity -= this.decay;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.opacity;
+                // Soft golden color resembling sparks from Titan transformation
+                ctx.fillStyle = '#c49b6c';
+                ctx.shadowBlur = 8;
+                ctx.shadowColor = '#38bdf8';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        function initSparks() {
+            for (let i = 0; i < 40; i++) {
+                particles.push(new Spark());
+            }
+        }
+
+        function animateSparks() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+                if (particles[i].opacity <= 0) {
+                    particles[i] = new Spark();
+                }
+            }
+            requestAnimationFrame(animateSparks);
+        }
+
+        initSparks();
+        animateSparks();
+    </script>
 </body>
 </html>
