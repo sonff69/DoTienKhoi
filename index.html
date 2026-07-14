@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hồ Sơ Trinh Sát Số | Đỗ Tiến Khôi</title>
+    <title>Tactical Command Portfolio | Đỗ Tiến Khôi</title>
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Lora:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <!-- FontAwesome for Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Lora:ital,wght@0,400;0,500;1,400&family=Montserrat:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --titan-blood: #8b0000;
-            --titan-gold: #e59128;
-            --scout-blue: #234e82;
-            --dark-abyss: #070709;
-            --slate-armor: #181a21;
-            --parchment: #d1c7bd;
+            --neon-cyan: #00f0ff;
+            --neon-red: #ff2e5b;
+            --cyber-amber: #e2a65a;
+            --bg-dark: #07080b;
+            --panel-bg: rgba(18, 22, 32, 0.75);
             --text-light: #f3f4f6;
-            --text-muted: #9ca3af;
-            --transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+            --text-muted: #8fa0be;
+            --border-glow: rgba(0, 240, 255, 0.15);
+            --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         * {
@@ -30,105 +30,110 @@
 
         body {
             font-family: 'Lora', serif;
-            background-color: var(--dark-abyss);
+            background-color: var(--bg-dark);
             color: var(--text-light);
             overflow-x: hidden;
-            line-height: 1.7;
+            line-height: 1.6;
         }
 
-        /* SCREEN SHAKE ANIMATION */
-        @keyframes shake {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            10% { transform: translate(-2px, -2px) rotate(-1deg); }
-            20% { transform: translate(2px, 1px) rotate(1deg); }
-            30% { transform: translate(-1px, 2px) rotate(0deg); }
-            40% { transform: translate(1px, -1px) rotate(1deg); }
-            50% { transform: translate(-2px, 1px) rotate(-1deg); }
-            60% { transform: translate(2px, -2px) rotate(0deg); }
-            70% { transform: translate(-1px, -1px) rotate(1deg); }
-            80% { transform: translate(2px, 2px) rotate(0deg); }
-            90% { transform: translate(-2px, -1px) rotate(-1deg); }
-        }
-
-        .shaking {
-            animation: shake 0.5s infinite;
-        }
-
-        /* 1. INTRO WALL OVERLAY (BỨC TƯỜNG MARIA) */
-        #wall-overlay {
+        /* 1. MODERN SLIT TRANSITION (CẮT ĐÔI MÀN HÌNH KHỞI CHẠY) */
+        #gate-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100vh;
-            background: radial-gradient(circle, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.9) 100%), 
-                        url('https://images.unsplash.com/photo-1590069261209-f8e9b8642343?auto=format&fit=crop&q=80&w=1500') center center/cover;
             z-index: 999;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            border: 15px solid #1c1c22;
-            transition: opacity 0.8s ease, transform 0.8s ease;
-            text-align: center;
-        }
-
-        #wall-overlay.collapsed {
-            opacity: 0;
-            transform: scale(1.1);
             pointer-events: none;
         }
 
-        .wall-title {
-            font-family: 'Cinzel', serif;
-            font-size: 3rem;
-            color: var(--parchment);
-            letter-spacing: 5px;
-            text-shadow: 0 0 15px rgba(0,0,0,0.9), 0 0 5px var(--titan-blood);
-            margin-bottom: 2rem;
-            max-width: 800px;
-            padding: 0 1.5rem;
-        }
-
-        .btn-exterminate {
-            font-family: 'Cinzel', serif;
-            padding: 1.2rem 3rem;
-            background: linear-gradient(135deg, var(--titan-blood) 0%, #4a0000 100%);
-            border: 2px solid var(--titan-gold);
-            color: var(--text-light);
-            font-size: 1.1rem;
-            font-weight: 900;
-            letter-spacing: 2px;
-            cursor: pointer;
-            box-shadow: 0 0 20px rgba(139, 0, 0, 0.6);
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-exterminate::before {
-            content: '';
+        .gate-half {
             position: absolute;
-            top: 0;
-            left: -100%;
             width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: 0.5s;
+            height: 50%;
+            background: #0d0f14;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 1s cubic-bezier(0.85, 0, 0.15, 1);
+            pointer-events: auto;
+            border-bottom: 2px solid var(--neon-cyan);
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.2);
         }
 
-        .btn-exterminate:hover::before {
-            left: 100%;
+        .gate-half.top {
+            top: 0;
+            border-bottom: 2px solid var(--neon-cyan);
         }
 
-        .btn-exterminate:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(229, 145, 40, 0.8);
-            border-color: #fff;
+        .gate-half.bottom {
+            bottom: 0;
+            top: 50%;
+            border-top: 2px solid var(--neon-cyan);
+            border-bottom: none;
         }
 
-        /* TITAN EMBERS & LIGHTNING CANVAS */
-        #embers-canvas {
+        .gate-content {
+            position: absolute;
+            text-align: center;
+            z-index: 1000;
+            width: 100%;
+            max-width: 800px;
+            padding: 0 2rem;
+            transition: opacity 0.5s ease;
+        }
+
+        .gate-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2rem;
+            letter-spacing: 4px;
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+        }
+
+        .gate-title span {
+            color: var(--neon-red);
+        }
+
+        .btn-launch {
+            font-family: 'Montserrat', sans-serif;
+            padding: 1rem 2.5rem;
+            background: transparent;
+            border: 2px solid var(--neon-cyan);
+            color: var(--neon-cyan);
+            font-weight: 800;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            text-transform: uppercase;
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.1);
+        }
+
+        .btn-launch:hover {
+            background: var(--neon-cyan);
+            color: var(--bg-dark);
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* Khi mở hệ thống */
+        #gate-container.opened .gate-half.top {
+            transform: translateY(-100%);
+        }
+
+        #gate-container.opened .gate-half.bottom {
+            transform: translateY(100%);
+        }
+
+        #gate-container.opened .gate-content {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* BACKGROUND CYBER PARTICLES */
+        #cyber-canvas {
             position: fixed;
             top: 0;
             left: 0;
@@ -136,30 +141,30 @@
             height: 100%;
             z-index: 1;
             pointer-events: none;
-            opacity: 0.7;
+            opacity: 0.4;
         }
 
-        /* HEADER & NAVIGATION (TACTICAL HUD) */
+        /* HEADER HUD NAVIGATION */
         header {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            padding: 1rem 8%;
+            padding: 1.2rem 8%;
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 100;
-            background: rgba(7, 7, 9, 0.9);
-            border-bottom: 2px solid var(--titan-blood);
-            box-shadow: 0 4px 20px rgba(139, 0, 0, 0.2);
-            transition: var(--transition);
+            background: rgba(10, 12, 16, 0.85);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(0, 240, 255, 0.1);
+            transition: var(--transition-smooth);
         }
 
         .logo {
             font-family: 'Cinzel', serif;
             font-weight: 900;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             letter-spacing: 2px;
             color: var(--text-light);
             text-decoration: none;
@@ -169,104 +174,104 @@
         }
 
         .logo span {
-            color: var(--titan-gold);
+            color: var(--neon-cyan);
         }
 
-        .scout-shield {
-            width: 36px;
-            height: 36px;
-            background: var(--scout-blue);
-            border: 2px solid var(--text-light);
-            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+        .scout-cyber-wings {
+            width: 32px;
+            height: 32px;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 0 10px rgba(58, 128, 196, 0.6);
+            border: 1px solid var(--neon-cyan);
+            background: rgba(0, 240, 255, 0.05);
+            border-radius: 4px;
+            box-shadow: 0 0 8px rgba(0, 240, 255, 0.2);
         }
 
-        .scout-shield i {
-            color: #fff;
-            font-size: 0.9rem;
+        .scout-cyber-wings i {
+            color: var(--neon-cyan);
+            font-size: 0.85rem;
         }
 
         nav {
             display: flex;
             align-items: center;
-            gap: 1.8rem;
+            gap: 2rem;
         }
 
         nav a {
             font-family: 'Montserrat', sans-serif;
             text-decoration: none;
             color: var(--text-muted);
-            font-size: 0.85rem;
-            font-weight: 800;
+            font-size: 0.8rem;
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1px;
-            transition: var(--transition);
-            position: relative;
+            transition: var(--transition-smooth);
         }
 
         nav a:hover, nav a.active {
-            color: var(--titan-gold);
-            text-shadow: 0 0 8px rgba(229, 145, 40, 0.5);
+            color: var(--neon-cyan);
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.4);
         }
 
-        /* DUAL BLADE SLASH HOVER EFFECT FOR BUTTONS */
-        .btn-slash {
+        /* MODERN SLASH HOVER ACTION */
+        .btn-modern-hud {
             font-family: 'Montserrat', sans-serif;
-            padding: 0.7rem 1.4rem;
+            padding: 0.6rem 1.4rem;
             background: transparent;
-            border: 2px solid var(--titan-gold);
-            color: var(--titan-gold);
-            font-weight: 800;
+            border: 1px solid var(--neon-cyan);
+            color: var(--neon-cyan);
+            font-weight: 700;
             text-decoration: none;
             text-transform: uppercase;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             letter-spacing: 1.5px;
-            transition: var(--transition);
+            border-radius: 4px;
+            transition: var(--transition-smooth);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             position: relative;
             overflow: hidden;
         }
 
-        .btn-slash::after {
+        .btn-modern-hud::after {
             content: '';
             position: absolute;
             top: -50%;
             left: -100%;
-            width: 50%;
+            width: 40px;
             height: 200%;
-            background: rgba(255, 255, 255, 0.4);
-            transform: rotate(45deg);
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(30deg);
             transition: none;
         }
 
-        .btn-slash:hover::after {
+        .btn-modern-hud:hover::after {
             left: 150%;
-            transition: all 0.5s ease-in-out;
+            transition: all 0.6s ease-in-out;
         }
 
-        .btn-slash:hover {
-            background: var(--titan-gold);
-            color: var(--dark-abyss);
-            box-shadow: 0 0 15px rgba(229, 145, 40, 0.4);
+        .btn-modern-hud:hover {
+            background: rgba(0, 240, 255, 0.08);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+            border-color: #fff;
         }
 
-        /* HERO AREA (SURVEY CORPS FRONT LINE) */
+        /* PREMIUM WIDESCREEN HERO */
         .hero {
             position: relative;
             height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 0 8%;
-            background: linear-gradient(to bottom, rgba(7, 7, 9, 0.2), var(--dark-abyss)), url('back.jpg') no-repeat center center/cover;
+            padding: 0 10%;
+            background: linear-gradient(to bottom, rgba(7, 8, 11, 0.1), var(--bg-dark)), url('back.jpg') no-repeat center center/cover;
             background-attachment: fixed;
             z-index: 2;
-            border-bottom: 3px solid var(--titan-blood);
+            border-bottom: 1px solid rgba(0, 240, 255, 0.1);
         }
 
         .hero::before {
@@ -276,387 +281,365 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle, transparent 20%, rgba(7, 7, 9, 0.8) 100%);
+            background: radial-gradient(circle, transparent 30%, rgba(7, 8, 11, 0.85) 100%);
             pointer-events: none;
         }
 
-        /* HUD PROFILE OVERLAY */
-        .hud-profile-container {
+        /* GLASS CYBER COMMAND PANEL */
+        .cyber-profile-card {
             display: grid;
-            grid-template-columns: 200px 1fr;
+            grid-template-columns: 160px 1fr;
             gap: 3rem;
             align-items: center;
-            background: rgba(24, 26, 33, 0.8);
-            border: 2px solid var(--titan-blood);
-            padding: 3rem;
-            border-radius: 4px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.8), inset 0 0 20px rgba(139, 0, 0, 0.2);
-            position: relative;
-            max-width: 900px;
+            background: var(--panel-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-glow);
+            padding: 2.5rem;
+            border-radius: 8px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
             width: 100%;
+            max-width: 850px;
+            position: relative;
             z-index: 3;
         }
 
-        /* Heavy metal rivets on HUD corners */
-        .hud-profile-container::before, .hud-profile-container::after {
+        /* Micro sci-fi corners */
+        .cyber-profile-card::before, .cyber-profile-card::after {
             content: '';
             position: absolute;
-            width: 10px;
-            height: 10px;
-            background: var(--titan-gold);
-            border-radius: 50%;
-            border: 1px solid #000;
-        }
-        .hud-profile-container::before { top: 10px; left: 10px; box-shadow: 870px 0 0 var(--titan-gold); }
-        .hud-profile-container::after { bottom: 10px; left: 10px; box-shadow: 870px 0 0 var(--titan-gold); }
-
-        .avatar-frame {
-            position: relative;
-            width: 180px;
-            height: 180px;
-            background: #000;
-            border: 3px solid var(--titan-gold);
-            box-shadow: 0 0 20px rgba(229, 145, 40, 0.3);
-            overflow: hidden;
-        }
-
-        .avatar-frame img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: sepia(0.2) contrast(1.1);
-        }
-
-        .avatar-frame::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: 1px solid var(--titan-blood);
+            width: 12px;
+            height: 12px;
+            border-color: var(--neon-cyan);
+            border-style: solid;
             pointer-events: none;
         }
 
-        .hud-stats h1 {
+        .cyber-profile-card::before { top: -2px; left: -2px; border-width: 2px 0 0 2px; }
+        .cyber-profile-card::after { bottom: -2px; right: -2px; border-width: 0 2px 2px 0; }
+
+        .profile-avatar {
+            width: 160px;
+            height: 160px;
+            border-radius: 6px;
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.1);
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: contrast(1.05) saturate(0.9);
+        }
+
+        .hud-info h1 {
             font-family: 'Cinzel', serif;
-            font-size: 3rem;
+            font-size: 2.5rem;
             font-weight: 900;
             letter-spacing: 2px;
             color: var(--text-light);
-            line-height: 1.1;
-            margin-bottom: 0.8rem;
-            text-shadow: 0 0 10px rgba(255,255,255,0.1);
+            margin-bottom: 0.5rem;
         }
 
-        .hud-badge {
+        .hud-sub {
             display: inline-block;
             font-family: 'Montserrat', sans-serif;
-            background: var(--titan-blood);
-            color: #fff;
-            padding: 0.2rem 0.8rem;
-            font-size: 0.75rem;
             font-weight: 800;
-            letter-spacing: 2px;
+            font-size: 0.75rem;
+            color: var(--neon-cyan);
+            border: 1px solid var(--neon-cyan);
+            padding: 2px 10px;
+            border-radius: 2px;
             text-transform: uppercase;
-            margin-bottom: 1.2rem;
-            border: 1px solid var(--titan-gold);
+            letter-spacing: 1.5px;
+            margin-bottom: 1rem;
         }
 
-        .hud-grid {
+        .hud-metadata-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 1rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid rgba(255,255,255,0.08);
             padding-top: 1rem;
             font-family: 'Montserrat', sans-serif;
             font-size: 0.85rem;
             color: var(--text-muted);
         }
 
-        .hud-grid strong {
-            color: var(--parchment);
+        .hud-metadata-grid strong {
+            color: var(--text-light);
         }
 
-        /* SECTION STYLING */
+        /* SECTION LAYOUTS */
         section {
-            padding: 8rem 8% 4rem;
+            padding: 7rem 10% 4rem;
             position: relative;
             z-index: 2;
         }
 
         .section-title {
             font-family: 'Cinzel', serif;
-            font-size: 2.2rem;
+            font-size: 2rem;
             font-weight: 900;
             color: var(--text-light);
-            margin-bottom: 3rem;
+            margin-bottom: 2.5rem;
             position: relative;
             display: inline-block;
-            letter-spacing: 1.5px;
+            letter-spacing: 1px;
         }
 
         .section-title::after {
             content: '';
             position: absolute;
-            bottom: -8px;
+            bottom: -6px;
             left: 0;
-            width: 100px;
+            width: 60px;
             height: 2px;
-            background: var(--titan-blood);
-            box-shadow: 0 0 5px var(--titan-blood);
+            background: var(--neon-cyan);
+            box-shadow: 0 0 8px var(--neon-cyan);
         }
 
-        /* LEATHER STRAP DESIGN ELEMENT */
-        .harness-straps {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            opacity: 0.03;
-            background-image: 
-                linear-gradient(45deg, var(--text-light) 25%, transparent 25%), 
-                linear-gradient(-45deg, var(--text-light) 25%, transparent 25%), 
-                linear-gradient(45deg, transparent 75%, var(--text-light) 75%), 
-                linear-gradient(-45deg, transparent 75%, var(--text-light) 75%);
-            background-size: 60px 60px;
-            background-position: 0 0, 0 30px, 30px -30px, -30px 0px;
-        }
-
-        /* SQUAD MEMBERS / ABOUT */
-        .tactical-intro {
+        /* BRIEFING SECTION (ABOUT) */
+        .briefing-layout {
             display: grid;
             grid-template-columns: 1.1fr 0.9fr;
             gap: 4rem;
             align-items: center;
         }
 
-        .tactical-text p {
+        .briefing-text p {
             font-size: 1.05rem;
             color: var(--text-muted);
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
             text-align: justify;
         }
 
-        .tactical-quote {
-            font-style: italic;
-            border-left: 3px solid var(--titan-gold);
-            padding-left: 1.5rem;
-            color: var(--parchment);
-            margin: 2rem 0;
-            font-size: 1.1rem;
-        }
-
-        .tactical-card {
-            background: var(--slate-armor);
-            border: 2px dashed rgba(139,0,0,0.5);
-            padding: 2.5rem;
-            border-radius: 4px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            position: relative;
-        }
-
-        /* DRIVE CALL TO ACTION BANNER */
-        .tactical-cta {
-            background: linear-gradient(rgba(7, 7, 9, 0.8), rgba(7, 7, 9, 0.85)), url('back.jpg') no-repeat center center/cover;
-            border: 2px solid var(--titan-blood);
-            border-radius: 4px;
-            padding: 4rem;
-            text-align: center;
-            margin-bottom: 5rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-        }
-
-        .tactical-cta h3 {
-            font-family: 'Cinzel', serif;
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            color: var(--text-light);
-        }
-
-        .tactical-cta p {
-            color: var(--text-muted);
-            max-width: 600px;
-            margin: 0 auto 2.5rem;
-            font-size: 1rem;
-        }
-
-        .tactical-cta .btn-slash {
-            display: inline-flex;
-            padding: 0.9rem 2.2rem;
-        }
-
-        /* INTERACTIVE DOSSIERS (6 CAMPAIGNS) */
-        .missions-nav {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-bottom: 3rem;
-            border-bottom: 2px solid rgba(139, 0, 0, 0.3);
-            padding-bottom: 1.5rem;
-        }
-
-        .mission-tab {
-            font-family: 'Montserrat', sans-serif;
-            padding: 0.8rem 1.4rem;
-            background: #111217;
+        .briefing-card {
+            background: rgba(18, 22, 32, 0.4);
             border: 1px solid rgba(255,255,255,0.05);
-            color: var(--text-muted);
-            font-weight: 800;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: var(--transition);
+            padding: 2rem;
+            border-radius: 6px;
+        }
+
+        .briefing-card h4 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--neon-cyan);
+            font-size: 0.95rem;
             text-transform: uppercase;
             letter-spacing: 1px;
+            margin-bottom: 1.2rem;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
-        .mission-tab:hover, .mission-tab.active {
-            color: var(--titan-gold);
-            border-color: var(--titan-gold);
-            background: var(--slate-armor);
-            box-shadow: 0 0 15px rgba(229, 145, 40, 0.15);
+        .briefing-card-item {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 0.8rem;
         }
 
-        .mission-tab.active {
-            border-bottom: 3px solid var(--titan-gold);
-            background: linear-gradient(to bottom, #111217, rgba(229, 145, 40, 0.05));
-        }
-
-        .mission-content {
-            display: none;
-            background: rgba(24, 26, 33, 0.9);
-            border: 2px solid var(--titan-blood);
+        /* MODERN CTA BANNER (GOOGLE DRIVE) */
+        .cta-banner {
+            background: linear-gradient(rgba(10, 12, 16, 0.9), rgba(10, 12, 16, 0.92)), url('back.jpg') no-repeat center center/cover;
+            border: 1px solid rgba(0, 240, 255, 0.15);
+            border-radius: 6px;
             padding: 3.5rem;
+            text-align: center;
+            margin-bottom: 4rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .cta-banner h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .cta-banner p {
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            font-size: 0.95rem;
+        }
+
+        .cta-banner .btn-modern-hud {
+            display: inline-flex;
+            padding: 0.8rem 2rem;
+        }
+
+        /* CAMPAIGN TAB SELECTION HUD */
+        .tabs-hud-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 2.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            padding-bottom: 1rem;
+        }
+
+        .tab-hud {
+            font-family: 'Montserrat', sans-serif;
+            padding: 0.7rem 1.3rem;
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--text-muted);
+            font-weight: 700;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            text-transform: uppercase;
+            letter-spacing: 1px;
             border-radius: 4px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.7);
-            position: relative;
         }
 
-        .mission-content.active {
+        .tab-hud:hover, .tab-hud.active {
+            color: var(--neon-cyan);
+            border-color: rgba(0, 240, 255, 0.2);
+            background: rgba(0, 240, 255, 0.03);
+        }
+
+        .tab-hud.active {
+            border-bottom: 2px solid var(--neon-cyan);
+            background: linear-gradient(to bottom, transparent, rgba(0, 240, 255, 0.05));
+        }
+
+        /* DOSSIER BODY (CAMPAIGNS) */
+        .campaign-panel {
+            display: none;
+            background: var(--panel-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 3rem;
+            border-radius: 6px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+        }
+
+        .campaign-panel.active {
             display: block;
-            animation: slideIn 0.5s ease-out;
+            animation: fadeInHUD 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        @keyframes slideIn {
-            from { transform: translateY(15px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+        @keyframes fadeInHUD {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .mission-meta {
+        .campaign-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            padding-bottom: 1.2rem;
             margin-bottom: 2rem;
         }
 
-        .mission-meta h3 {
+        .campaign-header h3 {
             font-family: 'Cinzel', serif;
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             color: var(--text-light);
-            margin-bottom: 0.4rem;
+            margin-bottom: 0.2rem;
         }
 
-        .mission-meta span {
+        .campaign-header span {
             font-family: 'Montserrat', sans-serif;
             font-size: 0.75rem;
             font-weight: 800;
-            color: var(--titan-gold);
+            color: var(--neon-cyan);
             text-transform: uppercase;
             letter-spacing: 2px;
         }
 
-        /* GAS PRESSURE GAUGE STYLE FOR PROGRESS */
-        .gauge-panel {
+        /* DIGITAL RADIAL PROGRESS WIDGET */
+        .widget-progress-hud {
             display: flex;
             align-items: center;
-            gap: 20px;
-            background: rgba(0,0,0,0.4);
-            border: 1px solid rgba(255,255,255,0.05);
-            padding: 1.2rem;
+            gap: 15px;
+            background: rgba(0,0,0,0.25);
+            border: 1px solid rgba(255,255,255,0.03);
+            padding: 1rem 1.5rem;
             border-radius: 4px;
             margin-bottom: 2rem;
+            max-width: fit-content;
         }
 
-        .gauge-svg {
-            width: 60px;
-            height: 60px;
+        .widget-svg {
+            width: 44px;
+            height: 44px;
             transform: rotate(-90deg);
         }
 
-        .gauge-bg {
+        .widget-svg-bg {
             fill: none;
-            stroke: rgba(255,255,255,0.05);
-            stroke-width: 6;
+            stroke: rgba(255,255,255,0.04);
+            stroke-width: 5;
         }
 
-        .gauge-fill {
+        .widget-svg-fill {
             fill: none;
-            stroke: var(--titan-gold);
-            stroke-width: 6;
-            stroke-dasharray: 170;
-            stroke-dashoffset: 170;
-            transition: stroke-dashoffset 1.5s ease;
+            stroke: var(--neon-cyan);
+            stroke-width: 5;
+            stroke-dasharray: 125;
+            stroke-dashoffset: 125;
+            transition: stroke-dashoffset 1.2s ease;
         }
 
-        .gauge-info h5 {
+        .widget-info h5 {
             font-family: 'Montserrat', sans-serif;
             font-weight: 800;
-            font-size: 0.8rem;
-            color: var(--parchment);
+            font-size: 0.75rem;
+            color: var(--text-light);
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 0.2rem;
         }
 
-        .gauge-info p {
-            font-size: 0.85rem;
+        .widget-info p {
+            font-size: 0.8rem;
             color: var(--text-muted);
         }
 
-        /* EXTERMINATION DETAILS - STYLES FOR ASSIGNMENTS */
-        .mission-text {
+        /* DETAILED CONTENT FORMATTING */
+        .campaign-desc {
             color: var(--text-muted);
             font-size: 1.05rem;
             text-align: justify;
             margin-bottom: 2rem;
         }
 
-        /* Mock Scroll Terminal */
-        .scout-terminal {
-            background: #050608;
-            border: 2px solid #222;
+        /* Cyberpunk code terminal */
+        .hud-terminal {
+            background: #090b0e;
+            border: 1px solid rgba(0, 240, 255, 0.1);
             border-radius: 4px;
-            padding: 1.5rem;
+            padding: 1.2rem;
             font-family: 'Courier New', Courier, monospace;
             font-size: 0.85rem;
-            color: var(--titan-gold);
-            box-shadow: inset 0 0 15px rgba(0,0,0,0.9);
+            color: var(--neon-cyan);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.9);
         }
 
-        .scout-terminal-header {
-            border-bottom: 1px solid #222;
-            padding-bottom: 0.8rem;
-            margin-bottom: 1rem;
-            color: var(--text-muted);
+        .hud-terminal-top {
             display: flex;
             justify-content: space-between;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.7rem;
+            font-weight: bold;
+            color: var(--text-muted);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding-bottom: 0.5rem;
+            margin-bottom: 0.8rem;
         }
 
-        /* Kanji Academic Table */
-        .tactical-table-wrapper {
+        /* Modern Matrix Table */
+        .matrix-table-container {
             overflow-x: auto;
-            margin-top: 2rem;
-            border: 1px solid rgba(139,0,0,0.3);
+            margin-top: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 4px;
         }
 
-        .tactical-table {
+        .matrix-table {
             width: 100%;
             border-collapse: collapse;
             font-family: 'Montserrat', sans-serif;
@@ -665,155 +648,159 @@
             text-align: left;
         }
 
-        .tactical-table th, .tactical-table td {
-            padding: 14px 18px;
+        .matrix-table th, .matrix-table td {
+            padding: 12px 16px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .tactical-table th {
-            background-color: rgba(139, 0, 0, 0.15);
-            color: var(--titan-gold);
+        .matrix-table th {
+            background-color: rgba(0, 240, 255, 0.05);
+            color: var(--neon-cyan);
             text-transform: uppercase;
-            font-weight: 800;
+            font-weight: 700;
             letter-spacing: 1px;
         }
 
-        .tactical-table tr:hover {
+        .matrix-table tr:hover {
             background-color: rgba(255, 255, 255, 0.02);
         }
 
-        .badge-status {
-            padding: 3px 8px;
-            border-radius: 2px;
+        .cyber-pill {
+            padding: 2px 6px;
             font-size: 0.7rem;
             font-weight: 800;
             text-transform: uppercase;
+            border-radius: 2px;
         }
 
-        .badge-status.high {
-            background: rgba(16, 185, 129, 0.15);
-            color: #10b981;
-            border: 1px solid #10b981;
+        .cyber-pill.high {
+            background: rgba(0, 240, 255, 0.1);
+            color: var(--neon-cyan);
+            border: 1px solid var(--neon-cyan);
         }
 
-        .badge-status.medium {
-            background: rgba(229, 145, 40, 0.15);
-            color: var(--titan-gold);
-            border: 1px solid var(--titan-gold);
+        .cyber-pill.medium {
+            background: rgba(226, 166, 90, 0.1);
+            color: var(--cyber-amber);
+            border: 1px solid var(--cyber-amber);
         }
 
-        /* Prompt Compare Section */
-        .compare-grid {
+        /* Prompt Interactive comparison layout */
+        .prompt-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 2rem;
-            margin-top: 2rem;
+            margin-top: 1.5rem;
         }
 
-        .compare-card {
-            background: rgba(7, 7, 9, 0.5);
-            border: 1px solid rgba(255,255,255,0.05);
-            padding: 1.8rem;
-            border-radius: 4px;
-        }
-
-        .compare-card h4 {
-            font-family: 'Montserrat', sans-serif;
-            color: var(--titan-gold);
-            font-weight: 800;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .compare-prompt {
-            font-family: monospace;
-            background: rgba(0,0,0,0.3);
-            border-left: 3px solid var(--scout-blue);
-            padding: 1rem;
-            margin-bottom: 1.2rem;
-            color: #4da3ff;
-            font-size: 0.9rem;
-        }
-
-        .compare-output {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-        }
-
-        /* Teamwork Column Grid */
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .team-column {
-            background: rgba(7, 7, 9, 0.3);
-            border: 1px dashed rgba(255,255,255,0.05);
+        .prompt-panel {
+            background: rgba(7, 8, 11, 0.4);
+            border: 1px solid rgba(255,255,255,0.04);
             padding: 1.5rem;
             border-radius: 4px;
         }
 
-        .team-column h4 {
+        .prompt-panel h4 {
             font-family: 'Montserrat', sans-serif;
-            font-size: 0.9rem;
+            font-weight: 700;
+            font-size: 0.85rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 1.2rem;
-            border-bottom: 2px solid;
-            padding-bottom: 0.5rem;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .team-column.issue h4 { border-color: var(--titan-blood); color: var(--titan-blood); }
-        .team-column.action h4 { border-color: var(--scout-blue); color: var(--scout-blue); }
-        .team-column.outcome h4 { border-color: #10b981; color: #10b981; }
+        .prompt-panel h4.bad { color: var(--neon-red); }
+        .prompt-panel h4.good { color: var(--neon-cyan); }
 
-        .team-item {
-            background: rgba(24, 26, 33, 0.8);
-            border: 1px solid rgba(255,255,255,0.03);
-            padding: 1rem;
-            font-size: 0.9rem;
+        .prompt-code {
+            font-family: monospace;
+            background: rgba(0,0,0,0.3);
+            border-left: 2px solid;
+            padding: 0.8rem;
             margin-bottom: 1rem;
+            font-size: 0.85rem;
+        }
+        .prompt-panel.bad-panel .prompt-code { border-color: var(--neon-red); color: #ffa4b6; }
+        .prompt-panel.good-panel .prompt-code { border-color: var(--neon-cyan); color: #99f7ff; }
+
+        .prompt-feedback {
+            font-size: 0.9rem;
             color: var(--text-muted);
         }
 
-        /* FINAL REFLECTION (TỔNG KẾT CHIẾN DỊCH) */
-        .summary-grid {
+        /* Teamwork Column Cards */
+        .col-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .col-card {
+            background: rgba(7, 8, 11, 0.25);
+            border: 1px solid rgba(255,255,255,0.03);
+            padding: 1.2rem;
+            border-radius: 4px;
+        }
+
+        .col-card h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            padding-bottom: 0.4rem;
+            border-bottom: 2px solid;
+        }
+
+        .col-card.red-card h4 { border-color: var(--neon-red); color: var(--neon-red); }
+        .col-card.blue-card h4 { border-color: var(--neon-cyan); color: var(--neon-cyan); }
+        .col-card.green-card h4 { border-color: #10b981; color: #10b981; }
+
+        .col-item {
+            background: rgba(24, 26, 33, 0.6);
+            border: 1px solid rgba(255,255,255,0.02);
+            padding: 0.8rem;
+            font-size: 0.85rem;
+            margin-bottom: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* FINAL REFLECTION (TỔNG KẾT) */
+        .summary-flex {
             display: grid;
             grid-template-columns: 0.8fr 1.2fr;
             gap: 4rem;
             align-items: center;
         }
 
-        .stat-grid {
+        .stat-grid-hud {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 1.5rem;
         }
 
-        .stat-card {
-            background: var(--slate-armor);
-            border: 2px solid var(--titan-blood);
-            padding: 2rem;
+        .stat-box-hud {
+            background: var(--panel-bg);
+            border: 1px solid rgba(255,255,255,0.04);
+            padding: 1.8rem;
             text-align: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+            border-radius: 4px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
             position: relative;
         }
 
-        .stat-card h4 {
+        .stat-box-hud h4 {
             font-family: 'Cinzel', serif;
-            font-size: 2.8rem;
-            color: var(--titan-gold);
-            margin-bottom: 0.4rem;
+            font-size: 2.5rem;
+            color: var(--neon-cyan);
+            margin-bottom: 0.2rem;
         }
 
-        .stat-card p {
+        .stat-box-hud p {
             font-family: 'Montserrat', sans-serif;
             font-weight: 800;
             font-size: 0.75rem;
@@ -822,28 +809,28 @@
             letter-spacing: 1px;
         }
 
-        .reflection-block blockquote {
+        .reflection-block-hud blockquote {
             font-family: 'Lora', serif;
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             font-style: italic;
-            border-left: 4px solid var(--titan-blood);
+            border-left: 3px solid var(--neon-cyan);
             padding-left: 1.5rem;
-            margin-bottom: 2rem;
-            color: var(--parchment);
+            margin-bottom: 1.8rem;
+            color: var(--text-light);
         }
 
-        .reflection-block p {
+        .reflection-block-hud p {
             color: var(--text-muted);
             font-size: 1.05rem;
             text-align: justify;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
         }
 
-        /* FOOTER (THE GRAVEYARD / MILITARY RECORD END) */
+        /* FOOTER HUD */
         footer {
-            background: #050608;
-            padding: 5rem 8% 3rem;
-            border-top: 3px solid var(--titan-blood);
+            background: #060709;
+            padding: 4.5rem 8% 2.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
             text-align: center;
             position: relative;
             z-index: 2;
@@ -851,579 +838,575 @@
 
         .footer-logo {
             font-family: 'Cinzel', serif;
-            font-size: 1.6rem;
+            font-size: 1.4rem;
             font-weight: 900;
-            color: var(--titan-gold);
-            margin-bottom: 1.5rem;
+            color: var(--neon-cyan);
+            margin-bottom: 1.2rem;
             display: inline-flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
 
         .footer-links {
             display: flex;
             justify-content: center;
-            gap: 2.5rem;
-            margin-bottom: 2rem;
+            gap: 2rem;
+            margin-bottom: 1.8rem;
         }
 
         .footer-links a {
             font-family: 'Montserrat', sans-serif;
             color: var(--text-muted);
             text-decoration: none;
-            font-size: 0.8rem;
-            font-weight: 800;
+            font-size: 0.75rem;
+            font-weight: 700;
             letter-spacing: 1px;
-            transition: var(--transition);
+            transition: var(--transition-smooth);
         }
 
         .footer-links a:hover {
-            color: var(--titan-gold);
+            color: var(--neon-cyan);
         }
 
-        .footer-note {
-            font-size: 0.95rem;
+        .footer-quote {
+            font-size: 0.9rem;
             color: var(--text-muted);
             font-style: italic;
-            max-width: 650px;
-            margin: 0 auto 2.5rem;
+            max-width: 600px;
+            margin: 0 auto 2rem;
         }
 
         .copyright {
             font-family: 'Montserrat', sans-serif;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: #4b5563;
             letter-spacing: 1px;
             text-transform: uppercase;
         }
 
-        /* RESPONSIVE DESIGN */
+        /* MOBILE RESPONSIVE TACTICAL */
         @media (max-width: 968px) {
             header {
-                padding: 1rem 5%;
+                padding: 1.2rem 5%;
             }
             nav {
-                display: none; /* Hide top nav on small screens */
+                display: none;
             }
-            .hud-profile-container {
+            .cyber-profile-card {
                 grid-template-columns: 1fr;
                 justify-items: center;
                 text-align: center;
                 padding: 2rem;
             }
-            .hud-grid {
+            .hud-metadata-grid {
                 grid-template-columns: 1fr;
             }
-            .tactical-intro, .compare-grid, .team-grid, .summary-grid {
+            .briefing-layout, .prompt-grid, .col-grid, .summary-flex {
                 grid-template-columns: 1fr;
-                gap: 3rem;
+                gap: 2.5rem;
             }
             section {
-                padding: 6rem 5% 3rem;
+                padding: 5rem 5% 3rem;
             }
         }
     </style>
 </head>
-<body class="shaking"> <!-- Screen shaking starts immediately to represent a colossal titan attack -->
+<body>
 
-    <!-- 1. BỨC TƯỜNG KHỞI ĐẦU (WALL MARIA SHIELD) -->
-    <div id="wall-overlay">
-        <h1 class="wall-title">BỨC TƯỜNG GIỚI HẠN TRI THỨC ĐANG BỊ TẤN CÔNG</h1>
-        <button class="btn-exterminate" onclick="collapseWall()">
-            <i class="fa-solid fa-burst"></i> PHÁ VỠ BỨC TƯỜNG
-        </button>
+    <!-- 1. MODERN SLIT GATES ON ENTRY (KHÔNG GÂY CHÓNG MẶT) -->
+    <div id="gate-container">
+        <div class="gate-half top"></div>
+        <div class="gate-content">
+            <h1 class="gate-title">HỆ THỐNG TRINH SÁT SỐ <span>v2.0</span></h1>
+            <button class="btn-launch" onclick="collapseGate()">
+                <i class="fa-solid fa-power-off"></i> KÍCH HOẠT HỆ THỐNG
+            </button>
+        </div>
+        <div class="gate-half bottom"></div>
     </div>
 
-    <!-- 2. CANVAS HIỆU ỨNG TIA SÉT & TÀN TRO TITAN -->
-    <canvas id="embers-canvas"></canvas>
+    <!-- 2. Ambient Cyber Particles (Slow and Gentle) -->
+    <canvas id="cyber-canvas"></canvas>
 
-    <!-- HEADER / HUD NAVIGATION -->
+    <!-- HEADER / HUD TACTICAL BAR -->
     <header>
         <a href="#" class="logo">
-            <div class="scout-shield">
-                <i class="fa-solid fa-shield-halved"></i>
+            <div class="scout-cyber-wings">
+                <i class="fa-solid fa-wind"></i>
             </div>
-            BINH ĐOÀN<span>TRINH SÁT</span>
+            SHINGEKI<span>HUD</span>
         </a>
         <nav>
-            <a href="#about" class="active">Nhật Ký Tân Binh</a>
-            <a href="#campaigns">Chiến Dịch Số</a>
+            <a href="#about" class="active">Kỷ Yếu</a>
+            <a href="#campaigns">Bản Đồ Chiến Dịch</a>
             <a href="#reflection">Đúc Kết</a>
-            <a href="https://drive.google.com/drive/folders/19DjvcCTxWX0k5wsjL1AS7yeprffwsczT?usp=drive_link" target="_blank" class="btn-slash">
-                <i class="fa-brands fa-google-drive"></i> Tài liệu gốc
+            <a href="https://drive.google.com/drive/folders/19DjvcCTxWX0k5wsjL1AS7yeprffwsczT?usp=drive_link" target="_blank" class="btn-modern-hud">
+                <i class="fa-brands fa-google-drive"></i> DỮ LIỆU GỐC
             </a>
         </nav>
     </header>
 
-    <!-- HERO PROFILE HUD -->
+    <!-- HERO SECTION HUD -->
     <section class="hero">
-        <div class="hud-profile-container">
-            <div class="avatar-frame">
-                <img src="Hình 1.jpg" alt="Chân dung Đỗ Tiến Khôi">
+        <div class="cyber-profile-card">
+            <div class="profile-avatar">
+                <img src="Hình 1.jpg" alt="Avatar Đỗ Tiến Khôi">
             </div>
-            <div class="hud-stats">
-                <div class="hud-badge">Hồ sơ: Tân binh số 25042144</div>
+            <div class="hud-info">
+                <div class="hud-sub">SƠ ĐỒ TRINH SÁT SỐ S25</div>
                 <h1>ĐỖ TIẾN KHÔI</h1>
-                <div class="hud-grid">
-                    <div><strong>Họ & Tên:</strong> Đỗ Tiến Khôi</div>
-                    <div><strong>Binh chủng:</strong> Ngôn ngữ & Văn hoá Nhật Bản</div>
-                    <div><strong>Đại bản doanh:</strong> ULIS - VNU</div>
-                    <div><strong>Mặt trận nghiên cứu:</strong> Công nghệ số & AI</div>
+                <div class="hud-metadata-grid">
+                    <div><strong>Họ & Tên:</strong> Đỗ Tiến Khôi (MSV: 25042144)</div>
+                    <div><strong>Chuyên ngành:</strong> Ngôn ngữ & Văn hoá Nhật Bản</div>
+                    <div><strong>Học viện hành động:</strong> Đại học Ngoại ngữ - ĐHQGHN</div>
+                    <div><strong>Binh chủng:</strong> Công nghệ số & Trí tuệ nhân tạo</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ABOUT / INTRO SECTION -->
+    <!-- ABOUT SECTION (BRIEFING) -->
     <section id="about">
-        <div class="harness-straps"></div>
         <div class="container">
             <h2 class="section-title">Nhật ký tân binh</h2>
-            <div class="tactical-intro">
-                <div class="tactical-text">
-                    <p>Chào bạn, mình là Đỗ Tiến Khôi. Đối với một sinh viên theo đuổi chuyên ngành Ngôn ngữ và Văn hóa Nhật Bản tại Đại học Ngoại ngữ - ĐHQGHN (ULIS), việc tiếp thu hàng ngàn chữ tượng hình Kanji kiên cố giống như việc tìm cách đột phá những bức tường khổng lồ che chở lãnh địa con người.</p>
-                    <p>Trong kỷ nguyên mà trí tuệ nhân tạo phát triển vượt bậc, công nghệ không phải là thế lực thống trị hay tiêu diệt tư duy con người, mà chính là vũ khí chiến thuật giúp chúng ta giải phóng giới hạn của chính mình. Digital Portfolio này chính là bản đồ chi tiết lưu trữ 6 chiến dịch lớn mà mình tự tay thực hiện.</p>
-                    <div class="tactical-quote">
-                        "Nếu bạn chỉ cúi đầu chấp nhận bức tường mà không chịu học cách chiến đấu với công nghệ, bạn sẽ mãi bị giam cầm trong những giới hạn cũ."
-                    </div>
+            <div class="briefing-layout">
+                <div class="briefing-text">
+                    <p>Chào mừng bạn đến với bản đồ lưu trữ chiến dịch học tập cá nhân của mình. Đối với một sinh viên theo đuổi chuyên ngành Ngôn ngữ và Văn hóa Nhật Bản tại ULIS, chữ tượng hình Kanji hay các học thuyết xã hội học phức tạp luôn là những bức tường thành khó vượt qua.</p>
+                    <p>Nhưng thay vì trốn tránh hay chiến đấu bằng các phương pháp cũ kỹ, việc chủ động kiểm soát và ứng dụng Trí tuệ Nhân tạo làm công cụ hỗ trợ tư duy phản biện đã giúp mình tự tin khai phóng giới hạn của bản thân trong suốt học kỳ vừa qua.</p>
+                    <p>Bản đồ này tổng hợp đầy đủ tiến trình và kết quả thực hiện 6 chiến dịch lớn, thể hiện cam kết mạnh mẽ của mình đối với sự đổi mới sáng tạo nhưng vẫn bảo tồn đạo đức học thuật sâu sắc.</p>
                 </div>
-                <div class="tactical-card">
-                    <h3 style="font-family:'Cinzel', serif; color:var(--titan-gold); margin-bottom:1.5rem; letter-spacing:1px;">Lý lịch Quân huấn</h3>
-                    <p style="font-size:0.95rem; color:var(--text-muted); margin-bottom:1rem;"><strong>• Khóa đào tạo:</strong> Nhập môn công nghệ số và ứng dụng trí tuệ nhân tạo</p>
-                    <p style="font-size:0.95rem; color:var(--text-muted); margin-bottom:1rem;"><strong>• Chỉ huy huấn luyện:</strong> Khoa Tiếng Nhật & Các Công nghệ Số, ULIS-VNU</p>
-                    <p style="font-size:0.95rem; color:var(--text-muted); margin-bottom:1rem;"><strong>• Kỹ năng chiến đấu chính:</strong> Quản trị tệp tin khoa học, Đánh giá tài liệu, Prompt Engineering (C-R-E-A-T-E), Thiết lập Infographic tích hợp, Nhận thức Đạo đức AI.</p>
+                <div class="briefing-card">
+                    <h4><i class="fa-solid fa-list-check"></i> Chỉ số huấn luyện</h4>
+                    <div class="briefing-card-item"><strong>• Đề án học tập:</strong> Nhập môn công nghệ số và ứng dụng trí tuệ nhân tạo</div>
+                    <div class="briefing-card-item"><strong>• Kỹ năng đạt được:</strong> Chuẩn hóa dữ liệu tệp tin, Đánh giá độ tin cậy tài liệu học thuật, Prompt Engineering chuyên sâu (C-R-E-A-T-E), Vận hành dự án nhóm số, Đồng sáng tạo nội dung số, Liêm chính đạo đức AI.</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- CALL TO ACTION BANNER (BEFORE ASSIGNMENTS) -->
-    <section style="padding: 2rem 8% 0;">
-        <div class="tactical-cta">
-            <h3>BẢN ĐỒ CHIẾN DỊCH GOOGLE DRIVE</h3>
-            <p>Toàn bộ báo cáo PDF thực nghiệm chính thức, hệ thống tệp tin, slide Canva và các kịch bản trình bày nhóm đều được lưu trữ bảo mật tại đại bản doanh đám mây.</p>
-            <a href="https://drive.google.com/drive/folders/19DjvcCTxWX0k5wsjL1AS7yeprffwsczT?usp=drive_link" target="_blank" class="btn-slash">
-                <i class="fa-solid fa-folder-open"></i> XEM BÀI TẬP TRÊN GOOGLE DRIVE
+    <!-- GOOGLE DRIVE CALL TO ACTION BANNER -->
+    <section style="padding: 2rem 10% 0;">
+        <div class="cta-banner">
+            <h3>BẢN ĐỒ CHIẾN DỊCH CLOUD STORAGE</h3>
+            <p>Để kiểm chứng toàn bộ hồ sơ kỹ thuật số, báo cáo thực nghiệm PDF chi tiết, slide thuyết trình Canva và kịch bản video, vui lòng truy cập hệ thống lưu trữ gốc.</p>
+            <a href="https://drive.google.com/drive/folders/19DjvcCTxWX0k5wsjL1AS7yeprffwsczT?usp=drive_link" target="_blank" class="btn-modern-hud">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i> TRUY CẬP GOOGLE DRIVE
             </a>
         </div>
     </section>
 
-    <!-- DOSSIER DETAILS (6 CAMPAIGNS) -->
+    <!-- INTERACTIVE PORTFOLIO (6 CAMPAIGNS) -->
     <section id="campaigns">
-        <h2 class="section-title">Nhật ký chiến dịch (6 Chiến dịch Số)</h2>
-        <div class="missions-container">
-            <div class="missions-nav">
-                <button class="mission-tab active" onclick="openMission(event, 'm1', 100)">Chiến dịch 1</button>
-                <button class="mission-tab" onclick="openMission(event, 'm2', 90)">Chiến dịch 2</button>
-                <button class="mission-tab" onclick="openMission(event, 'm3', 85)">Chiến dịch 3</button>
-                <button class="mission-tab" onclick="openMission(event, 'm4', 95)">Chiến dịch 4</button>
-                <button class="mission-tab" onclick="openMission(event, 'm5', 90)">Chiến dịch 5</button>
-                <button class="mission-tab" onclick="openMission(event, 'm6', 100)">Chiến dịch 6</button>
-            </div>
+        <h2 class="section-title">Bản đồ chiến dịch (Missions Map)</h2>
+        <div class="tabs-hud-container">
+            <button class="tab-hud active" onclick="openMission(event, 'm1', 100)">Chiến dịch 1</button>
+            <button class="tab-hud" onclick="openMission(event, 'm2', 90)">Chiến dịch 2</button>
+            <button class="tab-hud" onclick="openMission(event, 'm3', 85)">Chiến dịch 3</button>
+            <button class="tab-hud" onclick="openMission(event, 'm4', 95)">Chiến dịch 4</button>
+            <button class="tab-hud" onclick="openMission(event, 'm5', 90)">Chiến dịch 5</button>
+            <button class="tab-hud" onclick="openMission(event, 'm6', 100)">Chiến dịch 6</button>
+        </div>
 
-            <!-- CAMPAIGN 1 -->
-            <div id="m1" class="mission-content active">
-                <div class="mission-meta">
-                    <div>
-                        <h3>Chiến dịch 1: Sắp xếp kho quân nhu số</h3>
-                        <span>Quản lý & Chuẩn hoá Tệp tin</span>
-                    </div>
-                </div>
-                
-                <!-- GAS PRESSURE GAUGE -->
-                <div class="gauge-panel">
-                    <svg class="gauge-svg">
-                        <circle class="gauge-bg" cx="30" cy="30" r="27"></circle>
-                        <circle class="gauge-fill" id="gauge-fill-m1" cx="30" cy="30" r="27"></circle>
-                    </svg>
-                    <div class="gauge-info">
-                        <h5>Tactical Readiness Level</h5>
-                        <p>Khí gas áp lực: 100% (Hoàn thành tối ưu hóa cấu trúc)</p>
-                    </div>
-                </div>
-
-                <div class="mission-text">
-                    Làm việc trong môi trường học tập số giống như việc chuẩn bị khí gas và lưỡi kiếm trước khi giao chiến. Một hệ thống thư mục hỗn loạn sẽ triệt tiêu hiệu suất phản xạ của bạn. Trong thực nghiệm này, mình đã tự tay thiết lập một cây thư mục khoa học, kiểm soát chặt chẽ quy trình tạo tệp <code>GhiChuQuanTrong.txt</code>, sao lưu, di chuyển sang thư mục con <code>TaiLieu</code>, xóa an toàn và khôi phục từ thùng rác trên macOS/Windows.
-                </div>
-
-                <div class="scout-terminal">
-                    <div class="scout-terminal-header">
-                        <span>[TACTICAL SHELL TERMINAL v1.0]</span>
-                        <span>ACTIVE</span>
-                    </div>
-                    <p>> mkdir -p ThucHanh_DoTienKhoi/TaiLieu</p>
-                    <p>> touch ThucHanh_DoTienKhoi/GhiChuQuanTrong.txt</p>
-                    <p>> cp ThucHanh_DoTienKhoi/GhiChuQuanTrong.txt ThucHanh_DoTienKhoi/TaiLieu/</p>
-                    <p>> rm ThucHanh_DoTienKhoi/GhiChuQuanTrong.txt (Moved to Trash Bin)</p>
-                    <p style="color:#10b981;">STATUS: Cây thư mục được chuẩn hóa sạch sẽ, dữ liệu an toàn.</p>
+        <!-- CAMPAIGN 1 -->
+        <div id="m1" class="campaign-panel active">
+            <div class="campaign-header">
+                <div>
+                    <h3>Chiến dịch 1: Tổ chức dữ liệu kho số</h3>
+                    <span>Chuẩn hóa & Quản trị Tệp tin</span>
                 </div>
             </div>
 
-            <!-- CAMPAIGN 2 -->
-            <div id="m2" class="mission-content">
-                <div class="mission-meta">
-                    <div>
-                        <h3>Chiến dịch 2: Giải mã cổ thư Hán tự (Kanji)</h3>
-                        <span>Tìm kiếm & Đánh giá Tài liệu Học thuật</span>
-                    </div>
-                </div>
-
-                <!-- GAS PRESSURE GAUGE -->
-                <div class="gauge-panel">
-                    <svg class="gauge-svg">
-                        <circle class="gauge-bg" cx="30" cy="30" r="27"></circle>
-                        <circle class="gauge-fill" id="gauge-fill-m2" cx="30" cy="30" r="27"></circle>
-                    </svg>
-                    <div class="gauge-info">
-                        <h5>Tactical Readiness Level</h5>
-                        <p>Độ bén lưỡi gươm: 90% (11 tài liệu được phân tích)</p>
-                    </div>
-                </div>
-
-                <div class="mission-text">
-                    Học tiếng Nhật không chỉ đơn giản là học thuộc lòng. Để nghiên cứu giải quyết "rào cản tâm lý chữ tượng hình" cho sinh viên năm nhất (N5-N4), mình đã tiến hành tìm kiếm học thuật trên Google Scholar và thư viện ULIS. Sau khi chắt lọc 11 tài liệu giá trị nhất, mình phân tích sâu các nguồn tài liệu trọng tâm để phân loại mức độ tin cậy dựa trên phương pháp nghiên cứu và uy tín xuất bản.
-                </div>
-
-                <div class="tactical-table-wrapper">
-                    <table class="tactical-table">
-                        <thead>
-                            <tr>
-                                <th>Tài liệu phân tích</th>
-                                <th>Nền tảng xuất bản</th>
-                                <th>Giá trị cốt lõi</th>
-                                <th>Điểm hạn chế chiến thuật</th>
-                                <th>Mức độ uy tín</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>Nguyen (2021)</strong> / Khảo sát thực chứng</td>
-                                <td>Tạp chí Khoa học Ngoại ngữ</td>
-                                <td>Dữ liệu thực tế từ 200 sinh viên, tính xác thực cao.</td>
-                                <td>Phạm vi khảo sát chỉ tập trung tại một trường.</td>
-                                <td><span class="badge-status high">Cao</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Kano (2017)</strong> / Sách chuyên khảo</td>
-                                <td>NXB Bonjinsha (Tokyo)</td>
-                                <td>Giáo trình "Basic Kanji Book" chuẩn mực toàn cầu.</td>
-                                <td>Thiếu vắng cập nhật về công cụ công nghệ mới.</td>
-                                <td><span class="badge-status high">Rất Cao</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Tofugu (2022)</strong> / Trang web mở</td>
-                                <td>Blog Tofugu</td>
-                                <td>Cung cấp Mnemonics ghi nhớ trực quan rất sinh động.</td>
-                                <td>Không mang tính học thuật, chưa qua bình duyệt.</td>
-                                <td><span class="badge-status medium">Khá</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
+            <!-- DIGITAL PROGRESS GAUGE -->
+            <div class="widget-progress-hud">
+                <svg class="widget-svg">
+                    <circle class="widget-svg-bg" cx="22" cy="22" r="20"></circle>
+                    <circle class="widget-svg-fill" id="gauge-m1" cx="22" cy="22" r="20"></circle>
+                </svg>
+                <div class="widget-info">
+                    <h5>Hệ thống sẵn sàng</h5>
+                    <p>Khí nén 3DMG: 100% (Quy trình chuẩn hóa tệp hoàn tất)</p>
                 </div>
             </div>
 
-            <!-- CAMPAIGN 3 -->
-            <div id="m3" class="mission-content">
-                <div class="mission-meta">
-                    <div>
-                        <h3>Chiến dịch 3: Bản giao ước thấu cảm</h3>
-                        <span>Prompt Engineering & Mô hình C-R-E-A-T-E</span>
-                    </div>
-                </div>
+            <div class="campaign-desc">
+                Quản trị tệp tin và dữ liệu cá nhân là viên gạch nền móng đầu tiên cho mọi thao tác số hóa. Một cấu trúc lưu trữ hỗn loạn sẽ làm suy giảm phản xạ làm việc lâu dài. Thực hành này kiểm soát quy trình đặt tên chuẩn hóa, sao lưu bảo mật từ tệp <code>GhiChuQuanTrong.txt</code> sang thư mục <code>TaiLieu</code>, di chuyển, xóa vĩnh viễn và khôi phục từ Thùng rác để đảm bảo an toàn tuyệt đối cho kho quân nhu tri thức.
+            </div>
 
-                <!-- GAS PRESSURE GAUGE -->
-                <div class="gauge-panel">
-                    <svg class="gauge-svg">
-                        <circle class="gauge-bg" cx="30" cy="30" r="27"></circle>
-                        <circle class="gauge-fill" id="gauge-fill-m3" cx="30" cy="30" r="27"></circle>
-                    </svg>
-                    <div class="gauge-info">
-                        <h5>Tactical Readiness Level</h5>
-                        <p>Bình tĩnh chiến thuật: 85% (Kiểm soát thành công tư duy máy móc)</p>
-                    </div>
+            <div class="hud-terminal">
+                <div class="hud-terminal-top">
+                    <span>[TERMINAL v2.0 - ACTIVE]</span>
+                    <span>SUCCESS</span>
                 </div>
+                <p>> mkdir -p ThucHanh_DoTienKhoi/TaiLieu</p>
+                <p>> touch ThucHanh_DoTienKhoi/GhiChuQuanTrong.txt</p>
+                <p>> cp ThucHanh_DoTienKhoi/GhiChuQuanTrong.txt ThucHanh_DoTienKhoi/TaiLieu/</p>
+                <p>> rm ThucHanh_DoTienKhoi/GhiChuQuanTrong.txt (Xoá lưu trữ tạm thời)</p>
+                <p style="color:var(--neon-cyan);">STATUS: Quy trình kiểm tra chính xác, dữ liệu tệp tin được quản trị an toàn.</p>
+            </div>
+        </div>
 
-                <div class="mission-text">
-                    Liệu các mô hình ngôn ngữ lớn (LLMs) có khả năng kiến tạo một dạng "thấu cảm nhân tạo" (Artificial Empathy) để giải quyết khủng hoảng tâm lý của giới trẻ (FOMO, Áp lực đồng trang lứa, Văn hóa hối hả)? Thực nghiệm của mình chứng minh chất lượng thấu cảm tỷ lệ thuận tuyệt đối với kỹ thuật điều phối ngữ cảnh của người dùng qua mô hình **C-R-E-A-T-E** (Context - Role - Explicit Constraints - Audience - Task - Examples).
-                </div>
-
-                <div class="compare-grid">
-                    <div class="compare-card">
-                        <h4><i class="fa-solid fa-triangle-exclamation" style="color:var(--titan-blood);"></i> Prompt thả nổi thiếu chỉ thị</h4>
-                        <div class="compare-prompt">"Hãy viết về hội chứng FOMO."</div>
-                        <div class="compare-output">
-                            <strong>Đầu ra của máy:</strong> Văn bản rập khuôn, khô khan như bách khoa toàn thư. Đưa ra lời khuyên hời hợt: "hãy tắt điện thoại di động" mà không hề có sự xoa dịu tâm lý sâu xa nào.
-                        </div>
-                    </div>
-                    <div class="compare-card">
-                        <h4><i class="fa-solid fa-shield-halved" style="color:var(--scout-blue);"></i> Prompt tối ưu C-R-E-A-T-E</h4>
-                        <div class="compare-prompt">"Đóng vai một chuyên gia Thần kinh học Hành vi... Hãy dùng ẩn dụ để gỡ rối tâm lý lo âu của một sinh viên 20 tuổi..."</div>
-                        <div class="compare-output">
-                            <strong>Đầu ra của máy:</strong> "Chào em, kéo ghế ngồi xuống... Amygdala của em đang bị thuật toán mxh 'tin tặc' tấn công. Trách nhiệm không hoàn toàn là do em..." Sử dụng liệu pháp "Tái định hình nhận thức" vô cùng sâu sắc.
-                        </div>
-                    </div>
+        <!-- CAMPAIGN 2 -->
+        <div id="m2" class="campaign-panel">
+            <div class="campaign-header">
+                <div>
+                    <h3>Chiến dịch 2: Nghiên cứu rào cản Hán tự (Kanji)</h3>
+                    <span>Tìm kiếm & Thẩm định tài liệu học thuật</span>
                 </div>
             </div>
 
-            <!-- CAMPAIGN 4 -->
-            <div id="m4" class="mission-content">
-                <div class="mission-meta">
-                    <div>
-                        <h3>Chiến dịch 4: Liên minh trinh sát</h3>
-                        <span>Hợp tác Trực tuyến & Giải quyết mâu thuẫn</span>
-                    </div>
-                </div>
-
-                <!-- GAS PRESSURE GAUGE -->
-                <div class="gauge-panel">
-                    <svg class="gauge-svg">
-                        <circle class="gauge-bg" cx="30" cy="30" r="27"></circle>
-                        <circle class="gauge-fill" id="gauge-fill-m4" cx="30" cy="30" r="27"></circle>
-                    </svg>
-                    <div class="gauge-info">
-                        <h5>Tactical Readiness Level</h5>
-                        <p>Phối hợp đồng đội: 95% (Hóa giải xung đột thực tế)</p>
-                    </div>
-                </div>
-
-                <div class="mission-text">
-                    Làm việc nhóm trực tuyến bằng Notion, Google Meet và Canva luôn ẩn chứa những mâu thuẫn và rào cản lớn về độ cam kết của các thành viên. Trong chiến dịch này, nhóm của mình đã phân tích thực tế 3 thách thức lớn và xây dựng 3 giải pháp thực thi hiệu quả nhằm đồng bộ hóa nỗ lực đồng đội mà không bị rơi vào bẫy "ỷ lại tập thể" (social loafing).
-                </div>
-
-                <div class="team-grid">
-                    <div class="team-column issue">
-                        <h4><i class="fa-solid fa-skull-crossbones"></i> Thách thức ma sát</h4>
-                        <div class="team-item">Sự thiếu thống nhất trong phân chia công việc do lệch phong cách giao tiếp và lịch sinh hoạt cá nhân.</div>
-                        <div class="team-item">Hiện tượng "ỷ lại" xuất hiện khi không có cơ chế chấm điểm, đánh giá công khai từng phân đoạn.</div>
-                    </div>
-                    <div class="team-column action">
-                        <h4><i class="fa-solid fa-compass"></i> Phương pháp dập tắt</h4>
-                        <div class="team-item">Thống nhất duy nhất một kênh liên lạc chính thức, phân công rõ vai trò cho từng người và họp định kỳ.</div>
-                        <div class="team-item">Thực hiện đánh giá đồng đẳng (peer assessment) minh bạch dựa trên khối lượng đóng góp thực tế.</div>
-                    </div>
-                    <div class="team-column outcome">
-                        <h4><i class="fa-solid fa-trophy"></i> Kết quả thu hoạch</h4>
-                        <div class="team-item" style="border-left: 2px solid #10b981;">100% các slide thuyết trình và kịch bản video nhóm được hoàn thành đúng thời hạn, không bị trễ nải.</div>
-                        <div class="team-item" style="border-left: 2px solid #10b981;">Nhóm gắn kết cao, hóa giải mâu thuẫn bằng quy trình phản hồi tích cực và sự điều phối nhịp nhàng của nhóm trưởng.</div>
-                    </div>
+            <!-- DIGITAL PROGRESS GAUGE -->
+            <div class="widget-progress-hud">
+                <svg class="widget-svg">
+                    <circle class="widget-svg-bg" cx="22" cy="22" r="20"></circle>
+                    <circle class="widget-svg-fill" id="gauge-m2" cx="22" cy="22" r="20"></circle>
+                </svg>
+                <div class="widget-info">
+                    <h5>Độ sắc lưỡi gươm</h5>
+                    <p>Sàng lọc tri thức: 90% (Đánh giá hoàn tất 11 tài liệu gốc)</p>
                 </div>
             </div>
 
-            <!-- CAMPAIGN 5 -->
-            <div id="m5" class="mission-content">
-                <div class="mission-meta">
-                    <div>
-                        <h3>Chiến dịch 5: Vũ khí ngưng kết nội dung</h3>
-                        <span>Đồng sáng tạo nội dung số với AI</span>
-                    </div>
-                </div>
+            <div class="campaign-desc">
+                Nghiên cứu học thuật đòi hỏi quy trình tìm kiếm minh bạch và thẩm định khắt khe. Để giải quyết rào cản tiếp thu Kanji cho sinh viên trình độ sơ cấp (N5-N4), mình đã khai thác Google Scholar, Microsoft Academic và hệ thống tạp chí quốc tế, chắt lọc 11 tài liệu học thuật chất lượng để đánh giá độ tin cậy dựa trên 5 lăng kính cốt lõi.
+            </div>
 
-                <!-- GAS PRESSURE GAUGE -->
-                <div class="gauge-panel">
-                    <svg class="gauge-svg">
-                        <circle class="gauge-bg" cx="30" cy="30" r="27"></circle>
-                        <circle class="gauge-fill" id="gauge-fill-m5" cx="30" cy="30" r="27"></circle>
-                    </svg>
-                    <div class="gauge-info">
-                        <h5>Tactical Readiness Level</h5>
-                        <p>Năng lượng dự phòng: 90% (Cân bằng tốt giữa óc sáng tạo và máy móc)</p>
-                    </div>
-                </div>
+            <div class="matrix-table-container">
+                <table class="matrix-table">
+                    <thead>
+                        <tr>
+                            <th>Tác giả / Phân loại</th>
+                            <th>Nền tảng xuất bản</th>
+                            <th>Thẩm định giá trị thực chứng</th>
+                            <th>Điểm hạn chế chiến thuật</th>
+                            <th>Độ tin cậy</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Nguyen (2021)</strong> / Nghiên cứu thực nghiệm</td>
+                            <td>Tạp chí Khoa học Ngoại ngữ</td>
+                            <td>Dựa trên số liệu khảo sát từ 200 sinh viên thực tế.</td>
+                            <td>Phạm vi khảo sát chỉ nằm trong một đại học cụ thể.</td>
+                            <td><span class="cyber-pill high">Cao</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Kano (2017)</strong> / Giáo trình chuyên sâu</td>
+                            <td>NXB Bonjinsha (Tokyo)</td>
+                            <td>Cuốn "Basic Kanji Book" kinh điển, cực kỳ chuẩn mực.</td>
+                            <td>Thiếu vắng cập nhật về công nghệ học tập thông minh.</td>
+                            <td><span class="cyber-pill high">Rất Cao</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Tofugu (2022)</strong> / Nguồn mở internet</td>
+                            <td>Blog Tofugu</td>
+                            <td>Mnemonics ghi nhớ trực quan sống động, thu hút.</td>
+                            <td>Không mang tính học thuật hàn lâm, chưa bình duyệt.</td>
+                            <td><span class="cyber-pill medium">Khá</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-                <div class="mission-text">
-                    Sản phẩm Infographic và slide thuyết trình về "Ứng dụng AI trong tự học ngoại ngữ của sinh viên đại học" là sự phối hợp chặt chẽ giữa 3 công cụ: ChatGPT (lên nội dung), DALL-E (tạo hình phẳng) và Canva AI (phác thảo bố cục). Mình không sử dụng trực tiếp sản phẩm thô của máy tính, mà áp dụng tỉ lệ đồng sáng tạo chiến thuật: **40% AI** và **60% nỗ lực chỉnh sửa cá nhân**.
-                </div>
-
-                <div class="compare-grid" style="margin-top:2rem;">
-                    <div class="compare-card" style="border-left:3px solid var(--scout-blue);">
-                        <h4 style="color:var(--scout-blue);"><i class="fa-solid fa-microchip"></i> Tốc độ của AI (40%)</h4>
-                        <p class="compare-output">
-                            • Phác thảo cấu trúc 5 khối nội dung infographic nhanh chóng trong 10 giây.<br>
-                            • Tạo hình vẽ phẳng minh họa sinh viên dùng laptop học ngoại ngữ phù hợp.<br>
-                            • Gợi ý dải màu xanh học thuật và đề xuất phân bổ các icon trực quan.
-                        </p>
-                    </div>
-                    <div class="compare-card" style="border-left:3px solid var(--titan-gold);">
-                        <h4 style="color:var(--titan-gold);"><i class="fa-solid fa-pen-nib"></i> Óc kiểm chứng của con người (60%)</h4>
-                        <p class="compare-output">
-                            • Sửa đổi văn bản, loại bỏ các thông tin bịa đặt hoặc thiếu kiểm chứng từ mô hình.<br>
-                            • Đưa các ví dụ thực tế học tập cá nhân tại Việt Nam (như ELSA Speak, Duolingo).<br>
-                            • Cân chỉnh khoảng trắng, định hình lại font chữ Việt hóa và chèn logo trường.
-                        </p>
-                    </div>
+        <!-- CAMPAIGN 3 -->
+        <div id="m3" class="campaign-panel">
+            <div class="campaign-header">
+                <div>
+                    <h3>Chiến dịch 3: Giải mã bản giao ước thấu cảm</h3>
+                    <span>Prompt Engineering & Mô hình C-R-E-A-T-E</span>
                 </div>
             </div>
 
-            <!-- CAMPAIGN 6 -->
-            <div id="m6" class="mission-content">
-                <div class="mission-meta">
-                    <div>
-                        <h3>Chiến dịch 6: Bức tường thép học thuật</h3>
-                        <span>Nghiên cứu Đạo đức & Sử dụng AI trách nhiệm</span>
+            <!-- DIGITAL PROGRESS GAUGE -->
+            <div class="widget-progress-hud">
+                <svg class="widget-svg">
+                    <circle class="widget-svg-bg" cx="22" cy="22" r="20"></circle>
+                    <circle class="widget-svg-fill" id="gauge-m3" cx="22" cy="22" r="20"></circle>
+                </svg>
+                <div class="widget-info">
+                    <h5>Kiểm soát công nghệ</h5>
+                    <p>Chỉ huy chỉ thị: 85% (Kiến tạo thành công thấu cảm nhận thức)</p>
+                </div>
+            </div>
+
+            <div class="campaign-desc">
+                Liệu các Mô hình Ngôn ngữ Lớn (LLMs) có thực sự có khả năng "thấu cảm nhân tạo" để an ủi và định hướng tâm lý trước các khủng hoảng xã hội đương đại (FOMO, Áp lực đồng trang lứa, Văn hóa hối hả)? Thực nghiệm của mình chỉ ra AI chỉ đạt được năng lực "Thấu cảm nhận thức" khi người học kiểm soát và điều hướng chặt chẽ câu lệnh thông qua khung tương tác **C-R-E-A-T-E**.
+            </div>
+
+            <div class="prompt-grid">
+                <div class="prompt-panel bad-panel">
+                    <h4 class="bad"><i class="fa-solid fa-circle-exclamation"></i> Prompt thả nổi thiếu ngữ cảnh</h4>
+                    <div class="prompt-code">"Hãy viết về hội chứng FOMO."</div>
+                    <div class="prompt-feedback">
+                        <strong>Kết quả của AI:</strong> Trả về văn bản khô khan như sách giáo khoa, liệt kê định nghĩa hời hợt và khuyên "hãy tắt điện thoại" một cách sáo rỗng (Toxic Positivity).
                     </div>
                 </div>
-
-                <!-- GAS PRESSURE GAUGE -->
-                <div class="gauge-panel">
-                    <svg class="gauge-svg">
-                        <circle class="gauge-bg" cx="30" cy="30" r="27"></circle>
-                        <circle class="gauge-fill" id="gauge-fill-m6" cx="30" cy="30" r="27"></circle>
-                    </svg>
-                    <div class="gauge-info">
-                        <h5>Tactical Readiness Level</h5>
-                        <p>Kỷ luật quân đội: 100% (Cam kết đạo đức tuyệt đối)</p>
+                <div class="prompt-panel good-panel">
+                    <h4 class="good"><i class="fa-solid fa-circle-nodes"></i> Prompt tối ưu C-R-E-A-T-E</h4>
+                    <div class="prompt-code">"Đóng vai một chuyên gia Thần kinh học Hành vi... Dùng ẩn dụ để tháo gỡ lo âu cho sinh viên năm nhất đang đối diện với bẫy Dopamine..."</div>
+                    <div class="prompt-feedback">
+                        <strong>Kết quả của AI:</strong> "Chào em, hãy kéo ghế ngồi xuống... Nỗi lo âu này không phải do sự yếu kém của em, đó là kết quả khi Amygdala bị tấn công..." Đưa ra giải pháp "Tái định hình nhận thức" sâu sắc.
                     </div>
                 </div>
+            </div>
+        </div>
 
-                <div class="mission-text">
-                    Nghiên cứu so sánh chính sách sử dụng AI tại ULIS và các trường đại học quốc tế chỉ ra xu thế tất yếu: Không cấm đoán cực đoan mà hướng dẫn sinh viên khai phóng công nghệ một cách trung thực và minh bạch. Để bảo vệ tính độc lập của tư duy phản biện, mình cam kết tuân thủ nghiêm ngặt **7 Nguyên tắc học thuật cá nhân**:
+        <!-- CAMPAIGN 4 -->
+        <div id="m4" class="campaign-panel">
+            <div class="campaign-header">
+                <div>
+                    <h3>Chiến dịch 4: Liên minh phối hợp trinh sát</h3>
+                    <span>Hợp tác số & Quản trị mâu thuẫn trực tuyến</span>
                 </div>
+            </div>
 
-                <div class="scout-terminal" style="background:#0b0c10; border-color:var(--titan-blood);">
-                    <p style="color:var(--parchment); margin-bottom:0.5rem; font-weight:800;">[CHỈ THỊ KỶ LUẬT SỐ 7 - KHÔI PHỤC TỰ DO TƯ DUY]</p>
-                    <p>1. Luôn khai báo trung thực, cụ thể các đoạn hội thoại có sự hỗ trợ của AI trong bài tập.</p>
-                    <p>2. Tuyệt đối không sao chép nguyên văn (copy-paste) đầu ra từ bất kỳ chatbot nào.</p>
-                    <p>3. Luôn tự tay kiểm chứng độ chính xác của dữ liệu thông qua các nguồn tài liệu tin cậy.</p>
-                    <p>4. Chỉ sử dụng AI như một trợ lý gợi mở ý tưởng, không để máy móc tư duy thay thế bộ não.</p>
-                    <p>5. Tôn trọng quyền sở hữu trí tuệ, thực hiện trích dẫn đầy đủ và chuẩn xác nguồn gốc tài liệu.</p>
-                    <p>6. Bảo mật thông tin riêng tư, không tải các dữ liệu cá nhân hay bí mật nhạy cảm lên AI công cộng.</p>
-                    <p>7. Chịu trách nhiệm tối cao và duy nhất đối với sản phẩm cuối cùng nộp cho hội đồng chấm thi.</p>
+            <!-- DIGITAL PROGRESS GAUGE -->
+            <div class="widget-progress-hud">
+                <svg class="widget-svg">
+                    <circle class="widget-svg-bg" cx="22" cy="22" r="20"></circle>
+                    <circle class="widget-svg-fill" id="gauge-m4" cx="22" cy="22" r="20"></circle>
+                </svg>
+                <div class="widget-info">
+                    <h5>Tính đồng bộ nhóm</h5>
+                    <p>Phối hợp khí tài: 95% (Vận hành trơn tru dự án nhóm)</p>
                 </div>
+            </div>
+
+            <div class="campaign-desc">
+                Khi thực hiện dự án nhóm số hóa bằng Google Meet, Canva và Notion, việc bất đồng quan điểm, lệch múi giờ hay sự mất cân bằng đóng góp giữa các thành viên là ma sát không thể tránh khỏi. Nhóm mình đã phân tích thực chứng và hóa giải thành công bằng 3 chiến thuật hành động cốt lõi.
+            </div>
+
+            <div class="col-grid">
+                <div class="col-card red-card">
+                    <h4>Ma sát gặp phải</h4>
+                    <div class="col-item">Giao tiếp không khớp do lệch phong cách làm việc, dễ dẫn đến công việc chồng chéo.</div>
+                    <div class="col-item">Hiện tượng ỷ lại xuất hiện nếu thiếu cơ chế phân chia nhiệm vụ công khai và rõ ràng.</div>
+                </div>
+                <div class="col-card blue-card">
+                    <h4>Chiến thuật hóa giải</h4>
+                    <div class="col-item">Sử dụng Notion quản trị tiến độ minh bạch, thống nhất duy nhất một kênh liên lạc chính thức.</div>
+                    <div class="col-item">Áp dụng cơ chế đánh giá đồng đẳng công bằng cho từng mốc tiến độ thực tế.</div>
+                </div>
+                <div class="col-card green-card">
+                    <h4>Kết quả đạt được</h4>
+                    <div class="col-item">Hoàn thành 100% các slide Canva và kịch bản video trình bày đúng tiến độ cam kết.</div>
+                    <div class="col-item">Hóa giải mâu thuẫn bằng sự lắng nghe chủ động và sự điều phối chặt chẽ của nhóm trưởng.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CAMPAIGN 5 -->
+        <div id="m5" class="campaign-panel">
+            <div class="campaign-header">
+                <div>
+                    <h3>Chiến dịch 5: Ngưng kết vũ khí nội dung số</h3>
+                    <span>Đồng sáng tạo nội dung số với AI</span>
+                </div>
+            </div>
+
+            <!-- DIGITAL PROGRESS GAUGE -->
+            <div class="widget-progress-hud">
+                <svg class="widget-svg">
+                    <circle class="widget-svg-bg" cx="22" cy="22" r="20"></circle>
+                    <circle class="widget-svg-fill" id="gauge-m5" cx="22" cy="22" r="20"></circle>
+                </svg>
+                <div class="widget-info">
+                    <h5>Năng lực đồng sáng tạo</h5>
+                    <p>Tỷ lệ hiệu suất: 90% (Cân bằng 40% AI - 60% Con người)</p>
+                </div>
+            </div>
+
+            <div class="campaign-desc">
+                Thiết kế Infographic chuyên nghiệp về "Ứng dụng AI trong tự học ngoại ngữ" đòi hỏi sự phối hợp nhịp nhàng giữa ChatGPT (xử lý khung nội dung), DALL-E (tạo hình vẽ phẳng) và Canva AI (gợi ý bố cục). Mình không sao chép nguyên văn sản phẩm thô, mà áp dụng quy trình kiểm soát chất lượng nghiêm ngặt của cá nhân để định hình chiều sâu tác phẩm.
+            </div>
+
+            <div class="prompt-grid">
+                <div class="prompt-panel bad-panel" style="border-color:rgba(0, 240, 255, 0.1);">
+                    <h4 style="color:var(--neon-cyan);"><i class="fa-solid fa-microchip"></i> Đóng góp của AI (40%)</h4>
+                    <p class="prompt-feedback">
+                        • ChatGPT đề xuất 5 mốc nội dung chính cho infographic cực kỳ nhanh chóng.<br>
+                        • DALL-E phác họa hình vẽ minh họa phẳng theo dải màu xanh học thuật đồng bộ.<br>
+                        • Canva AI hỗ trợ đề xuất các template và font chữ hiển thị trực quan.
+                    </p>
+                </div>
+                <div class="prompt-panel good-panel" style="border-color:rgba(226, 166, 90, 0.1);">
+                    <h4 style="color:var(--cyber-amber);"><i class="fa-solid fa-pen-nib"></i> Sự mài giũa của con người (60%)</h4>
+                    <p class="prompt-feedback">
+                        • Sàng lọc thông tin học thuật, loại bỏ các dữ liệu ảo do mô hình tự bịa ra.<br>
+                        • Bổ sung các ứng dụng thực tế phù hợp với người học tại Việt Nam (như ELSA Speak).<br>
+                        • Tự tay căn chỉnh khoảng trắng, định dạng font chữ Việt hóa và thêm logo ULIS.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CAMPAIGN 6 -->
+        <div id="m6" class="campaign-panel">
+            <div class="campaign-header">
+                <div>
+                    <h3>Chiến dịch 6: Luật pháp học thuật thép</h3>
+                    <span>Nghiên cứu Đạo đức & Chính sách sử dụng AI có trách nhiệm</span>
+                </div>
+            </div>
+
+            <!-- DIGITAL PROGRESS GAUGE -->
+            <div class="widget-progress-hud">
+                <svg class="widget-svg">
+                    <circle class="widget-svg-bg" cx="22" cy="22" r="20"></circle>
+                    <circle class="widget-svg-fill" id="gauge-m6" cx="22" cy="22" r="20"></circle>
+                </svg>
+                <div class="widget-info">
+                    <h5>Hệ thống liêm chính</h5>
+                    <p>Cam kết đạo đức: 100% (Hiến chương 7 nguyên tắc thép)</p>
+                </div>
+            </div>
+
+            <div class="campaign-desc">
+                Nghiên cứu chính sách sử dụng AI tại ULIS so với thế giới phản ánh tầm nhìn hiện đại: Thay vì cấm đoán cực đoan, trường lựa chọn hướng dẫn sinh viên khai phóng năng lực của AI một cách minh bạch và tự chủ. Để bảo vệ tính độc lập của tư duy phản biện, mình tự cam kết tuân thủ nghiêm ngặt **7 Nguyên tắc thép** sau đây:
+            </div>
+
+            <div class="hud-terminal" style="border-color:rgba(0, 240, 255, 0.15);">
+                <div class="hud-terminal-top">
+                    <span>[ACADEMIC INTEGRITY DECREE]</span>
+                    <span>VERIFIED</span>
+                </div>
+                <p>1. Luôn khai báo trung thực, chi tiết các phần bài tập có sử dụng AI hỗ trợ.</p>
+                <p>2. Không sao chép nguyên văn (copy-paste) đầu ra thô từ bất kỳ chatbot nào.</p>
+                <p>3. Luôn tự tay kiểm chứng tính xác thực của dữ liệu qua các nguồn đáng tin cậy.</p>
+                <p>4. Coi AI là trợ lý gợi mở ý tưởng, không để máy móc tư duy thay thế bộ não.</p>
+                <p>5. Tôn trọng quyền sở hữu trí tuệ, trích dẫn tài liệu gốc chuẩn xác theo Harvard Style.</p>
+                <p>6. Bảo mật thông tin, không cung cấp dữ liệu cá nhân hay dữ liệu nhạy cảm cho AI công cộng.</p>
+                <p>7. Chịu trách nhiệm tối cao và duy nhất đối với chất lượng của sản phẩm cuối cùng nộp cho giáo viên.</p>
             </div>
         </div>
     </section>
 
-    <!-- FINAL REFLECTION (ĐÚC KẾT CHIẾN DỊCH) -->
+    <!-- FINAL SUMMARY SECTION -->
     <section id="reflection">
-        <div class="harness-straps"></div>
         <div class="container">
-            <h2 class="section-title">Đúc kết chiến dịch</h2>
-            <div class="summary-grid">
-                <div class="stat-grid">
-                    <div class="stat-card">
+            <h2 class="section-title">Nhìn lại hành trình</h2>
+            <div class="summary-flex">
+                <div class="stat-grid-hud">
+                    <div class="stat-box-hud">
                         <h4>06</h4>
-                        <p>Chiến dịch vượt ải</p>
+                        <p>Chiến dịch hoàn thành</p>
                     </div>
-                    <div class="stat-card">
+                    <div class="stat-box-hud">
                         <h4>11</h4>
-                        <p>Tài liệu đối chiếu</p>
+                        <p>Tài liệu thẩm định</p>
                     </div>
-                    <div class="stat-card">
+                    <div class="stat-box-hud" style="border-color:var(--border-glow);">
                         <h4>40/60</h4>
-                        <p>Tỷ lệ đồng sáng tạo</p>
+                        <p>Tỉ lệ đồng sáng tạo</p>
                     </div>
-                    <div class="stat-card" style="border-color:var(--scout-blue);">
+                    <div class="stat-box-hud">
                         <h4>100%</h4>
-                        <p>Liêm chính học thuật</p>
+                        <p>Sự liêm chính số</p>
                     </div>
                 </div>
-                <div class="reflection-block">
+                <div class="reflection-block-hud">
                     <blockquote>
-                        "Cánh chim tự do (Wings of Freedom) không tự dưng sải cánh trên bầu trời. Nó phải trải qua vô vàn lần rèn luyện rách da nát thịt để đổi lấy sức mạnh vượt qua những bức tường bảo thủ."
+                        "Cánh chim tự do (Wings of Freedom) không sải cánh một cách mù quáng. Nó bay lên bằng sự rèn luyện bền bỉ của tri thức và kỹ năng để nhìn thấu thế giới ngoài những bức tường thành."
                     </blockquote>
-                    <p>Học kỳ ứng dụng trí tuệ nhân tạo và công nghệ số vừa qua đã thay đổi hoàn toàn lăng kính học tập của mình. Việc chinh phục ngôn ngữ Nhật Bản hay bất kỳ khối kiến thức khổng lồ nào trong thời đại này không còn là cuộc đua ghi nhớ máy móc hời hợt nữa.</p>
-                    <p>AI là một tấm gương khuếch đại rực rỡ nhất cho hệ tư duy của người sử dụng nó. Nếu bạn hời hợt, bạn sẽ nhận về những sản phẩm sáo rỗng. Nhưng nếu bạn được dẫn dắt bởi một bộ óc có chiều sâu tri thức, có tính liêm chính và sự hoài nghi khoa học, công nghệ sẽ trở thành đôi cánh đưa năng lực tự do học thuật của bạn bay xa.</p>
+                    <p>Hành trình làm chủ các công cụ trí tuệ nhân tạo và công nghệ số vừa qua đã định hình lại hoàn toàn tư duy học tập của mình. Việc tiếp thu một ngoại ngữ mới như tiếng Nhật hay phân tích xã hội học không còn là cuộc đua ghi nhớ máy móc thô sơ.</p>
+                    <p>AI là một tấm gương phản chiếu sắc nét tư duy của chính người điều phối nó. Nếu người dùng hời hợt, AI sẽ trả lại những sản phẩm thô thiển sáo rỗng. Nhưng nếu được dẫn dắt bởi một bộ óc có chiều sâu, có sự hoài nghi khoa học và lòng liêm chính bền bỉ, công nghệ sẽ trở thành đôi cánh đưa năng lực học thuật tự chủ của chúng ta vươn cao.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- FOOTER -->
+    <!-- FOOTER HUD -->
     <footer>
         <div class="footer-logo">
-            <div class="scout-shield" style="background:var(--titan-blood);">
-                <i class="fa-solid fa-cross"></i>
+            <div class="scout-cyber-wings" style="background:rgba(0, 240, 255, 0.1);">
+                <i class="fa-solid fa-feather"></i>
             </div>
-            BINH ĐOÀN TRINH SÁT SỐ 25
+            SQUAD 25 COMMAND CENTER
         </div>
         <div class="footer-links">
-            <a href="#about">Tân Binh Đỗ Tiến Khôi</a>
-            <a href="#campaigns">Mặt Trận Số</a>
+            <a href="#about">Nhật Ký Tân Binh</a>
+            <a href="#campaigns">Bản Đồ Trinh Sát</a>
             <a href="https://drive.google.com/drive/folders/19DjvcCTxWX0k5wsjL1AS7yeprffwsczT?usp=drive_link" target="_blank">Google Drive</a>
         </div>
-        <p class="footer-note">
-            "Nếu bạn chiến đấu, bạn có thể thất bại. Nhưng nếu bạn không chiến đấu, bạn đã thất bại ngay từ đầu." <br>Học tập là con đường gian nan nhất để giành lấy sự tự do đích thực cho tinh thần của bạn.
-        </p>
-        <p class="copyright">
-            © 2026 ĐỖ TIẾN KHÔI (MSV: 25042144) - ĐẠI HỌC NGOẠI NGỮ, ĐHQGHN. KHÓA HUẤN LUYỆN QUÂN SỰ SỐ.
-        </p>
+        <div class="footer-quote">
+            "Nếu bạn chiến đấu, bạn có thể thất bại. Nhưng nếu bạn trốn tránh cuộc chiến tự khai phóng bản thân, bạn đã bại trận ngay từ vạch xuất phát." — Eren Yeager.
+        </div>
+        <div class="copyright">
+            © 2026 ĐỖ TIẾN KHÔI (MSV: 25042144) - KHOA NGÔN NGỮ & VĂN HOÁ NHẬT BẢN, ĐẠI HỌC NGOẠI NGỮ, ĐHQGHN.
+        </div>
     </footer>
 
-    <!-- INTERACTIVE SCRIPTING -->
+    <!-- INTERACTIVE CYBER COMMAND SCRIPT -->
     <script>
-        // 1. COLLAPSE THE INTRO WALL WITH SHAKE & LIGHTNING EFFECT
-        function collapseWall() {
+        // 1. COLLAPSE GATES WITH SMOOTH SLIT TRANSITION (KHÔNG GÂY CHÓNG MẶT)
+        function collapseGate() {
+            const gate = document.getElementById('gate-container');
             const body = document.body;
-            const wall = document.getElementById('wall-overlay');
-            
-            // Trigger rapid lightning flashes and shaking
-            body.classList.add('shaking');
-            
-            let flashCount = 0;
-            const interval = setInterval(() => {
-                body.style.backgroundColor = flashCount % 2 === 0 ? '#ffea73' : '#070709';
-                flashCount++;
-                if (flashCount > 8) {
-                    clearInterval(interval);
-                    body.style.backgroundColor = '#070709';
-                    body.classList.remove('shaking');
-                    wall.classList.add('collapsed');
-                    
-                    // Trigger the first progress gauge animation upon reveal
-                    animateGauge('gauge-fill-m1', 100);
-                }
-            }, 80);
+
+            // Trigger smooth split
+            gate.classList.add('opened');
+            body.classList.remove('shaking'); // Ensure no shaking is present
+
+            // Animate first gauge upon system activation
+            setTimeout(() => {
+                animateWidgetGauge('gauge-m1', 100);
+            }, 1000);
         }
 
-        // 2. INTERACTIVE DOSSIER TABS & GAS PRESSURE GAUGE ANIMATION
-        function openMission(evt, missionId, targetPercentage) {
-            let i, tabcontent, tablinks;
-            
-            // Hide all mission contents
-            tabcontent = document.getElementsByClassName("mission-content");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].style.display = "none";
-                tabcontent[i].classList.remove("active");
+        // Remove immediate shaking from body load
+        window.addEventListener('DOMContentLoaded', () => {
+            document.body.classList.remove('shaking');
+        });
+
+        // 2. INTERACTIVE PORTFOLIO TABS & PROGRESS CIRCLE ANIMATION
+        function openMission(evt, missionId, targetPercent) {
+            let i, panels, tabs;
+
+            // Hide panels
+            panels = document.getElementsByClassName("campaign-panel");
+            for (i = 0; i < panels.length; i++) {
+                panels[i].style.display = "none";
+                panels[i].classList.remove("active");
             }
 
-            // Remove active state from tabs
-            tablinks = document.getElementsByClassName("mission-tab");
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].classList.remove("active");
+            // Remove active states from tabs
+            tabs = document.getElementsByClassName("tab-hud");
+            for (i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove("active");
             }
 
-            // Show selected mission content
-            const activeContent = document.getElementById(missionId);
-            activeContent.style.display = "block";
+            // Show selected panel with animation
+            const activePanel = document.getElementById(missionId);
+            activePanel.style.display = "block";
             setTimeout(() => {
-                activeContent.classList.add("active");
+                activePanel.classList.add("active");
             }, 10);
-            
+
             evt.currentTarget.classList.add("active");
 
-            // Animate corresponding Gas Gauge
-            const gaugeFillId = "gauge-fill-" + missionId;
-            animateGauge(gaugeFillId, targetPercentage);
+            // Trigger Gauge Animation
+            const targetGaugeId = "gauge-" + missionId;
+            animateWidgetGauge(targetGaugeId, targetPercent);
         }
 
-        function animateGauge(gaugeId, percent) {
+        function animateWidgetGauge(gaugeId, percent) {
             const circle = document.getElementById(gaugeId);
             if (!circle) return;
-            
-            // Reset dashoffset first
-            circle.style.strokeDashoffset = '170';
-            
-            // Calculate new offset: stroke-dasharray (170) * (1 - percent/100)
-            const offset = 170 - (170 * (percent / 100));
+
+            // Reset gauge dashoffset
+            circle.style.strokeDashoffset = '125';
+
+            // Calculate offset based on stroke-dasharray (125)
+            const offset = 125 - (125 * (percent / 100));
             setTimeout(() => {
                 circle.style.strokeDashoffset = offset;
             }, 150);
         }
 
-        // 3. AMBIENT TITAN SPARKS & LIGHTNING ENGINE (CANVAS)
-        const canvas = document.getElementById('embers-canvas');
+        // 3. AMBIENT CYBER NEON PARTICLES (SLOW AND GENTLE)
+        const canvas = document.getElementById('cyber-canvas');
         const ctx = canvas.getContext('2d');
-        let sparks = [];
+        let particles = [];
 
         function resizeCanvas() {
             canvas.width = window.innerWidth;
@@ -1432,20 +1415,20 @@
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
-        class Sparkle {
+        class CyberParticle {
             constructor() {
                 this.reset();
-                this.y = Math.random() * canvas.height; // Distribute evenly at start
+                this.y = Math.random() * canvas.height;
             }
 
             reset() {
                 this.x = Math.random() * canvas.width;
                 this.y = canvas.height + Math.random() * 50;
-                this.size = Math.random() * 2 + 1;
-                this.speedY = -(Math.random() * 1.8 + 0.6);
-                this.speedX = Math.random() * 1.2 - 0.6;
-                this.opacity = Math.random() * 0.6 + 0.2;
-                this.decay = Math.random() * 0.0035 + 0.001;
+                this.size = Math.random() * 1.5 + 0.8;
+                this.speedY = -(Math.random() * 0.8 + 0.3); // Very slow drift
+                this.speedX = Math.random() * 0.6 - 0.3;
+                this.opacity = Math.random() * 0.4 + 0.1;
+                this.decay = Math.random() * 0.002 + 0.0005;
             }
 
             update() {
@@ -1460,10 +1443,10 @@
             draw() {
                 ctx.save();
                 ctx.globalAlpha = this.opacity;
-                // Ember glow color representing titan heat
-                ctx.fillStyle = '#e59128';
-                ctx.shadowBlur = 6;
-                ctx.shadowColor = '#8b0000';
+                // Elegant neon-cyan glow particles representing tactical gas emissions
+                ctx.fillStyle = '#00f0ff';
+                ctx.shadowBlur = 4;
+                ctx.shadowColor = '#00f0ff';
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
@@ -1471,52 +1454,51 @@
             }
         }
 
-        function initSparks() {
-            for (let i = 0; i < 45; i++) {
-                sparks.push(new Sparkle());
+        function initParticles() {
+            for (let i = 0; i < 35; i++) {
+                particles.push(new CyberParticle());
             }
         }
 
-        // Random lightning generator
-        let lightningFlash = 0;
-        function triggerLightning() {
-            if (Math.random() < 0.002) { // very rare random lightning
-                lightningFlash = 5;
-            }
-        }
-
-        function animateCanvas() {
+        function animateParticles() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            // Draw Sparks
-            for (let i = 0; i < sparks.length; i++) {
-                sparks[i].update();
-                sparks[i].draw();
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
             }
-
-            // Draw Lightning overlay if triggered
-            triggerLightning();
-            if (lightningFlash > 0) {
-                ctx.fillStyle = `rgba(255, 234, 115, ${lightningFlash * 0.15})`;
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                lightningFlash--;
-            }
-
-            requestAnimationFrame(animateCanvas);
+            requestAnimationFrame(animateParticles);
         }
 
-        initSparks();
-        animateCanvas();
+        initParticles();
+        animateParticles();
 
-        // 4. PARALLAX EFFECT FOR COMPACTING NAVIGATION HUD
+        // 4. PARALLAX ACTIVE NAVIGATION & COMPACT HUD HEADER
         window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('nav a');
+            let currentSectionId = '';
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= (sectionTop - 250)) {
+                    currentSectionId = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(currentSectionId)) {
+                    link.classList.add('active');
+                }
+            });
+
             const header = document.querySelector('header');
-            if (window.scrollY > 40) {
-                header.style.padding = '0.7rem 8%';
-                header.style.background = 'rgba(7, 7, 9, 0.98)';
+            if (window.scrollY > 50) {
+                header.style.padding = '0.8rem 8%';
+                header.style.background = 'rgba(10, 12, 16, 0.98)';
             } else {
-                header.style.padding = '1rem 8%';
-                header.style.background = 'rgba(7, 7, 9, 0.9)';
+                header.style.padding = '1.2rem 8%';
+                header.style.background = 'rgba(10, 12, 16, 0.85)';
             }
         });
     </script>
