@@ -1,1439 +1,566 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tactical Digital Portfolio | Đỗ Tiến Khôi</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Lora:ital,wght@0,400;0,500;1,400&family=Montserrat:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
-    <!-- FontAwesome for Icons -->
+    <title>Đỗ Tiến Khôi - Hồ sơ Trinh sát Số</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Cinzel (Epic style) & Montserrat (Modern body) -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        aot: {
+                            dark: '#0f0f12',
+                            card: '#16161c',
+                            amber: '#f59e0b',
+                            crimson: '#ef4444',
+                            forest: '#1b4332',
+                            slate: '#2d3748'
+                        }
+                    },
+                    fontFamily: {
+                        epic: ['Cinzel', 'serif'],
+                        sans: ['Montserrat', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        :root {
-            --neon-blue: #00e5ff;
-            --scout-blue: #2563eb;
-            --titan-orange: #f59e0b;
-            --titan-red: #ef4444;
-            --dark-abyss: #06070a;
-            --card-bg: rgba(10, 11, 16, 0.75);
-            --border-glow: rgba(0, 229, 255, 0.15);
-            --text-light: #f3f4f6;
-            --text-muted: #9ca3af;
-            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        /* Custom Glowing & Particle Background Styles */
+        .glow-amber:hover {
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.4);
+            border-color: #f59e0b;
         }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            scroll-behavior: smooth;
+        .glow-crimson {
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
         }
-
-        body {
-            font-family: 'Lora', serif;
-            background-color: var(--dark-abyss);
-            color: var(--text-light);
-            overflow-x: hidden;
-            line-height: 1.7;
-        }
-
-        /* 1. MICRO-SHAKE ON REVEAL (Rung giật nhẹ dứt khoát) */
-        @keyframes microShake {
-            0%, 100% { transform: translate(0, 0); }
-            10% { transform: translate(-1px, -1px); }
-            20% { transform: translate(1px, 0px); }
-            30% { transform: translate(-1px, 1px); }
-            40% { transform: translate(1px, -1px); }
-            50% { transform: translate(-1px, 0px); }
-            60% { transform: translate(1px, 1px); }
-            70% { transform: translate(-1px, -1px); }
-            80% { transform: translate(1px, 0deg); }
-        }
-
-        .micro-shaking {
-            animation: microShake 0.1s infinite;
-        }
-
-        /* SCREEN TRANSITION ON UNLOCK */
-        #wall-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            background: radial-gradient(circle, rgba(6,7,10,0.4) 0%, rgba(6,7,10,0.95) 100%), 
-                        url('https://images.unsplash.com/photo-1590069261209-f8e9b8642343?auto=format&fit=crop&q=80&w=1500') center center/cover;
-            z-index: 999;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            transition: clip-path 1.2s cubic-bezier(0.86, 0, 0.07, 1), opacity 1s ease;
-            clip-path: circle(150% at 50% 50%);
-            text-align: center;
-        }
-
-        #wall-overlay.collapsed {
-            clip-path: circle(0% at 50% 50%);
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .wall-title {
-            font-family: 'Cinzel', serif;
-            font-size: 2.5rem;
-            color: #fff;
-            letter-spacing: 4px;
-            text-shadow: 0 0 20px rgba(0, 229, 255, 0.3);
-            margin-bottom: 2rem;
-            max-width: 700px;
-            padding: 0 1.5rem;
-        }
-
-        .btn-unlock {
-            font-family: 'Montserrat', sans-serif;
-            padding: 1rem 2.5rem;
-            background: transparent;
-            border: 2px solid var(--neon-blue);
-            color: var(--neon-blue);
-            font-size: 0.9rem;
-            font-weight: 800;
-            letter-spacing: 2px;
-            cursor: pointer;
-            box-shadow: 0 0 15px rgba(0, 229, 255, 0.2);
-            transition: var(--transition);
-            text-transform: uppercase;
-        }
-
-        .btn-unlock:hover {
-            background: var(--neon-blue);
-            color: var(--dark-abyss);
-            box-shadow: 0 0 30px rgba(0, 229, 255, 0.6);
-            transform: scale(1.03);
-        }
-
-        /* AMBIENT SPARKS CANVAS */
-        #embers-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            pointer-events: none;
-            opacity: 0.6;
-        }
-
-        /* HEADER / HUD BAR */
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            padding: 1.2rem 8%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 100;
-            background: rgba(6, 7, 10, 0.85);
-            backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(0, 229, 255, 0.1);
-            transition: var(--transition);
-        }
-
-        .logo {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 900;
-            font-size: 1.2rem;
-            letter-spacing: 2px;
-            color: var(--text-light);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .logo span {
-            color: var(--neon-blue);
-        }
-
-        /* Minimalistic Overlapping Wings vector representing Wings of Freedom */
-        .wings-badge {
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        /* Titan Wall Border Styling */
+        .wall-border {
             position: relative;
         }
-
-        .wings-svg {
-            width: 100%;
-            height: 100%;
-            fill: none;
-            stroke: var(--neon-blue);
-            stroke-width: 2.5;
-            filter: drop-shadow(0 0 4px var(--neon-blue));
-        }
-
-        nav {
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-        }
-
-        nav a {
-            font-family: 'Montserrat', sans-serif;
-            text-decoration: none;
-            color: var(--text-muted);
-            font-size: 0.8rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            transition: var(--transition);
-        }
-
-        nav a:hover, nav a.active {
-            color: var(--neon-blue);
-            text-shadow: 0 0 8px rgba(0, 229, 255, 0.5);
-        }
-
-        /* MODERN SLASH GLOW HOVER */
-        .btn-modern-drive {
-            font-family: 'Montserrat', sans-serif;
-            padding: 0.6rem 1.4rem;
-            background: transparent;
-            border: 1px solid var(--neon-blue);
-            color: var(--neon-blue);
-            font-weight: 700;
-            text-decoration: none;
-            text-transform: uppercase;
-            font-size: 0.75rem;
-            letter-spacing: 1.5px;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-modern-drive::before {
+        .wall-border::after {
             content: '';
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 229, 255, 0.25), transparent);
-            transition: none;
-        }
-
-        .btn-modern-drive:hover::before {
-            left: 100%;
-            transition: all 0.6s ease-in-out;
-        }
-
-        .btn-modern-drive:hover {
-            background: rgba(0, 229, 255, 0.05);
-            box-shadow: 0 0 20px rgba(0, 229, 255, 0.3);
-            border-color: #fff;
-        }
-
-        /* CYBER HERO / BIOMETRIC TARGET HUD */
-        .hero {
-            position: relative;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0 8%;
-            background: linear-gradient(to bottom, rgba(6, 7, 10, 0.2), var(--dark-abyss)), url('back.jpg') no-repeat center center/cover;
-            background-attachment: fixed;
-            z-index: 2;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
+            bottom: 0;
             left: 0;
             width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, transparent 30%, rgba(6, 7, 10, 0.8) 100%);
-            pointer-events: none;
-        }
-
-        /* HIGH-TECH HUD CONTROL PANEL */
-        .hud-terminal-container {
-            display: grid;
-            grid-template-columns: 180px 1fr;
-            gap: 3.5rem;
-            align-items: center;
-            background: var(--card-bg);
-            border: 1px solid var(--border-glow);
-            padding: 3rem;
-            backdrop-filter: blur(20px);
-            border-radius: 6px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8), inset 0 0 30px rgba(0, 229, 255, 0.05);
-            position: relative;
-            max-width: 850px;
-            width: 100%;
-            z-index: 3;
-        }
-
-        /* Minimal decorative corners for HUD */
-        .hud-corner {
-            position: absolute;
-            width: 12px;
-            height: 12px;
-            border: 2px solid var(--neon-blue);
-            pointer-events: none;
-        }
-        .hud-top-left { top: -2px; left: -2px; border-right: none; border-bottom: none; }
-        .hud-top-right { top: -2px; right: -2px; border-left: none; border-bottom: none; }
-        .hud-bottom-left { bottom: -2px; left: -2px; border-right: none; border-top: none; }
-        .hud-bottom-right { bottom: -2px; right: -2px; border-left: none; border-top: none; }
-
-        .target-lock {
-            position: relative;
-            width: 180px;
-            height: 180px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* Diagnostic animated ring around profile */
-        .target-lock-ring {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border: 1px dashed var(--neon-blue);
-            border-radius: 50%;
-            animation: spin 12s linear infinite;
-        }
-
-        @keyframes spin {
-            100% { transform: rotate(360deg); }
-        }
-
-        .avatar-box {
-            width: 154px;
-            height: 154px;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 2px solid #fff;
-            box-shadow: 0 0 15px rgba(255,255,255,0.1);
-        }
-
-        .avatar-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .hud-stats h1 {
-            font-family: 'Cinzel', serif;
-            font-size: 2.8rem;
-            font-weight: 900;
-            letter-spacing: 1.5px;
-            line-height: 1.1;
-            margin-bottom: 0.5rem;
-            text-shadow: 0 0 10px rgba(0, 229, 255, 0.1);
-        }
-
-        .hud-status-bar {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.7rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: var(--neon-blue);
-            margin-bottom: 1.5rem;
-        }
-
-        .status-dot {
-            width: 6px;
-            height: 6px;
-            background: var(--neon-blue);
-            border-radius: 50%;
-            box-shadow: 0 0 8px var(--neon-blue);
-            animation: pulse 1.5s infinite alternate;
-        }
-
-        @keyframes pulse {
-            100% { opacity: 0.3; }
-        }
-
-        .hud-grid {
-            display: grid;
-            grid-template-columns: 1.2fr 0.8fr;
-            gap: 0.8rem;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            padding-top: 1rem;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
-
-        .hud-grid strong {
-            color: var(--text-light);
-            font-weight: 600;
-        }
-
-        /* SECTION LAYOUT */
-        section {
-            padding: 8rem 8% 4rem;
-            position: relative;
-            z-index: 2;
-        }
-
-        .section-title {
-            font-family: 'Cinzel', serif;
-            font-size: 2rem;
-            font-weight: 900;
-            color: var(--text-light);
-            margin-bottom: 3.5rem;
-            position: relative;
-            display: inline-block;
-            letter-spacing: 1px;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -6px;
-            left: 0;
-            width: 60px;
             height: 2px;
-            background: var(--neon-blue);
-            box-shadow: 0 0 6px var(--neon-blue);
+            background: linear-gradient(90deg, transparent, #ef4444, #f59e0b, transparent);
         }
-
-        /* MISSION INTRO GRID */
-        .intro-grid {
-            display: grid;
-            grid-template-columns: 1.15fr 0.85fr;
-            gap: 4rem;
-            align-items: center;
+        /* Custom scrollbar matching AoT style */
+        ::-webkit-scrollbar {
+            width: 8px;
         }
-
-        .intro-text p {
-            font-size: 1.05rem;
-            color: var(--text-muted);
-            margin-bottom: 1.5rem;
-            text-align: justify;
+        ::-webkit-scrollbar-track {
+            background: #0f0f12;
         }
-
-        .intro-quote {
-            font-family: 'Lora', serif;
-            font-style: italic;
-            font-size: 1.1rem;
-            color: var(--parchment);
-            border-left: 2px solid var(--neon-blue);
-            padding-left: 1.5rem;
-            margin: 2rem 0;
-        }
-
-        .tactical-dossier-card {
-            background: var(--card-bg);
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 4px;
-            padding: 2.5rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            position: relative;
-        }
-
-        /* MODERN CTA GOOGLE DRIVE BANNER */
-        .modern-cta {
-            background: linear-gradient(135deg, rgba(6, 7, 10, 0.95) 0%, rgba(13, 27, 42, 0.9) 100%), url('back.jpg') no-repeat center center/cover;
-            background-blend-mode: overlay;
-            border: 1px solid var(--border-glow);
-            padding: 4rem;
-            border-radius: 6px;
-            text-align: center;
-            margin-bottom: 4rem;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
-        }
-
-        .modern-cta h3 {
-            font-family: 'Cinzel', serif;
-            font-size: 1.8rem;
-            color: var(--text-light);
-            margin-bottom: 1rem;
-        }
-
-        .modern-cta p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            max-width: 580px;
-            margin: 0 auto 2.5rem;
-        }
-
-        .modern-cta .btn-modern-drive {
-            display: inline-flex;
-            padding: 0.8rem 2.2rem;
-            font-size: 0.8rem;
-        }
-
-        /* INTERACTIVE STRATEGIC MISSIONS DISPLAY */
-        .missions-nav {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 3rem;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            padding-bottom: 1.2rem;
-        }
-
-        .mission-tab {
-            font-family: 'Montserrat', sans-serif;
-            padding: 0.7rem 1.4rem;
-            background: rgba(255,255,255,0.02);
-            border: 1px solid rgba(255,255,255,0.05);
-            color: var(--text-muted);
-            font-weight: 700;
-            font-size: 0.75rem;
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: var(--transition);
-        }
-
-        .mission-tab:hover, .mission-tab.active {
-            color: var(--neon-blue);
-            border-color: var(--neon-blue);
-            background: rgba(0, 229, 255, 0.03);
-            box-shadow: 0 0 15px rgba(0, 229, 255, 0.1);
-        }
-
-        .mission-tab.active {
-            border-bottom: 2px solid var(--neon-blue);
-        }
-
-        .mission-content {
-            display: none;
-            background: var(--card-bg);
-            border: 1px solid var(--border-glow);
-            padding: 3.5rem;
-            border-radius: 6px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-            position: relative;
-        }
-
-        .mission-content.active {
-            display: block;
-            animation: scaleReveal 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        @keyframes scaleReveal {
-            from { transform: scale(0.98); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
-
-        .mission-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            padding-bottom: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .mission-header h3 {
-            font-family: 'Cinzel', serif;
-            font-size: 1.6rem;
-            color: var(--text-light);
-            margin-bottom: 0.4rem;
-        }
-
-        .mission-header span {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.7rem;
-            font-weight: 800;
-            color: var(--neon-blue);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        /* BIOMETRIC PRESSURE DIALS */
-        .biometric-gauge-box {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255,255,255,0.03);
-            padding: 1rem;
-            border-radius: 4px;
-            margin-bottom: 2rem;
-            max-width: fit-content;
-        }
-
-        .gauge-ring {
-            width: 48px;
-            height: 48px;
-            transform: rotate(-90deg);
-        }
-
-        .ring-bg {
-            fill: none;
-            stroke: rgba(255,255,255,0.03);
-            stroke-width: 5;
-        }
-
-        .ring-fill {
-            fill: none;
-            stroke: var(--neon-blue);
-            stroke-width: 5;
-            stroke-dasharray: 138;
-            stroke-dashoffset: 138;
-            transition: stroke-dashoffset 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .gauge-label-area h6 {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 800;
-            font-size: 0.75rem;
-            color: var(--text-light);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 0.1rem;
-        }
-
-        .gauge-label-area p {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
-
-        .mission-desc {
-            color: var(--text-muted);
-            font-size: 1.05rem;
-            text-align: justify;
-            margin-bottom: 2rem;
-        }
-
-        /* M1: Cyber Code Console */
-        .code-terminal {
-            background: #040507;
-            border: 1px solid rgba(0, 229, 255, 0.15);
-            border-radius: 4px;
-            padding: 1.5rem;
-            font-family: monospace;
-            font-size: 0.85rem;
-            color: #38bdf8;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
-        }
-
-        .terminal-meta {
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            padding-bottom: 0.6rem;
-            margin-bottom: 1rem;
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.75rem;
-            color: var(--text-muted);
-        }
-
-        /* M2: Premium Minimal Table */
-        .academic-table-box {
-            overflow-x: auto;
-            margin-top: 2rem;
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .academic-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.8rem;
-            text-align: left;
-            color: var(--text-light);
-        }
-
-        .academic-table th, .academic-table td {
-            padding: 14px 18px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .academic-table th {
-            background-color: rgba(0, 229, 255, 0.02);
-            color: var(--neon-blue);
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .academic-table tr:hover {
-            background-color: rgba(255,255,255,0.01);
-        }
-
-        .biometric-badge {
-            padding: 3px 8px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            border-radius: 2px;
-        }
-
-        .biometric-badge.secure {
-            background: rgba(0, 229, 255, 0.05);
-            color: var(--neon-blue);
-            border: 1px solid var(--neon-blue);
-        }
-
-        .biometric-badge.stable {
-            background: rgba(245, 158, 11, 0.05);
-            color: var(--titan-orange);
-            border: 1px solid var(--titan-orange);
-        }
-
-        /* M3: Split Prompts compare cards */
-        .prompt-split-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .prompt-split-card {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255,255,255,0.03);
-            border-radius: 4px;
-            padding: 1.8rem;
-        }
-
-        .prompt-split-card h4 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .prompt-split-card.faulty h4 { color: var(--titan-red); }
-        .prompt-split-card.optimized h4 { color: var(--neon-blue); }
-
-        .terminal-prompt-box {
-            font-family: monospace;
-            background: rgba(0,0,0,0.4);
-            padding: 1rem;
-            font-size: 0.85rem;
-            color: var(--text-light);
-            border-left: 2px solid;
-            margin-bottom: 1.2rem;
-        }
-
-        .prompt-split-card.faulty .terminal-prompt-box { border-color: var(--titan-red); }
-        .prompt-split-card.optimized .terminal-prompt-box { border-color: var(--neon-blue); }
-
-        .analysis-text {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-        }
-
-        /* M4: Modern Kanban Column Board */
-        .kanban-board {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .kanban-column {
-            background: rgba(0, 0, 0, 0.2);
-            border: 1px dashed rgba(255,255,255,0.05);
-            padding: 1.5rem;
+        ::-webkit-scrollbar-thumb {
+            background: #ef4444;
             border-radius: 4px;
         }
-
-        .kanban-column h4 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 1.2rem;
-            padding-bottom: 0.4rem;
-            border-bottom: 2px solid;
-        }
-
-        .kanban-column.defect h4 { border-color: var(--titan-red); color: var(--titan-red); }
-        .kanban-column.tactic h4 { border-color: var(--scout-blue); color: var(--scout-blue); }
-        .kanban-column.success h4 { border-color: #10b981; color: #10b981; }
-
-        .kanban-item {
-            background: rgba(24, 26, 33, 0.7);
-            border: 1px solid rgba(255,255,255,0.02);
-            padding: 1rem;
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-            color: var(--text-muted);
-        }
-
-        /* FINAL REFLECTION STYLING */
-        .reflection-grid {
-            display: grid;
-            grid-template-columns: 0.85fr 1.15fr;
-            gap: 4rem;
-            align-items: center;
-        }
-
-        .metric-cards-box {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-        }
-
-        .metric-card {
-            background: rgba(24, 26, 33, 0.8);
-            border: 1px solid rgba(255,255,255,0.05);
-            padding: 2rem;
-            border-radius: 4px;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
-            transition: var(--transition);
-        }
-
-        .metric-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--neon-blue);
-            box-shadow: 0 10px 25px rgba(0, 229, 255, 0.1);
-        }
-
-        .metric-card h4 {
-            font-family: 'Cinzel', serif;
-            font-size: 2.5rem;
-            color: var(--neon-blue);
-            margin-bottom: 0.3rem;
-        }
-
-        .metric-card p {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 800;
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .reflection-body blockquote {
-            font-family: 'Lora', serif;
-            font-size: 1.15rem;
-            font-style: italic;
-            border-left: 2px solid var(--neon-blue);
-            padding-left: 1.5rem;
-            margin-bottom: 2rem;
-            color: var(--parchment);
-        }
-
-        .reflection-body p {
-            color: var(--text-muted);
-            font-size: 1.05rem;
-            text-align: justify;
-            margin-bottom: 1.5rem;
-        }
-
-        /* PRECISE FOOTER */
-        footer {
-            background: #030406;
-            padding: 5rem 8% 3rem;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            text-align: center;
-            position: relative;
-            z-index: 2;
-        }
-
-        .footer-logo {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.2rem;
-            font-weight: 900;
-            color: var(--text-light);
-            margin-bottom: 1.5rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 2.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .footer-links a {
-            font-family: 'Montserrat', sans-serif;
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            transition: var(--transition);
-        }
-
-        .footer-links a:hover {
-            color: var(--neon-blue);
-        }
-
-        .footer-quote {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            font-style: italic;
-            max-width: 600px;
-            margin: 0 auto 2.5rem;
-        }
-
-        .copyright {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.7rem;
-            color: #4b5563;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        /* PHONE RESPONSIVE */
-        @media (max-width: 968px) {
-            header {
-                padding: 1rem 5%;
-            }
-            nav {
-                display: none;
-            }
-            .hud-terminal-container {
-                grid-template-columns: 1fr;
-                justify-items: center;
-                text-align: center;
-                padding: 2rem;
-            }
-            .hud-grid {
-                grid-template-columns: 1fr;
-            }
-            .intro-grid, .prompt-split-grid, .kanban-board, .reflection-grid {
-                grid-template-columns: 1fr;
-                gap: 3rem;
-            }
-            section {
-                padding: 6rem 5% 3rem;
-            }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #f59e0b;
         }
     </style>
 </head>
-<body class="micro-shaking"> <!-- Reduced high-frequency tactical micro-vibrate simulating colosal steam release -->
+<body class="bg-aot-dark text-gray-100 font-sans overflow-x-hidden">
 
-    <!-- 1. SCREEN UNLOCK OVERLAY -->
-    <div id="wall-overlay">
-        <h1 class="wall-title">BỨC TƯỜNG MARIA ĐANG LỰT NỨT</h1>
-        <button class="btn-unlock" onclick="collapseWall()">
-            <i class="fa-solid fa-unlock-keyhole"></i> ĐỘT PHÁ GIỚI HẠN
-        </button>
-    </div>
+    <!-- Canvas for Floating Embers/Sparks (Chuyển động tàn lửa bay rực rỡ) -->
+    <canvas id="embersCanvas" class="fixed top-0 left-0 w-full h-full pointer-events-none z-10"></canvas>
 
-    <!-- 2. PARTICLES CANVAS -->
-    <canvas id="embers-canvas"></canvas>
-
-    <!-- HEADER / HUD CONTROLLER -->
-    <header>
-        <a href="#" class="logo">
-            <div class="wings-badge">
-                <svg class="wings-svg" viewBox="0 0 100 100">
-                    <path d="M 32,25 C 32,25 48,28 48,46 C 48,28 64,25 64,25 C 64,25 72,46 48,72 C 24,46 32,25 32,25 Z" />
-                    <path d="M 48,34 L 48,64" />
+    <!-- Header / Navigation Bar -->
+    <header class="sticky top-0 z-50 bg-aot-dark/90 backdrop-blur-md border-b border-gray-800 px-6 py-4 transition-all duration-300">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <!-- SVG Scout Emblem Concept -->
+                <svg class="w-8 h-8 text-aot-crimson fill-current animate-pulse" viewBox="0 0 100 100">
+                    <path d="M50 5 L15 35 L15 75 L50 95 L85 75 L85 35 Z M50 15 L75 38 L65 75 L50 82 L35 75 L25 38 Z" />
+                    <path d="M42 30 Q50 35 58 30 Q54 55 50 80 Q46 55 42 30" fill="#f59e0b"/>
                 </svg>
+                <span class="font-epic text-xl tracking-wider text-white">CADET PORTFOLIO</span>
             </div>
-            WINGS<span>OF FREEDOM</span>
-        </a>
-        <nav>
-            <a href="#about" class="active">Tân Binh</a>
-            <a href="#strategic-missions">Chiến dịch Số</a>
-            <a href="#reflection">Đúc Kết</a>
-            <a href="https://drive.google.com/drive/folders/19DjvcCTxWX0k5wsjL1AS7yeprffwsczT?usp=drive_link" target="_blank" class="btn-modern-drive">
-                <i class="fa-brands fa-google-drive"></i> Tài liệu gốc
-            </a>
-        </nav>
+            <nav class="flex items-center gap-6">
+                <a href="#intro" class="hover:text-aot-amber transition-colors text-sm font-semibold uppercase tracking-wider">Hồ sơ</a>
+                <a href="#missions" class="hover:text-aot-amber transition-colors text-sm font-semibold uppercase tracking-wider">Nhiệm vụ</a>
+                <a href="#reflection" class="hover:text-aot-amber transition-colors text-sm font-semibold uppercase tracking-wider">Tổng kết</a>
+                <!-- Menubar Drive Link Button -->
+                <a href="https://drive.google.com/drive/folders/19DjvcCTxWX0k5wsjL1AS7yeprffwsczT?usp=drive_link" target="_blank" class="bg-aot-forest hover:bg-emerald-800 text-white text-xs font-bold px-4 py-2 rounded border border-emerald-500 shadow-md transition-all duration-300 transform hover:scale-105">
+                    <i class="fab fa-google-drive mr-2"></i>Xem bài tập trên GG drive
+                </a>
+            </nav>
+        </div>
     </header>
 
-    <!-- TACTICAL HERO HUD -->
-    <section class="hero">
-        <div class="hud-terminal-container">
-            <div class="hud-corner hud-top-left"></div>
-            <div class="hud-corner hud-top-right"></div>
-            <div class="hud-corner hud-bottom-left"></div>
-            <div class="hud-corner hud-bottom-right"></div>
-
-            <div class="target-lock">
-                <div class="target-lock-ring"></div>
-                <div class="avatar-box">
-                    <img src="Hình 1.jpg" alt="Chân dung Đỗ Tiến Khôi">
-                </div>
+    <!-- Hero / Apocalyptic Sunset Section -->
+    <section id="hero" class="relative min-h-[90vh] flex items-center justify-center bg-cover bg-center py-20" style="background-image: linear-gradient(to bottom, rgba(15, 15, 18, 0.4), rgba(15, 15, 18, 0.95)), url('back.jpg');">
+        <div class="absolute inset-0 bg-gradient-to-t from-aot-dark via-transparent to-transparent"></div>
+        
+        <div class="relative z-20 max-w-5xl mx-auto px-6 text-center">
+            <!-- Scout Badge Header -->
+            <div class="inline-block mb-4 px-4 py-1 bg-aot-crimson/20 border border-aot-crimson text-aot-crimson text-xs font-bold tracking-widest uppercase rounded">
+                Binh đoàn Công nghệ số & Trí tuệ nhân tạo
             </div>
             
-            <div class="hud-stats">
-                <div class="hud-status-bar">
-                    <span class="status-dot"></span> Tân binh: ACTIVE // TACTICAL SECURE
+            <!-- Epic Main Title -->
+            <h1 class="font-epic text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-white mb-6 leading-tight">
+                VƯỢT QUA <span class="text-transparent bg-clip-text bg-gradient-to-r from-aot-amber to-aot-crimson">NHỮNG BỨC TƯỜNG</span>
+            </h1>
+            
+            <!-- Student Information Deck -->
+            <div class="max-w-3xl mx-auto bg-aot-card/85 border border-gray-800 rounded-xl p-6 md:p-8 backdrop-blur-sm shadow-2xl mb-10 transform transition duration-500 hover:scale-[1.01]">
+                <div class="flex flex-col md:flex-row items-center gap-8">
+                    <!-- Student Avatar with Custom Frame (Hình 1.jpg) -->
+                    <div class="relative group">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-aot-crimson to-aot-amber rounded-full blur opacity-40 group-hover:opacity-75 transition duration-300"></div>
+                        <img src="Hình 1.jpg" alt="Avatar Đỗ Tiến Khôi" class="relative w-36 h-36 md:w-40 md:h-40 rounded-full object-cover border-4 border-aot-dark shadow-2xl">
+                    </div>
+                    
+                    <!-- Bio Text -->
+                    <div class="text-left space-y-3 flex-1">
+                        <h2 class="font-epic text-2xl md:text-3xl text-white font-bold">Đỗ Tiến Khôi</h2>
+                        <p class="text-aot-amber text-sm font-semibold tracking-wide flex items-center gap-2">
+                            <i class="fas fa-id-card"></i> Mã số học viên: 25042144
+                        </p>
+                        <p class="text-gray-300 text-sm">
+                            <strong class="text-white">Khoa:</strong> Ngôn ngữ và Văn hoá Nhật Bản
+                        </p>
+                        <p class="text-gray-300 text-sm">
+                            <strong class="text-white">Đại diện chiến tuyến:</strong> Đại học Ngoại ngữ - ĐHQGHN (ULIS)
+                        </p>
+                        <p class="text-gray-400 text-xs italic leading-relaxed pt-2 border-t border-gray-800">
+                            "Môn học 'Nhập môn công nghệ số và ứng dụng trí tuệ nhân tạo' giống như khóa huấn luyện thiết bị di chuyển lập thể (ODM gear) giúp tôi tự tin chinh phục thế giới tri thức ngoài bức tường."
+                        </p>
+                    </div>
                 </div>
-                <h1>ĐỖ TIẾN KHÔI</h1>
-                <div class="hud-grid">
-                    <div><strong>Họ & Tên:</strong> Đỗ Tiến Khôi // ID: 25042144</div>
-                    <div><strong>Học chủng:</strong> Ngôn ngữ & Văn hoá Nhật Bản</div>
-                    <div><strong>Đại bản doanh:</strong> ULIS - VNU</div>
-                    <div><strong>Hệ thống huấn luyện:</strong> AI & Ứng dụng số</div>
+            </div>
+
+            <!-- Scroll Indicator / Explore Button -->
+            <div class="animate-bounce">
+                <a href="#intro" class="text-gray-400 hover:text-white transition-colors">
+                    <span class="block text-xs uppercase tracking-widest mb-2">Khám phá hành trình</span>
+                    <i class="fas fa-chevron-down text-lg"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 1: Intro / Mission Log -->
+    <section id="intro" class="py-24 px-6 max-w-7xl mx-auto relative z-20">
+        <div class="wall-border pb-6 mb-12">
+            <h2 class="font-epic text-3xl md:text-4xl text-white font-black tracking-wider flex items-center gap-3">
+                <span class="text-aot-crimson">01/</span> NHẬT KÝ CHIẾN ĐỂ
+            </h2>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+            <div class="lg:col-span-2 bg-aot-card p-8 rounded-xl border border-gray-800 flex flex-col justify-between">
+                <div class="space-y-6">
+                    <p class="text-gray-300 leading-relaxed text-lg">
+                        Chào các bạn đồng hành! Mình là <strong class="text-white">Tiến Khôi</strong>. Đối với một người học Ngôn ngữ và Văn hóa Nhật Bản, tư duy hình khối và tượng hình không phải điều xa lạ, nhưng việc đứng trước làn sóng công nghệ số khổng lồ ban đầu thực sự là một "cú sốc tinh thần" giống như sự xuất hiện của Titan Đại Hình vậy.
+                    </p>
+                    <p class="text-gray-300 leading-relaxed">
+                        Qua dự án danh mục đầu tư cá nhân này, mình ghi lại toàn bộ lộ trình huấn luyện thực chiến. Không chỉ là những bài tập công nghệ khô khan, đây là quá trình mình biến các công cụ AI và kỹ năng số thành thứ vũ khí tối tân nhất để xử lý thông tin học thuật, thiết kế tư duy và khai phá tiềm năng vô hạn của bản thân trong tương lai.
+                    </p>
+                </div>
+                <div class="pt-6 border-t border-gray-800 mt-6 grid grid-cols-2 md:grid-cols-3 gap-4 text-center">
+                    <div class="p-4 bg-aot-dark/50 rounded border border-gray-800">
+                        <span class="block text-xl font-bold text-aot-amber">100%</span>
+                        <span class="text-xs text-gray-400">Tự chủ công cụ AI</span>
+                    </div>
+                    <div class="p-4 bg-aot-dark/50 rounded border border-gray-800">
+                        <span class="block text-xl font-bold text-aot-crimson">6 Nhiệm vụ</span>
+                        <span class="text-xs text-gray-400">Thực chiến hoàn thành</span>
+                    </div>
+                    <div class="p-4 bg-aot-dark/50 rounded border border-gray-800 col-span-2 md:col-span-1">
+                        <span class="block text-xl font-bold text-emerald-400">CREATE</span>
+                        <span class="text-xs text-gray-400">Khung tương tác chuẩn</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Personal Goals Card -->
+            <div class="bg-gradient-to-b from-aot-card to-aot-dark p-8 rounded-xl border-2 border-aot-crimson/30 flex flex-col justify-between relative overflow-hidden">
+                <div class="absolute -top-10 -right-10 w-40 h-40 bg-aot-crimson/5 rounded-full blur-3xl"></div>
+                <div class="space-y-6 relative z-10">
+                    <h3 class="font-epic text-xl text-aot-amber font-bold tracking-wide">MỤC TIÊU CHIẾN LƯỢC</h3>
+                    <ul class="space-y-4 text-sm text-gray-300">
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-bullseye text-aot-crimson mt-1"></i>
+                            <span>Tối ưu hóa khả năng ghi nhớ Hán tự bằng cách kết hợp AI thông minh với nghiên cứu nhận thức.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-brain text-aot-crimson mt-1"></i>
+                            <span>Thành thạo kỹ nghệ Prompting (CREATE) để biến AI thành một người bạn đồng hành thấu cảm học thuật.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-shield-halved text-aot-crimson mt-1"></i>
+                            <span>Giữ vững tinh thần trung thực học thuật, nói không với đạo văn hay phụ thuộc mù quáng.</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="pt-6 border-t border-gray-800/60 mt-6 text-xs text-gray-400">
+                    Sứ mệnh: Đưa ngành Nhật Bản học vươn tầm thời đại số.
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ABOUT SECTION -->
-    <section id="about">
-        <div class="container">
-            <h2 class="section-title">Nhật ký tân binh</h2>
-            <div class="intro-grid">
-                <div class="intro-text">
-                    <p>Việc tiếp thu hàng ngàn mặt chữ Kanji (Hán tự) có độ phức tạp cao luôn là một bức tường khổng lồ và kiên cố, sẵn sàng che mờ mục tiêu học tập của sinh viên ngoại ngữ Nhật Bản tại Đại học Ngoại ngữ - ĐHQGHN (ULIS). Thế nhưng, trong cuộc chiến thông tin hiện đại, công nghệ không phải là thế lực cản đường mà chính là chìa khóa tháo gỡ tư duy.</p>
-                    <p>Mình là Đỗ Tiến Khôi. Digital Portfolio này không chỉ đơn thuần lưu giữ các cột mốc thực hành môn "Nhập môn công nghệ số và ứng dụng trí tuệ nhân tạo", mà là một biên niên sử chiến dịch chi tiết, chứng minh nỗ lực không ngừng nghỉ để làm chủ công nghệ trí tuệ nhân tạo một cách thông minh, tỉnh táo và có trách nhiệm.</p>
-                    <div class="intro-quote">
-                        "Tự do không tự sinh ra. Nó nằm ở hành trình rèn gũi tư duy phản biện và kỷ luật tự học để điều khiển những vũ khí số tối tân nhất."
-                    </div>
-                </div>
-                <div class="tactical-dossier-card">
-                    <h3 style="font-family:'Montserrat', sans-serif; font-weight:900; color:var(--neon-blue); margin-bottom:1.5rem; text-transform:uppercase; font-size:1.1rem; letter-spacing:1px;">Lý lịch Quân thuật</h3>
-                    <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:0.8rem;"><strong>• Phân ngành:</strong> Tiếng Nhật & Công nghệ số</p>
-                    <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:0.8rem;"><strong>• Chỉ huy trưởng:</strong> Khoa Tiếng Nhật & Các Công nghệ mới, ULIS-VNU</p>
-                    <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:0.8rem;"><strong>• Năng lực lõi:</strong> Thiết lập tệp tin tối ưu, Đánh giá tài liệu khoa học, Kỹ nghệ Prompt (C-R-E-A-T-E), Phối hợp nhóm trực tuyến, Sáng tạo nội dung với AI trách nhiệm.</p>
-                </div>
+    <!-- Google Drive Call to Action Banner (Trước phần bài tập) -->
+    <section class="py-12 px-6 max-w-7xl mx-auto relative z-20">
+        <div class="bg-gradient-to-r from-aot-crimson/20 via-aot-dark to-aot-amber/10 border-y-2 border-aot-crimson/50 rounded-2xl p-8 md:p-12 flex flex-col md:flex-row justify-between items-center gap-8 shadow-2xl">
+            <div class="space-y-3 text-center md:text-left">
+                <h3 class="font-epic text-2xl md:text-3xl font-black text-white">TRUY CẬP KHO LƯU TRỮ QUÂN SỰ</h3>
+                <p class="text-gray-300 text-sm max-w-xl">
+                    Toàn bộ hồ sơ thực hành, tệp báo cáo chuyên sâu dạng PDF cùng minh chứng kỹ thuật số đã được bảo mật và lưu trữ đầy đủ trên Google Drive của tôi.
+                </p>
+            </div>
+            <div>
+                <a href="https://drive.google.com/drive/folders/19DjvcCTxWX0k5wsjL1AS7yeprffwsczT?usp=drive_link" target="_blank" class="glow-crimson bg-gradient-to-r from-aot-crimson to-aot-amber hover:from-red-600 hover:to-amber-500 text-white font-epic text-sm font-bold tracking-widest px-8 py-4 rounded-lg shadow-lg border border-red-500/30 transition-all duration-300 transform hover:scale-105 inline-flex items-center gap-3">
+                    <i class="fab fa-google-drive text-lg"></i> XEM BÀI TẬP TRÊN GG DRIVE
+                </a>
             </div>
         </div>
     </section>
 
-    <!-- MODERN GOOGLE DRIVE CTA BANNER -->
-    <section style="padding: 2rem 8% 0;">
-        <div class="modern-cta">
-            <h3>KHO LƯU TRỮ TÀI LIỆU CHÍNH THỨC</h3>
-            <p>Để theo dõi chi tiết toàn bộ báo cáo thực hành PDF, slide thiết trình, kịch bản video và các dữ liệu nghiên cứu, vui lòng truy cập trực tiếp đại bản doanh lưu trữ đám mây.</p>
-            <a href="https://drive.google.com/drive/folders/19DjvcCTxWX0k5wsjL1AS7yeprffwsczT?usp=drive_link" target="_blank" class="btn-modern-drive">
-                <i class="fa-solid fa-folder-open"></i> XEM BÀI TẬP TRÊN GOOGLE DRIVE
-            </a>
-        </div>
-    </section>
-
-    <!-- STRATEGIC MISSIONS (6 CAMPAIGNS) -->
-    <section id="strategic-missions">
-        <h2 class="section-title">Nhật ký chiến dịch (Strategic Missions)</h2>
-        <div class="missions-container">
-            <div class="missions-nav">
-                <button class="mission-tab active" onclick="openMission(event, 'm1', 100)">Chiến dịch 1</button>
-                <button class="mission-tab" onclick="openMission(event, 'm2', 90)">Chiến dịch 2</button>
-                <button class="mission-tab" onclick="openMission(event, 'm3', 85)">Chiến dịch 3</button>
-                <button class="mission-tab" onclick="openMission(event, 'm4', 95)">Chiến dịch 4</button>
-                <button class="mission-tab" onclick="openMission(event, 'm5', 90)">Chiến dịch 5</button>
-                <button class="mission-tab" onclick="openMission(event, 'm6', 100)">Chiến dịch 6</button>
+    <!-- Section 2: Interactive Mission Tactical Console (Trình diễn 6 bài tập cực kỳ trực quan) -->
+    <section id="missions" class="py-24 bg-aot-dark/40 border-y border-gray-900 relative z-20">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="wall-border pb-6 mb-12">
+                <h2 class="font-epic text-3xl md:text-4xl text-white font-black tracking-wider flex items-center gap-3">
+                    <span class="text-aot-crimson">02/</span> THỬ THÁCH 6 BỨC TƯỜNG
+                </h2>
+                <p class="text-gray-400 text-sm mt-2">Nhấp chọn từng thử thách bên dưới để truy cập tài liệu chiến thuật cụ thể.</p>
             </div>
 
-            <!-- MISSION 1 -->
-            <div id="m1" class="mission-content active">
-                <div class="mission-header">
-                    <div>
-                        <h3>Chiến dịch 1: Tổ chức tệp tin hệ thống</h3>
-                        <span>Quản lý & Tối ưu hoá dữ liệu</span>
-                    </div>
-                </div>
-
-                <!-- BIOMETRIC DIAL -->
-                <div class="biometric-gauge-box">
-                    <svg class="gauge-ring">
-                        <circle class="ring-bg" cx="24" cy="24" r="22"></circle>
-                        <circle class="ring-fill" id="ring-fill-m1" cx="24" cy="24" r="22"></circle>
-                    </svg>
-                    <div class="gauge-label-area">
-                        <h6>System Integrity</h6>
-                        <p>Dữ liệu hệ thống: 100% (Sắp xếp tối ưu)</p>
-                    </div>
-                </div>
-
-                <div class="mission-desc">
-                    Tổ chức dữ liệu tệp tin gọn gàng cũng như thiết lập trang bị quân nhu một cách tinh chuẩn. Việc để tệp hỗn loạn sẽ triệt tiêu phản xạ làm việc. Trong thực hành này, mình đã chuẩn hóa cây thư mục trên máy tính cá nhân, thực hiện quy trình tạo tệp <code>GhiChuQuanTrong.txt</code>, quản lý trong thư mục con <code>TaiLieu</code>, sao lưu, xóa và phục hồi từ thùng rác một cách kỷ luật.
-                </div>
-
-                <div class="code-terminal">
-                    <div class="terminal-meta">
-                        <span>SYS_CONSOLE // DO_TIEN_KHOI_RECRUIT</span>
-                        <span>STABLE</span>
-                    </div>
-                    <p>> mkdir -p ThucHanh_DoTienKhoi/TaiLieu</p>
-                    <p>> touch ThucHanh_DoTienKhoi/GhiChuQuanTrong.txt</p>
-                    <p>> cp ThucHanh_DoTienKhoi/GhiChuQuanTrong.txt ThucHanh_DoTienKhoi/TaiLieu/</p>
-                    <p>> rm ThucHanh_DoTienKhoi/GhiChuQuanTrong.txt (Moved to Recycle Bin)</p>
-                    <p style="color:var(--neon-blue); margin-top:0.5rem;">[SUCCESS]: Cây thư mục tối ưu hoàn tất, sẵn sàng lưu trữ dữ liệu lâu dài.</p>
-                </div>
+            <!-- Mission Selection Hub / Rank badges style -->
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-10">
+                <button onclick="switchMission(1)" id="btn-m1" class="mission-btn p-4 rounded-xl border border-gray-800 bg-aot-card hover:bg-aot-card/90 transition duration-300 text-center flex flex-col items-center justify-center gap-2 group border-t-4 border-t-aot-amber">
+                    <span class="text-xs text-aot-amber font-bold tracking-widest">WALL 01</span>
+                    <span class="text-sm font-bold text-white group-hover:text-aot-amber transition-colors">QUÂN TRANG</span>
+                </button>
+                <button onclick="switchMission(2)" id="btn-m2" class="mission-btn p-4 rounded-xl border border-gray-800 bg-aot-card/50 hover:bg-aot-card/90 transition duration-300 text-center flex flex-col items-center justify-center gap-2 group">
+                    <span class="text-xs text-gray-500 font-bold tracking-widest">WALL 02</span>
+                    <span class="text-sm font-bold text-gray-300 group-hover:text-aot-amber transition-colors">TRINH SÁT SỐ</span>
+                </button>
+                <button onclick="switchMission(3)" id="btn-m3" class="mission-btn p-4 rounded-xl border border-gray-800 bg-aot-card/50 hover:bg-aot-card/90 transition duration-300 text-center flex flex-col items-center justify-center gap-2 group">
+                    <span class="text-xs text-gray-500 font-bold tracking-widest">WALL 03</span>
+                    <span class="text-sm font-bold text-gray-300 group-hover:text-aot-amber transition-colors">KHUNG LỆNH</span>
+                </button>
+                <button onclick="switchMission(4)" id="btn-m4" class="mission-btn p-4 rounded-xl border border-gray-800 bg-aot-card/50 hover:bg-aot-card/90 transition duration-300 text-center flex flex-col items-center justify-center gap-2 group">
+                    <span class="text-xs text-gray-500 font-bold tracking-widest">WALL 04</span>
+                    <span class="text-sm font-bold text-gray-300 group-hover:text-aot-amber transition-colors">LIÊN MINH</span>
+                </button>
+                <button onclick="switchMission(5)" id="btn-m5" class="mission-btn p-4 rounded-xl border border-gray-800 bg-aot-card/50 hover:bg-aot-card/90 transition duration-300 text-center flex flex-col items-center justify-center gap-2 group">
+                    <span class="text-xs text-gray-500 font-bold tracking-widest">WALL 05</span>
+                    <span class="text-sm font-bold text-gray-300 group-hover:text-aot-amber transition-colors">SÁNG TẠO</span>
+                </button>
+                <button onclick="switchMission(6)" id="btn-m6" class="mission-btn p-4 rounded-xl border border-gray-800 bg-aot-card/50 hover:bg-aot-card/90 transition duration-300 text-center flex flex-col items-center justify-center gap-2 group">
+                    <span class="text-xs text-gray-500 font-bold tracking-widest">WALL 06</span>
+                    <span class="text-sm font-bold text-gray-300 group-hover:text-aot-amber transition-colors">KỶ LUẬT THÉP</span>
+                </button>
             </div>
 
-            <!-- MISSION 2 -->
-            <div id="m2" class="mission-content">
-                <div class="mission-header">
-                    <div>
-                        <h3>Chiến dịch 2: Giải mã cổ tự Kanji</h3>
-                        <span>Tra cứu & Đánh giá tài liệu học thuật</span>
+            <!-- Tactical Console Screen -->
+            <div class="bg-aot-card border border-gray-800 rounded-2xl p-6 md:p-10 shadow-3xl min-h-[500px] relative overflow-hidden transition-all duration-500">
+                
+                <!-- Background visual touch -->
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gray-500/2 rounded-full blur-3xl pointer-events-none"></div>
+
+                <!-- Mission 1 Content -->
+                <div id="content-m1" class="mission-content space-y-6">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-gray-800 pb-4">
+                        <div>
+                            <span class="text-aot-amber text-xs font-bold uppercase tracking-widest">Nhiệm vụ 01</span>
+                            <h3 class="font-epic text-2xl text-white font-black">SẮP XẾP QUÂN TRANG: Quản lý thư mục & Tệp tin</h3>
+                        </div>
+                        <span class="bg-emerald-950/80 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full border border-emerald-500">Hoàn thành xuất sắc</span>
                     </div>
-                </div>
-
-                <!-- BIOMETRIC DIAL -->
-                <div class="biometric-gauge-box">
-                    <svg class="gauge-ring">
-                        <circle class="ring-bg" cx="24" cy="24" r="22"></circle>
-                        <circle class="ring-fill" id="ring-fill-m2" cx="24" cy="24" r="22"></circle>
-                    </svg>
-                    <div class="gauge-label-area">
-                        <h6>Diagnostic Depth</h6>
-                        <p>Độ sâu tra cứu: 90% (Khảo sát 11 tài liệu gốc)</p>
-                    </div>
-                </div>
-
-                <div class="mission-desc">
-                    Để tìm kiếm giải pháp giúp sinh viên năm nhất vượt qua "cú sốc tượng hình" của Kanji, mình đã tiến hành tra cứu có phương pháp trên Google Scholar và các thư viện quốc tế. Từ 11 nguồn tài liệu hàn lâm chắt lọc, mình đã đánh giá và hệ thống hóa độ tin cậy để phục vụ chiến dịch nghiên cứu lâu dài.
-                </div>
-
-                <div class="academic-table-box">
-                    <table class="academic-table">
-                        <thead>
-                            <tr>
-                                <th>Tài liệu nghiên cứu</th>
-                                <th>Nền tảng xuất bản</th>
-                                <th>Điểm mạnh học thuật</th>
-                                <th>Điểm hạn chế chiến thuật</th>
-                                <th>Mức độ tin cậy</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>Nguyen (2021)</strong> / Nghiên cứu thực chứng</td>
-                                <td>Tạp chí Khoa học Ngoại ngữ</td>
-                                <td>Dữ liệu thực tế từ 200 sinh viên, tính xác thực cao.</td>
-                                <td>Phạm vi lấy mẫu hẹp tại một cơ sở trường học.</td>
-                                <td><span class="biometric-badge secure">Cao</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Kano (2017)</strong> / Sách chuyên khảo</td>
-                                <td>NXB Bonjinsha (Tokyo)</td>
-                                <td>Bộ giáo trình chuẩn mực toàn cầu "Basic Kanji".</td>
-                                <td>Thiếu vắng cập nhật tích hợp công nghệ hiện đại.</td>
-                                <td><span class="biometric-badge secure">Rất Cao</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Tofugu (2022)</strong> / Trang thông tin mở</td>
-                                <td>Blog Tofugu</td>
-                                <td>Mnemonics ghi nhớ qua hình ảnh vô cùng sinh động.</td>
-                                <td>Không mang tính học thuật, chưa qua hội đồng duyệt.</td>
-                                <td><span class="biometric-badge stable">Khá</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- MISSION 3 -->
-            <div id="m3" class="mission-content">
-                <div class="mission-header">
-                    <div>
-                        <h3>Chiến dịch 3: Giao ước AI thấu cảm</h3>
-                        <span>Ứng dụng mô hình Prompt C-R-E-A-T-E</span>
-                    </div>
-                </div>
-
-                <!-- BIOMETRIC DIAL -->
-                <div class="biometric-gauge-box">
-                    <svg class="gauge-ring">
-                        <circle class="ring-bg" cx="24" cy="24" r="22"></circle>
-                        <circle class="ring-fill" id="ring-fill-m3" cx="24" cy="24" r="22"></circle>
-                    </svg>
-                    <div class="gauge-info">
-                        <h5>Cognitive Empathy Gauge</h5>
-                        <p>Trí tuệ thấu cảm: 85% (Kiểm chứng thành công hành vi AI)</p>
-                    </div>
-                </div>
-
-                <div class="mission-desc">
-                    Liệu máy móc có thể mô phỏng "thấu cảm nhận thức" để hỗ trợ giới trẻ vượt qua các khủng hoảng tâm lý thời đại (FOMO, Peer Pressure, Hustle Culture)? Thực nghiệm của mình chứng minh năng lực này phụ thuộc hoàn toàn vào kỹ nghệ Prompt Engineering tinh chuẩn thông qua khung **C-R-E-A-T-E**.
-                </div>
-
-                <div class="prompt-split-grid">
-                    <div class="prompt-split-card faulty">
-                        <h4><i class="fa-solid fa-triangle-exclamation"></i> Prompt thả nổi tự do (Faulty Prompt)</h4>
-                        <div class="terminal-prompt-box">"Hãy viết về hội chứng FOMO."</div>
-                        <div class="analysis-text">
-                            <strong>Đầu ra AI:</strong> Trả về định nghĩa lý thuyết khô khan, máy móc và khuyên "hãy tắt điện thoại" một cách sáo rỗng, thiếu tính nhân bản và sự thấu hiểu.
+                    <p class="text-gray-300 leading-relaxed">
+                        Một trinh sát thực thụ không thể xông trận nếu đai đeo vũ khí bị rối. Việc làm quen với <strong class="text-white">Hệ điều hành MacOS</strong> và thiết lập thư mục làm việc quy chuẩn là bài học vỡ lòng đầu tiên để bảo quản chiến lợi phẩm học tập.
+                    </p>
+                    
+                    <!-- Interactive Step Indicator -->
+                    <div class="bg-aot-dark/60 rounded-xl p-6 border border-gray-800/80">
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="font-semibold text-sm text-aot-amber">Sơ đồ thao tác chiến thuật:</span>
+                            <span id="step-count" class="text-xs text-gray-400">Bước 1 / 8</span>
+                        </div>
+                        <div class="min-h-[100px] flex items-center justify-center p-4 bg-aot-card rounded border border-gray-800 text-center">
+                            <p id="step-desc" class="text-gray-200 font-semibold text-base">B1: Khởi tạo tệp tin văn bản (GhiChu.txt) chuẩn xác tại thực địa.</p>
+                        </div>
+                        <div class="flex justify-between mt-4">
+                            <button onclick="prevStep()" class="text-xs bg-gray-800 hover:bg-gray-700 text-white font-bold px-4 py-2 rounded transition-colors"><i class="fas fa-arrow-left mr-2"></i>Thao tác trước</button>
+                            <button onclick="nextStep()" class="text-xs bg-aot-crimson hover:bg-red-600 text-white font-bold px-4 py-2 rounded transition-colors">Thao tác sau<i class="fas fa-arrow-right ml-2"></i></button>
                         </div>
                     </div>
-                    <div class="prompt-split-card optimized">
-                        <h4><i class="fa-solid fa-circle-check"></i> Prompt tối ưu C-R-E-A-T-E (Optimized Prompt)</h4>
-                        <div class="terminal-prompt-box">"Đóng vai một chuyên gia Thần kinh học Hành vi... Hãy phân tích cơ chế bẫy Dopamine của mxh cho một sinh viên 20 tuổi..."</div>
-                        <div class="analysis-text">
-                            <strong>Đầu ra AI:</strong> "Chào em, kéo ghế ngồi xuống... Amygdala của em đang bị thuật toán mxh 'tin tặc' tấn công..." Sử dụng thủ pháp "Tái định hình nhận thức" vô cùng sâu sắc và chữa lành.
+                    <div class="text-xs text-gray-500 bg-aot-dark p-4 rounded border border-gray-800/40">
+                        <span class="font-bold text-gray-300 block mb-1">Đúc rút kinh nghiệm:</span>
+                        Việc kiểm soát toàn bộ vòng đời của tệp tin (từ khởi tạo, đổi tên thành GhiChuQuanTrong.txt, di chuyển vào thư mục TaiLieu, xóa tạm thời cho đến khôi phục từ thùng rác) giúp xây dựng một tư duy lưu trữ có hệ thống, sẵn sàng cho những dự án nghiên cứu quy mô lớn hơn.
+                    </div>
+                </div>
+
+                <!-- Mission 2 Content -->
+                <div id="content-m2" class="mission-content space-y-6 hidden">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-gray-800 pb-4">
+                        <div>
+                            <span class="text-aot-amber text-xs font-bold uppercase tracking-widest">Nhiệm vụ 02</span>
+                            <h3 class="font-epic text-2xl text-white font-black">PHÁ VỠ BỨC TƯỜNG KANJI: Tìm kiếm & Thẩm định học thuật</h3>
+                        </div>
+                        <span class="bg-emerald-950/80 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full border border-emerald-500">Hoàn thành xuất sắc</span>
+                    </div>
+                    <p class="text-gray-300 leading-relaxed">
+                        Hán tự (Kanji) là rào cản tâm lý vô cùng khổng lồ đối với bất kỳ sinh viên Việt Nam nào bắt đầu học tiếng Nhật. Thay vì loay hoay tự mò mẫm, mình đã thực hiện một cuộc viễn chinh học thuật thực sự thông qua Google Scholar và thư viện ULIS để phân tích 11 nguồn tài liệu học thuật (gồm 6 bài báo khoa học hàng đầu).
+                    </p>
+
+                    <!-- Interactive Grid Comparison -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="p-5 bg-aot-dark/60 rounded-xl border border-gray-800 flex flex-col justify-between">
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-xs text-aot-amber font-bold">Tài liệu học thuật</span>
+                                    <span class="text-xs bg-emerald-950 text-emerald-400 px-2 py-0.5 rounded">Cao</span>
+                                </div>
+                                <h4 class="font-bold text-white text-sm mb-2">Nguyen, T. A. (2021)</h4>
+                                <p class="text-xs text-gray-400 leading-relaxed">Nghiên cứu khảo sát thực tế từ 200 sinh viên tại thực địa. Nhược điểm: Phạm vi lấy mẫu còn hẹp ở một trường Đại học.</p>
+                            </div>
+                        </div>
+                        <div class="p-5 bg-aot-dark/60 rounded-xl border border-gray-800 flex flex-col justify-between">
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-xs text-aot-amber font-bold">Giáo trình nền tảng</span>
+                                    <span class="text-xs bg-emerald-950 text-emerald-400 px-2 py-0.5 rounded">Rất Cao</span>
+                                </div>
+                                <h4 class="font-bold text-white text-sm mb-2">Basic Kanji Book (Kano, 2017)</h4>
+                                <p class="text-xs text-gray-400 leading-relaxed">Chuẩn mực toàn cầu được tin tưởng. Nhược điểm: Chưa tích hợp và thiếu cập nhật về các giải pháp công nghệ hiện đại.</p>
+                            </div>
+                        </div>
+                        <div class="p-5 bg-aot-dark/60 rounded-xl border border-gray-800 flex flex-col justify-between">
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-xs text-aot-amber font-bold">Cổng thông tin mở</span>
+                                    <span class="text-xs bg-yellow-950 text-yellow-400 px-2 py-0.5 rounded">Khá</span>
+                                </div>
+                                <h4 class="font-bold text-white text-sm mb-2">Tofugu Blog (2022)</h4>
+                                <p class="text-xs text-gray-400 leading-relaxed">Cung cấp phương pháp trực quan sinh động (Mnemonics, Anki). Nhược điểm: Thiếu tính học thuật và bình duyệt của hội đồng.</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <!-- MISSION 4 -->
-            <div id="m4" class="mission-content">
-                <div class="mission-header">
-                    <div>
-                        <h3>Chiến dịch 4: Liên minh phối hợp số</h3>
-                        <span>Làm việc nhóm & Hóa giải xung đột trực tuyến</span>
+                    <div class="text-xs text-gray-500 bg-aot-dark p-4 rounded border border-gray-800/40">
+                        <span class="font-bold text-gray-300 block mb-1">Nhận định cá nhân:</span>
+                        Đánh giá chất lượng tài liệu dựa trên 5 lăng kính cốt lõi (Năng lực người viết, uy tín nhà xuất bản, tính minh bạch, tần suất trích dẫn, tính thời sự) giúp mình không bị lạc lối giữa rừng thông tin giả, xây dựng nền tảng vững vàng trước khi bước vào nghiên cứu chuyên sâu.
                     </div>
                 </div>
 
-                <!-- BIOMETRIC DIAL -->
-                <div class="biometric-gauge-box">
-                    <svg class="gauge-ring">
-                        <circle class="ring-bg" cx="24" cy="24" r="22"></circle>
-                        <circle class="ring-fill" id="ring-fill-m4" cx="24" cy="24" r="22"></circle>
-                    </svg>
-                    <div class="gauge-info">
-                        <h5>Alliance Synchronization</h5>
-                        <p>Độ đồng bộ nhóm: 95% (Hóa giải lực cản hợp tác)</p>
+                <!-- Mission 3 Content -->
+                <div id="content-m3" class="mission-content space-y-6 hidden">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-gray-800 pb-4">
+                        <div>
+                            <span class="text-aot-amber text-xs font-bold uppercase tracking-widest">Nhiệm vụ 03</span>
+                            <h3 class="font-epic text-2xl text-white font-black">CHỈ HUY NGƯỜI KHỔNG LỒ: Thiết kế Prompt thông thái (CREATE)</h3>
+                        </div>
+                        <span class="bg-emerald-950/80 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full border border-emerald-500">Hoàn thành xuất sắc</span>
                     </div>
-                </div>
+                    <p class="text-gray-300 leading-relaxed">
+                        AI giống như một thế lực khổng lồ vô tri. Nếu người dùng hời hợt, nó sẽ trả về rác. Nhưng nếu biết cách áp dụng khung tư duy lệnh <strong class="text-aot-amber font-semibold">C-R-E-A-T-E</strong>, chúng ta có thể mở khóa khả năng "thấu cảm nhân tạo" cực kỳ tinh tế.
+                    </p>
 
-                <div class="mission-desc">
-                    Làm việc nhóm trực tuyến bằng Google Drive, Notion và Canva là một thử thách lớn về độ cam kết của các thành viên. Trong chiến dịch này, nhóm mình đã mổ xẻ 3 rào cản giao tiếp chính để đưa ra 3 giải pháp thực thi hiệu quả nhằm triệt tiêu hiện tượng "ỷ lại tập thể" (social loafing).
-                </div>
-
-                <div class="kanban-board">
-                    <div class="kanban-column defect">
-                        <h4>Ma sát thực tế</h4>
-                        <div class="kanban-item">Thiếu sự đồng thuận trong giao tiếp và phân chia công việc do lịch trình cá nhân lệch nhau.</div>
-                        <div class="kanban-item">Mất cân bằng khối lượng đóng góp, dẫn đến tình trạng một số thành viên gánh vác quá nhiều.</div>
-                    </div>
-                    <div class="kanban-column tactic">
-                        <h4>Chiến thuật hóa giải</h4>
-                        <div class="kanban-item">Thống nhất duy nhất một kênh liên lạc chính thức, lưu trữ mọi biên bản và tổ chức họp định kỳ.</div>
-                        <div class="kanban-item">Thực hiện đánh giá đồng đẳng (peer assessment) minh bạch dựa trên chất lượng đóng góp thực tế.</div>
-                    </div>
-                    <div class="kanban-column success">
-                        <h4>Kết quả chiến dịch</h4>
-                        <div class="kanban-item">100% công việc hoàn thành đúng tiến độ cam kết, slide Canva đạt chất lượng tối ưu.</div>
-                        <div class="kanban-item">Hóa giải thành công tranh chấp ý tưởng bằng quy trình bỏ phiếu công khai và phản hồi xây dựng.</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- MISSION 5 -->
-            <div id="m5" class="mission-content">
-                <div class="mission-header">
-                    <div>
-                        <h3>Chiến dịch 5: Đồng sáng tạo nội dung số</h3>
-                        <span>Ứng dụng ChatGPT, DALL-E và Canva AI</span>
-                    </div>
-                </div>
-
-                <!-- BIOMETRIC DIAL -->
-                <div class="biometric-gauge-box">
-                    <svg class="gauge-ring">
-                        <circle class="ring-bg" cx="24" cy="24" r="22"></circle>
-                        <circle class="ring-fill" id="ring-fill-m5" cx="24" cy="24" r="22"></circle>
-                    </svg>
-                    <div class="gauge-info">
-                        <h5>Creative Co-Authoring</h5>
-                        <p>Tự chủ sáng tạo: 90% (Phối hợp 40-60)</p>
-                    </div>
-                </div>
-
-                <div class="mission-desc">
-                    Dự án thiết kế Infographic và thuyết trình "Ứng dụng AI trong tự học ngoại ngữ của sinh viên đại học" là sự kết hợp khéo léo giữa năng lực của máy móc và óc thẩm mỹ cá nhân. Mình áp dụng quy tắc phối hợp: **40% năng lực tạo lập ban đầu của AI** và **60% nỗ lực kiểm chứng, chỉnh sửa của con người**.
-                </div>
-
-                <div class="prompt-split-grid">
-                    <div class="prompt-split-card optimized" style="border-color: rgba(0, 229, 255, 0.05);">
-                        <h4 style="color: var(--neon-blue);"><i class="fa-solid fa-bolt"></i> Tốc độ của AI (40%)</h4>
-                        <div class="analysis-text">
-                            • Phác thảo nhanh cấu trúc 5 khối nội dung chính cho Infographic trong 10 giây.<br>
-                            • Tạo hình vẽ minh họa sinh viên học ngoại ngữ phẳng (flat-style) bằng DALL-E.<br>
-                            • Gợi ý dải màu xanh học thuật và các bộ font chữ hiện đại.
+                    <!-- Interactive Slide Prompt Toggle -->
+                    <div class="bg-aot-dark/60 rounded-xl p-6 border border-gray-800">
+                        <div class="flex justify-center gap-4 mb-4">
+                            <button onclick="togglePrompt(false)" id="btn-prompt-basic" class="px-4 py-2 rounded text-xs font-bold bg-aot-crimson text-white transition-all">Mệnh lệnh hời hợt</button>
+                            <button onclick="togglePrompt(true)" id="btn-prompt-adv" class="px-4 py-2 rounded text-xs font-bold bg-gray-800 text-gray-400 hover:text-white transition-all">Mệnh lệnh tối ưu (CREATE)</button>
+                        </div>
+                        <div id="prompt-box" class="p-5 bg-aot-card rounded border border-gray-800 text-sm">
+                            <span class="text-xs text-aot-crimson font-bold block mb-2">Người dùng gõ:</span>
+                            <p id="prompt-text" class="text-gray-300 italic">"Hãy viết về hội chứng sợ bị bỏ lỡ (FOMO)."</p>
+                            <span class="text-xs text-aot-amber font-bold block mt-4 mb-2">Kết quả AI phản hồi:</span>
+                            <p id="prompt-response" class="text-gray-400">Một bài viết khô khan như bách khoa toàn thư, liệt kê vài triệu chứng sáo rỗng và đưa ra lời khuyên độc hại (Toxic Positivity): "Hãy tắt máy điện thoại đi là xong". Hoàn toàn không thấu hiểu tâm lý thực sự.</p>
                         </div>
                     </div>
-                    <div class="prompt-split-card optimized" style="border-color: rgba(0, 229, 255, 0.05);">
-                        <h4 style="color: var(--titan-orange);"><i class="fa-solid fa-user-check"></i> Óc kiểm chứng con người (60%)</h4>
-                        <div class="analysis-text">
-                            • Sửa đổi văn bản, loại bỏ các thông tin bịa đặt hoặc thiếu kiểm chứng từ mô hình.<br>
-                            • Đưa các ví dụ thực tế học tập cá nhân tại Việt Nam (như ELSA Speak, Duolingo).<br>
-                            • Cân chỉnh khoảng trắng, định hình lại font chữ Việt hóa và chèn logo trường.
+                    <div class="text-xs text-gray-500 bg-aot-dark p-4 rounded border border-gray-800/40">
+                        <span class="font-bold text-gray-300 block mb-1">Phân tích chuyên sâu:</span>
+                        Khung lệnh <strong class="text-white">C-R-E-A-T-E</strong> là chìa khóa: <strong>C</strong>ontext (Bối cảnh nền kinh tế sa thải), <strong>R</strong>ole (Nhà tâm lý học hành vi), <strong>E</strong>xplicit Constraints (Cấm gạch đầu dòng, cấm khuyên bảo sáo rỗng), <strong>A</strong>udience (Sinh viên khủng hoảng 2h sáng), <strong>T</strong>ask (Sử dụng ẩn dụ máy chạy bộ trong phòng gym), <strong>E</strong>xamples (Few-shot học nhanh).
+                    </div>
+                </div>
+
+                <!-- Mission 4 Content -->
+                <div id="content-m4" class="mission-content space-y-6 hidden">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-gray-800 pb-4">
+                        <div>
+                            <span class="text-aot-amber text-xs font-bold uppercase tracking-widest">Nhiệm vụ 04</span>
+                            <h3 class="font-epic text-2xl text-white font-black">SÁT CÁNH CHIẾN ĐẤU: Hợp tác trực tuyến & Quản trị dự án</h3>
+                        </div>
+                        <span class="bg-emerald-950/80 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full border border-emerald-500">Hoàn thành xuất sắc</span>
+                    </div>
+                    <p class="text-gray-300 leading-relaxed">
+                        Không một chiến sĩ nào có thể chiến thắng titan đơn độc. Để hoàn thành dự án thuyết trình <strong class="text-white">"Ứng dụng AI trong tự học ngoại ngữ"</strong>, nhóm trinh sát 5 người (Đỗ Tiến Khôi - Trưởng nhóm, Ngô Bảo Ngọc, Trần Thành Đạt, Phùng Thị Hồng Nhung, Đặng Khánh Linh) đã cùng thiết lập kỷ luật tác chiến trực tuyến.
+                    </p>
+
+                    <!-- Interactive Kanban Board UI -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="p-4 bg-aot-dark/40 rounded-lg border border-gray-800/80">
+                            <span class="text-xs font-bold text-aot-crimson block mb-2"><i class="fas fa-tasks mr-2"></i>Phân công vai trò</span>
+                            <p class="text-xs text-gray-300 leading-relaxed">Tiến Khôi điều phối tổng thể, thiết lập kịch bản và chuẩn hóa dữ liệu. Các thành viên đảm nhận phần phân tích Canva, quay video thực nghiệm thực tế.</p>
+                        </div>
+                        <div class="p-4 bg-aot-dark/40 rounded-lg border border-gray-800/80">
+                            <span class="text-xs font-bold text-aot-amber block mb-2"><i class="fas fa-exclamation-triangle mr-2"></i>Thách thức đối mặt</span>
+                            <p class="text-xs text-gray-300 leading-relaxed">Khác biệt thời gian biểu, hiện tượng ỷ lại (social loafing) và lo ngại chất lượng không đồng đều từ nguồn dữ liệu mạng.</p>
+                        </div>
+                        <div class="p-4 bg-aot-dark/40 rounded-lg border border-gray-800/80">
+                            <span class="text-xs font-bold text-emerald-400 block mb-2"><i class="fas fa-check-circle mr-2"></i>Giải pháp giải quyết</span>
+                            <p class="text-xs text-gray-300 leading-relaxed">Thống nhất kênh liên lạc qua Zalo, quản trị tiến độ từng ngày bằng bảng Notion, cam kết đánh giá đồng đẳng minh bạch trước buổi báo cáo.</p>
                         </div>
                     </div>
+                    <div class="text-xs text-gray-500 bg-aot-dark p-4 rounded border border-gray-800/40">
+                        <span class="font-bold text-gray-300 block mb-1">Ý nghĩa hợp tác:</span>
+                        Việc giao tiếp văn minh, rõ ràng và kỷ luật thép đã giúp nhóm vượt qua bế tắc, tạo ra sản phẩm thuyết trình được đánh giá cao nhờ sự phối hợp mượt mà giữa kịch bản lý thuyết và video trực quan tự sản xuất.
+                    </div>
                 </div>
+
+                <!-- Mission 5 Content -->
+                <div id="content-m5" class="mission-content space-y-6 hidden">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-gray-800 pb-4">
+                        <div>
+                            <span class="text-aot-amber text-xs font-bold uppercase tracking-widest">Nhiệm vụ 05</span>
+                            <h3 class="font-epic text-2xl text-white font-black">LÒ RÈN VŨ KHÍ: Sáng tạo nội dung số bằng Trí tuệ Nhân tạo</h3>
+                        </div>
+                        <span class="bg-emerald-950/80 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full border border-emerald-500">Hoàn thành xuất sắc</span>
+                    </div>
+                    <p class="text-gray-300 leading-relaxed">
+                        Nhiều người e sợ AI sẽ giết chết nghệ thuật. Nhưng mình tin AI là chiếc lò rèn tuyệt vời để biến tư duy thô thành tác phẩm tinh xảo. Trong nhiệm vụ thiết kế <strong class="text-white">Infographic hỗ trợ học tiếng Nhật</strong>, mình đã vận dụng sức mạnh kết hợp của bộ ba công cụ AI đỉnh cao.
+                    </p>
+
+                    <!-- Interactive workflow timeline -->
+                    <div class="flex flex-col md:flex-row gap-4 items-stretch justify-between">
+                        <div class="flex-1 p-4 bg-aot-dark/60 rounded-xl border border-gray-800 text-center">
+                            <div class="w-10 h-10 bg-aot-crimson/10 text-aot-crimson rounded-full flex items-center justify-center mx-auto mb-2 font-bold border border-aot-crimson/30">1</div>
+                            <span class="text-xs font-bold text-white block mb-1">ChatGPT</span>
+                            <p class="text-[11px] text-gray-400">Sinh nội dung logic, phân chia 5 slide dữ liệu và xây dựng cấu trúc kịch bản súc tích.</p>
+                        </div>
+                        <div class="flex-1 p-4 bg-aot-dark/60 rounded-xl border border-gray-800 text-center">
+                            <div class="w-10 h-10 bg-aot-amber/10 text-aot-amber rounded-full flex items-center justify-center mx-auto mb-2 font-bold border border-aot-amber/30">2</div>
+                            <span class="text-xs font-bold text-white block mb-1">DALL·E</span>
+                            <p class="text-[11px] text-gray-400">Minh họa hóa ý tưởng với tone màu xanh dương - trắng đặc trưng kiểu giáo dục phẳng, loại bỏ hoàn toàn text thừa.</p>
+                        </div>
+                        <div class="flex-1 p-4 bg-aot-dark/60 rounded-xl border border-gray-800 text-center">
+                            <div class="w-10 h-10 bg-emerald-950/10 text-emerald-400 rounded-full flex items-center justify-center mx-auto mb-2 font-bold border border-emerald-500/30">3</div>
+                            <span class="text-xs font-bold text-white block mb-1">Canva AI</span>
+                            <p class="text-[11px] text-gray-400">Tối ưu hóa layout thiết kế, đồng bộ phông chữ, khoảng trắng và phân cấp thông tin trực quan.</p>
+                        </div>
+                    </div>
+                    <div class="text-xs text-gray-500 bg-aot-dark p-4 rounded border border-gray-800/40">
+                        <span class="font-bold text-gray-300 block mb-1">Sự thay đổi của quy trình:</span>
+                        Thay vì phương pháp truyền thống (Tìm tài liệu -> Viết -> Thiết kế) tốn nhiều thời gian, quy trình mới chuyển dịch thành: <strong class="text-white">Lên ý tưởng bằng AI -> Chọn lọc -> Chỉnh sửa sâu -> Thiết kế khung -> Thẩm định thực tế -> Hoàn thiện</strong> (Tỷ lệ đóng góp: 40% AI kiến tạo ban đầu và 60% chỉnh sửa tinh chỉnh của cá nhân).
+                    </div>
+                </div>
+
+                <!-- Mission 6 Content -->
+                <div id="content-m6" class="mission-content space-y-6 hidden">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-gray-800 pb-4">
+                        <div>
+                            <span class="text-aot-amber text-xs font-bold uppercase tracking-widest">Nhiệm vụ 06</span>
+                            <h3 class="font-epic text-2xl text-white font-black">LỜI THỀ BINH SĨ: Sử dụng AI có trách nhiệm học thuật</h3>
+                        </div>
+                        <span class="bg-emerald-950/80 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full border border-emerald-500">Hoàn thành xuất sắc</span>
+                    </div>
+                    <p class="text-gray-300 leading-relaxed">
+                        Sử dụng AI thông minh không đồng nghĩa với việc gian lận hay biến mình thành một kẻ sao chép lười biếng. Việc ULIS mở rộng cánh cửa đón nhận AI là cơ hội nhưng cũng là bài kiểm tra đạo đức lớn nhất đối với mỗi sinh viên.
+                    </p>
+
+                    <!-- Code of Conduct checklist list style -->
+                    <div class="bg-aot-dark/60 rounded-xl p-6 border border-gray-800/80">
+                        <span class="text-xs font-bold text-aot-amber block mb-4"><i class="fas fa-file-contract mr-2"></i>Hiến chương 7 Điều Lệ Sát Cánh cùng AI:</span>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-gray-300">
+                            <div class="flex items-center gap-2 p-2 bg-aot-card rounded border border-gray-800/40">
+                                <i class="fas fa-check text-aot-crimson"></i><span>1. Luôn khai báo trung thực việc sử dụng AI.</span>
+                            </div>
+                            <div class="flex items-center gap-2 p-2 bg-aot-card rounded border border-gray-800/40">
+                                <i class="fas fa-check text-aot-crimson"></i><span>2. Tuyệt đối không sao chép nguyên văn AI 100%.</span>
+                            </div>
+                            <div class="flex items-center gap-2 p-2 bg-aot-card rounded border border-gray-800/40">
+                                <i class="fas fa-check text-aot-crimson"></i><span>3. Luôn kiểm chứng nguồn gốc thực tế.</span>
+                            </div>
+                            <div class="flex items-center gap-2 p-2 bg-aot-card rounded border border-gray-800/40">
+                                <i class="fas fa-check text-aot-crimson"></i><span>4. Trực tiếp chịu trách nhiệm về nội dung bài nộp.</span>
+                            </div>
+                            <div class="flex items-center gap-2 p-2 bg-aot-card rounded border border-gray-800/40">
+                                <i class="fas fa-check text-aot-crimson"></i><span>5. Tôn trọng bản quyền học thuật của con người.</span>
+                            </div>
+                            <div class="flex items-center gap-2 p-2 bg-aot-card rounded border border-gray-800/40">
+                                <i class="fas fa-check text-aot-crimson"></i><span>6. Không đưa thông tin cá nhân nhạy cảm lên AI.</span>
+                            </div>
+                            <div class="flex items-center gap-2 p-2 bg-aot-card rounded border border-gray-800/40 col-span-1 md:col-span-2">
+                                <i class="fas fa-check text-aot-crimson"></i><span>7. Xem AI là trợ lý đồng hành, không để AI thay thế tư duy sáng tạo của mình.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-xs text-gray-500 bg-aot-dark p-4 rounded border border-gray-800/40">
+                        <span class="font-bold text-gray-300 block mb-1">Thông điệp cốt lõi:</span>
+                        Né tránh bẫy "Con vẹt ngẫu nhiên" (Stochastic Parrot) - hiện tượng AI ghép nối từ ngữ vô thức dựa trên xác suất mà không có ý thức về mặt chân lý. Sự thật học thuật nằm ở trải nghiệm và sự đánh giá sâu sắc của chính người học.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Debriefing / Reflection -->
+    <section id="reflection" class="py-24 px-6 max-w-5xl mx-auto relative z-20">
+        <div class="wall-border pb-6 mb-12">
+            <h2 class="font-epic text-3xl md:text-4xl text-white font-black tracking-wider flex items-center gap-3">
+                <span class="text-aot-crimson">03/</span> SUY NGẪM SAU CHIẾN DỊCH
+            </h2>
+        </div>
+
+        <div class="space-y-8 text-gray-300 leading-relaxed text-base">
+            <div class="bg-aot-card p-8 rounded-2xl border border-gray-800/80 space-y-6">
+                <p>
+                    Nhìn lại hành trình đi qua 6 bức tường thử thách, bài học giá trị nhất mình nhận được không phải là việc bấm nút gõ lệnh thế nào để AI viết bài nhanh nhất. Bài học thực sự nằm ở <strong class="text-white">sự tỉnh táo và năng lực làm chủ</strong>.
+                </p>
+                <p>
+                    Có những giai đoạn, sự dễ dàng của các chatbot AI đã từng khiến mình rơi vào bẫy ỷ lại. Việc nhận được những đáp án trơn chu ngay tức khắc dễ làm đầu óc người ta lười suy nghĩ, lười vật lộn để tự viết ra một đoạn văn tâm đắc. Nhưng chính những lúc đối chiếu sâu sắc, kiểm chứng nguồn tin học thuật bị lỗi từ AI đã giúp mình bừng tỉnh. AI chỉ mô phỏng sự thấu cảm bằng xác suất, nó không bao giờ khóc thay chúng ta, cũng như không bao giờ có được sự nhạy cảm văn hóa độc đáo của một sinh viên ngoại ngữ Việt Nam đang tìm hiểu văn hóa Nhật Bản.
+                </p>
+                <p>
+                    Trong tương lai, mình cam kết sẽ đứng vững trên đôi vai của những cỗ máy khổng lồ công nghệ này, xem chúng là bộ trang bị cơ động ODM đắc lực để tối ưu hóa hiệu suất nghiên cứu và sáng tạo, đồng thời tiếp tục giữ vững ngọn lửa tư duy độc lập và lòng trắc ẩn ấm áp của con người.
+                </p>
             </div>
 
-            <!-- MISSION 6 -->
-            <div id="m6" class="mission-content">
-                <div class="mission-header">
-                    <div>
-                        <h3>Chiến dịch 6: Bức tường thép đạo đức AI</h3>
-                        <span>Hiến chương 7 cam kết vàng khi ứng dụng AI trách nhiệm</span>
-                    </div>
+            <!-- final signatures -->
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6 pt-8 border-t border-gray-800/60">
+                <div class="text-center md:text-left">
+                    <span class="text-xs text-gray-500 uppercase tracking-widest block">Ký tên xác nhận chiến sĩ</span>
+                    <span class="font-epic text-lg text-white font-bold">Đỗ Tiến Khôi</span>
                 </div>
-
-                <!-- BIOMETRIC DIAL -->
-                <div class="biometric-gauge-box">
-                    <svg class="gauge-ring">
-                        <circle class="ring-bg" cx="24" cy="24" r="22"></circle>
-                        <circle class="ring-fill" id="ring-fill-m6" cx="24" cy="24" r="22"></circle>
-                    </svg>
-                    <div class="gauge-info">
-                        <h5>Academic Integrity</h5>
-                        <p>Kỷ luật học thuật: 100% (Liêm chính tuyệt đối)</p>
-                    </div>
-                </div>
-
-                <div class="mission-desc">
-                    Nghiên cứu so sánh chính sách sử dụng AI tại ULIS và thế giới chỉ ra xu thế tất yếu: Không cấm đoán cực đoan mà hướng dẫn sinh viên khai phóng AI một cách trung thực và minh bạch. Để bảo vệ tính độc lập của tư duy phản biện, mình cam kết tuân thủ **7 Nguyên tắc hành động**:
-                </div>
-
-                <div class="code-terminal" style="border-color: var(--neon-blue);">
-                    <p style="color: var(--parchment); font-weight:800; margin-bottom:0.8rem;">[PROTOCOL // 07 TACTICAL CAMPAIGN COMMITMENTS]</p>
-                    <p style="margin-bottom:0.4rem;">1. Luôn khai báo trung thực các phân đoạn bài tập có sử dụng sự hỗ trợ từ AI.</p>
-                    <p style="margin-bottom:0.4rem;">2. Tuyệt đối không sao chép nguyên văn (copy-paste) đầu ra thô từ chatbot AI.</p>
-                    <p style="margin-bottom:0.4rem;">3. Luôn kiểm chứng độ chính xác của mọi thông tin AI tạo ra bằng các nguồn tài liệu tin cậy.</p>
-                    <p style="margin-bottom:0.4rem;">4. Chỉ sử dụng AI làm trợ lý gợi mở ý tưởng, tuyệt đối không để AI suy nghĩ thay bộ não.</p>
-                    <p style="margin-bottom:0.4rem;">5. Tôn trọng bản quyền tác giả, thực hiện trích dẫn khoa học chuẩn mực.</p>
-                    <p style="margin-bottom:0.4rem;">6. Bảo mật dữ liệu cá nhân, không nhập các thông tin nhạy cảm vào đám mây AI công cộng.</p>
-                    <p style="margin-bottom:0.4rem;">7. Chịu trách nhiệm tối cao và duy nhất đối với chất lượng của sản phẩm học thuật cuối cùng.</p>
+                <div class="text-center md:text-right">
+                    <span class="text-xs text-gray-500 uppercase tracking-widest block">Đơn vị huấn luyện</span>
+                    <span class="text-sm text-aot-amber font-semibold">Trường Đại học Ngoại ngữ - ĐHQGHN</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- FINAL REFLECTION -->
-    <section id="reflection">
-        <div class="container">
-            <h2 class="section-title">Đúc kết chiến dịch</h2>
-            <div class="reflection-grid">
-                <div class="metric-cards-box">
-                    <div class="metric-card">
-                        <h4>06</h4>
-                        <p>Chiến dịch vượt ải</p>
-                    </div>
-                    <div class="metric-card">
-                        <h4>11</h4>
-                        <p>Tài liệu đối chiếu</p>
-                    </div>
-                    <div class="metric-card" style="border-color: var(--scout-blue);">
-                        <h4>40/60</h4>
-                        <p>Tỷ lệ đồng sáng tạo</p>
-                    </div>
-                    <div class="metric-card" style="border-color: var(--neon-blue);">
-                        <h4>100%</h4>
-                        <p>Liêm chính học thuật</p>
-                    </div>
-                </div>
-                <div class="reflection-body">
-                    <blockquote>
-                        "Cánh chim tự do không tự dưng sải cánh trên bầu trời cao rộng. Đôi cánh ấy phải trải qua hàng ngàn lần thử thách dưới mặt đất chật hẹp mới có đủ sức mạnh để vượt qua những bức tường bảo thủ."
-                    </blockquote>
-                    <p>Hành trình làm quen với công nghệ số và ứng dụng trí tuệ nhân tạo vừa qua đã làm thay đổi hoàn toàn lăng kính học tập của mình. Việc chinh phục ngôn ngữ Nhật Bản hay bất kỳ một đỉnh cao tri thức nào trong thời đại này không còn là cuộc đua ghi nhớ máy móc hời hợt nữa.</p>
-                    <p>AI là một tấm gương khuếch đại rực rỡ nhất hệ tư duy của chính người sử dụng nó. Nếu bạn hời hợt, bạn sẽ nhận lại những sản phẩm rác sáo rỗng. Nhưng nếu bạn được dẫn dắt bởi một bộ óc có chiều sâu tri thức, có tính liêm chính và sự hoài nghi khoa học, công nghệ sẽ trở thành đôi cánh sải cao đưa bạn đến với chân trời tự do.</p>
-                </div>
-            </div>
+    <!-- Footer Area -->
+    <footer class="bg-aot-dark border-t border-gray-900 py-12 px-6 relative z-20 text-center text-xs text-gray-500">
+        <div class="max-w-7xl mx-auto space-y-4">
+            <p>© 2026 Đỗ Tiến Khôi (MSV: 25042144). Tất cả tư liệu thuộc về Binh đoàn Trinh sát Công nghệ ULIS.</p>
+            <p class="text-[10px] text-gray-600">Thiết kế lấy cảm hứng từ kiệt tác Shingeki no Kyojin. Background được đồng bộ theo back.jpg.</p>
         </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer>
-        <div class="footer-logo">
-            WINGS OF FREEDOM // SURVEY CORPS S25
-        </div>
-        <div class="footer-links">
-            <a href="#about">Tân binh Đỗ Tiến Khôi</a>
-            <a href="#strategic-missions">Chiến dịch Số</a>
-            <a href="https://drive.google.com/drive/folders/19DjvcCTxWX0k5wsjL1AS7yeprffwsczT?usp=drive_link" target="_blank">Google Drive</a>
-        </div>
-        <p class="footer-quote">
-            "Nếu bạn chiến đấu, bạn có thể thất bại. Nhưng nếu bạn không chịu học tập và chiến đấu, bạn đã thất bại ngay từ đầu." <br>Học tập là con đường chông gai nhất để giành lấy sự tự do tinh thần đích thực.
-        </p>
-        <p class="copyright">
-            © 2026 ĐỖ TIẾN KHÔI (MSV: 25042144) - ĐẠI HỌC NGOẠI NGỮ, ĐHQGHN. KHÓA HUẤN LUYỆN SỐ.
-        </p>
     </footer>
 
-    <!-- INTERACTIVE SCRIPTS -->
+    <!-- Interactive Logic & Ember Animation Script -->
     <script>
-        // 1. COLLAPSE THE INTRO WALL WITH MICRO-SHAKE & WHITE NEON LIGHTNING FLASH
-        function collapseWall() {
-            const body = document.body;
-            const wall = document.getElementById('wall-overlay');
-            
-            // Trigger rapid lightning flashes and micro-shaking
-            body.classList.add('micro-shaking');
-            
-            let flashCount = 0;
-            const interval = setInterval(() => {
-                body.style.backgroundColor = flashCount % 2 === 0 ? 'rgba(0, 229, 255, 0.9)' : '#06070a';
-                flashCount++;
-                if (flashCount > 6) {
-                    clearInterval(interval);
-                    body.style.backgroundColor = '#06070a';
-                    body.classList.remove('micro-shaking');
-                    wall.classList.add('collapsed');
-                    
-                    // Trigger the first progress gauge animation upon reveal
-                    animateGauge('ring-fill-m1', 100);
-                }
-            }, 60);
-        }
-
-        // 2. INTERACTIVE DOSSIER TABS & BIOMETRIC DIALS ANIMATION
-        function openMission(evt, missionId, targetPercentage) {
-            let i, tabcontent, tablinks;
-            
-            // Hide all mission contents
-            tabcontent = document.getElementsByClassName("mission-content");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].style.display = "none";
-                tabcontent[i].classList.remove("active");
-            }
-
-            // Remove active state from tabs
-            tablinks = document.getElementsByClassName("mission-tab");
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].classList.remove("active");
-            }
-
-            // Show selected mission content
-            const activeContent = document.getElementById(missionId);
-            activeContent.style.display = "block";
-            setTimeout(() => {
-                activeContent.classList.add("active");
-            }, 10);
-            
-            evt.currentTarget.classList.add("active");
-
-            // Animate corresponding Gas Gauge
-            const ringFillId = "ring-fill-" + missionId;
-            animateGauge(ringFillId, targetPercentage);
-        }
-
-        function animateGauge(gaugeId, percent) {
-            const circle = document.getElementById(gaugeId);
-            if (!circle) return;
-            
-            // Reset dashoffset first
-            circle.style.strokeDashoffset = '138';
-            
-            // Calculate new offset: stroke-dasharray (138) * (1 - percent/100)
-            const offset = 138 - (138 * (percent / 100));
-            setTimeout(() => {
-                circle.style.strokeDashoffset = offset;
-            }, 150);
-        }
-
-        // 3. FINE AMBIENT SPARKS & LIGHTNING ENGINE (CANVAS)
-        const canvas = document.getElementById('embers-canvas');
+        /* Ember Particle Generator on Canvas */
+        const canvas = document.getElementById('embersCanvas');
         const ctx = canvas.getContext('2d');
-        let sparks = [];
+        let particles = [];
 
         function resizeCanvas() {
             canvas.width = window.innerWidth;
@@ -1442,93 +569,127 @@
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
-        class Sparkle {
+        class Ember {
             constructor() {
                 this.reset();
-                this.y = Math.random() * canvas.height; // Distribute evenly at start
             }
-
             reset() {
                 this.x = Math.random() * canvas.width;
-                this.y = canvas.height + Math.random() * 50;
-                this.size = Math.random() * 1.5 + 0.5; // Fine, elegant particles
-                this.speedY = -(Math.random() * 1.4 + 0.4);
-                this.speedX = Math.random() * 1 - 0.5;
-                this.opacity = Math.random() * 0.5 + 0.15;
-                this.decay = Math.random() * 0.003 + 0.0008;
+                this.y = canvas.height + Math.random() * 80;
+                this.size = Math.random() * 2.5 + 0.8;
+                this.speedY = -(Math.random() * 1.8 + 0.4);
+                this.speedX = Math.random() * 1.2 - 0.6;
+                this.alpha = Math.random() * 0.6 + 0.4;
+                this.decay = Math.random() * 0.004 + 0.0015;
             }
-
             update() {
                 this.y += this.speedY;
                 this.x += this.speedX;
-                this.opacity -= this.decay;
-                if (this.opacity <= 0) {
+                this.alpha -= this.decay;
+                if (this.alpha <= 0 || this.x < 0 || this.x > canvas.width || this.y < 0) {
                     this.reset();
                 }
             }
-
             draw() {
-                ctx.save();
-                ctx.globalAlpha = this.opacity;
-                // Ember glow color representing titan heat
-                ctx.fillStyle = '#f59e0b';
-                ctx.shadowBlur = 4;
-                ctx.shadowColor = '#00e5ff';
+                ctx.fillStyle = `rgba(245, 158, 11, ${this.alpha})`;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.shadowBlur = this.size * 3;
+                ctx.shadowColor = '#ef4444';
                 ctx.fill();
-                ctx.restore();
+                ctx.shadowBlur = 0;
             }
         }
 
-        function initSparks() {
-            for (let i = 0; i < 35; i++) {
-                sparks.push(new Sparkle());
-            }
+        // Initialize particles
+        const particleCount = Math.min(60, Math.floor(window.innerWidth / 20));
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Ember());
         }
 
-        // Random neon lightning trigger
-        let lightningFlash = 0;
-        function triggerLightning() {
-            if (Math.random() < 0.0015) { // very rare random lightning
-                lightningFlash = 4;
-            }
-        }
-
-        function animateCanvas() {
+        function animateEmbers() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            // Draw Sparks
-            for (let i = 0; i < sparks.length; i++) {
-                sparks[i].update();
-                sparks[i].draw();
-            }
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateEmbers);
+        }
+        animateEmbers();
 
-            // Draw Lightning overlay if triggered
-            triggerLightning();
-            if (lightningFlash > 0) {
-                ctx.fillStyle = `rgba(0, 229, 255, ${lightningFlash * 0.12})`;
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                lightningFlash--;
-            }
 
-            requestAnimationFrame(animateCanvas);
+        /* Tactical Console Switching Logic */
+        function switchMission(missionId) {
+            // Hide all mission contents
+            document.querySelectorAll('.mission-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            // Show selected mission content
+            document.getElementById(`content-m${missionId}`).classList.remove('hidden');
+
+            // Reset active button styling
+            document.querySelectorAll('.mission-btn').forEach(btn => {
+                btn.classList.remove('bg-aot-card', 'border-t-4', 'border-t-aot-amber');
+                btn.classList.add('bg-aot-card/50');
+                btn.querySelector('span:first-child').classList.replace('text-aot-amber', 'text-gray-500');
+                btn.querySelector('span:last-child').classList.replace('text-white', 'text-gray-300');
+            });
+
+            // Highlight selected button
+            const activeBtn = document.getElementById(`btn-m${missionId}`);
+            activeBtn.classList.remove('bg-aot-card/50');
+            activeBtn.classList.add('bg-aot-card', 'border-t-4', 'border-t-aot-amber');
+            activeBtn.querySelector('span:first-child').classList.replace('text-gray-500', 'text-aot-amber');
+            activeBtn.querySelector('span:last-child').classList.replace('text-gray-300', 'text-white');
         }
 
-        initSparks();
-        animateCanvas();
 
-        // 4. PARALLAX EFFECT FOR COMPACTING HUD MENU
-        window.addEventListener('scroll', () => {
-            const header = document.querySelector('header');
-            if (window.scrollY > 40) {
-                header.style.padding = '0.8rem 8%';
-                header.style.background = 'rgba(6, 7, 10, 0.96)';
+        /* Mission 1 Step Slider Data & Logic */
+        const m1Steps = [
+            "B1: Khởi tạo tệp tin văn bản (GhiChu.txt) chuẩn xác tại thực địa.",
+            "B2: Thực hiện đổi tên tệp tin để dễ dàng phân loại mật (GhiChuQuanTrong.txt).",
+            "B3: Thiết lập một thư mục con chuyên biệt để phân cấp lưu trữ (TaiLieu).",
+            "B4: Sao chép tệp tin vào thư mục con bảo quản an toàn.",
+            "B5: Di chuyển tệp tin khác nhau giữa các thư mục chiến tuyến.",
+            "B6: Thực hiện xóa tạm thời tệp tin để bảo mật tài nguyên.",
+            "B7: Tiến hành xóa vĩnh viễn tệp rác để tối ưu hóa không gian lưu trữ quân trang.",
+            "B8: Khôi phục tệp tin từ Thùng rác nguyên vẹn về vị trí cũ khi có lệnh mới."
+        ];
+        let currentStep = 0;
+
+        function updateStep() {
+            document.getElementById('step-count').innerText = `Bước ${currentStep + 1} / 8`;
+            document.getElementById('step-desc').innerText = m1Steps[currentStep];
+        }
+        function nextStep() {
+            currentStep = (currentStep + 1) % m1Steps.length;
+            updateStep();
+        }
+        function prevStep() {
+            currentStep = (currentStep - 1 + m1Steps.length) % m1Steps.length;
+            updateStep();
+        }
+
+
+        /* Mission 3 Prompt Compare Selector */
+        function togglePrompt(isAdv) {
+            const btnBasic = document.getElementById('btn-prompt-basic');
+            const btnAdv = document.getElementById('btn-prompt-adv');
+            const promptText = document.getElementById('prompt-text');
+            const promptResponse = document.getElementById('prompt-response');
+
+            if (isAdv) {
+                btnAdv.className = "px-4 py-2 rounded text-xs font-bold bg-aot-crimson text-white transition-all";
+                btnBasic.className = "px-4 py-2 rounded text-xs font-bold bg-gray-800 text-gray-400 hover:text-white transition-all";
+                promptText.innerText = `"[Bối cảnh]: Sinh viên 20 tuổi thức trắng lúc 2h sáng, suy sụp và mất ngủ vì thấy bạn bè trên LinkedIn khoe thành tích rực rỡ.\n[Vai trò]: Đóng vai chuyên gia thần kinh học hành vi thấu cảm.\n[Nhiệm vụ]: Hãy viết một kịch bản phân tích cơ chế bẫy dopamine để họ hiểu lỗi không nằm ở họ, tuyệt đối không dùng từ khuyên sáo rỗng (cố lên, rồi ổn thôi). Hãy dùng biện pháp ẩn dụ máy chạy bộ trong phòng gym."`;
+                promptResponse.innerText = `"Chào em, hãy kéo ghế ngồi xuống và thở chậm lại. Nỗi lo âu em đang nếm trải lúc 2 giờ sáng không phải là minh chứng cho sự kém cỏi của em, mà là hệ quả của việc não bộ em đang bị 'tin tặc' tấn công. Khi lướt mạng, mỗi bài đăng rực rỡ của người khác là một tín hiệu giả lập khiến Amygdala của em bật còi báo động rằng em đang bị bỏ lại phía sau... Hãy đưa mắt trở về chiếc máy của mình, điều chỉnh lại tốc độ phù hợp với hơi thở của chính bạn."`;
             } else {
-                header.style.padding = '1.2rem 8%';
-                header.style.background = 'rgba(6, 7, 10, 0.85)';
+                btnBasic.className = "px-4 py-2 rounded text-xs font-bold bg-aot-crimson text-white transition-all";
+                btnAdv.className = "px-4 py-2 rounded text-xs font-bold bg-gray-800 text-gray-400 hover:text-white transition-all";
+                promptText.innerText = `"Hãy viết về hội chứng sợ bị bỏ lỡ (FOMO)."`;
+                promptResponse.innerText = `"Một bài viết khô khan như bách khoa toàn thư, liệt kê vài triệu chứng sáo rỗng và đưa ra lời khuyên độc hại (Toxic Positivity): "Hãy tắt máy điện thoại đi là xong". Hoàn toàn không thấu hiểu tâm lý thực sự."`;
             }
-        });
+        }
     </script>
 </body>
 </html>
