@@ -3,22 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tactical Command Portfolio | Đỗ Tiến Khôi</title>
+    <title>Tactical Digital Portfolio | Đỗ Tiến Khôi</title>
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Lora:ital,wght@0,400;0,500;1,400&family=Montserrat:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <!-- FontAwesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Lora:ital,wght@0,400;0,500;1,400&family=Montserrat:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --neon-cyan: #00f0ff;
-            --neon-red: #ff2e5b;
-            --cyber-amber: #e2a65a;
-            --bg-dark: #07080b;
-            --panel-bg: rgba(18, 22, 32, 0.75);
+            --neon-blue: #00e5ff;
+            --scout-blue: #2563eb;
+            --titan-orange: #f59e0b;
+            --titan-red: #ef4444;
+            --dark-abyss: #06070a;
+            --card-bg: rgba(10, 11, 16, 0.75);
+            --border-glow: rgba(0, 229, 255, 0.15);
             --text-light: #f3f4f6;
-            --text-muted: #8fa0be;
-            --border-glow: rgba(0, 240, 255, 0.15);
-            --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            --text-muted: #9ca3af;
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         * {
@@ -30,110 +31,89 @@
 
         body {
             font-family: 'Lora', serif;
-            background-color: var(--bg-dark);
+            background-color: var(--dark-abyss);
             color: var(--text-light);
             overflow-x: hidden;
-            line-height: 1.6;
+            line-height: 1.7;
         }
 
-        /* 1. MODERN SLIT TRANSITION (CẮT ĐÔI MÀN HÌNH KHỞI CHẠY) */
-        #gate-container {
+        /* 1. MICRO-SHAKE ON REVEAL (Rung giật nhẹ dứt khoát) */
+        @keyframes microShake {
+            0%, 100% { transform: translate(0, 0); }
+            10% { transform: translate(-1px, -1px); }
+            20% { transform: translate(1px, 0px); }
+            30% { transform: translate(-1px, 1px); }
+            40% { transform: translate(1px, -1px); }
+            50% { transform: translate(-1px, 0px); }
+            60% { transform: translate(1px, 1px); }
+            70% { transform: translate(-1px, -1px); }
+            80% { transform: translate(1px, 0deg); }
+        }
+
+        .micro-shaking {
+            animation: microShake 0.1s infinite;
+        }
+
+        /* SCREEN TRANSITION ON UNLOCK */
+        #wall-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100vh;
+            background: radial-gradient(circle, rgba(6,7,10,0.4) 0%, rgba(6,7,10,0.95) 100%), 
+                        url('https://images.unsplash.com/photo-1590069261209-f8e9b8642343?auto=format&fit=crop&q=80&w=1500') center center/cover;
             z-index: 999;
-            pointer-events: none;
-        }
-
-        .gate-half {
-            position: absolute;
-            width: 100%;
-            height: 50%;
-            background: #0d0f14;
             display: flex;
-            align-items: center;
+            flex-direction: column;
             justify-content: center;
-            transition: transform 1s cubic-bezier(0.85, 0, 0.15, 1);
-            pointer-events: auto;
-            border-bottom: 2px solid var(--neon-cyan);
-            box-shadow: 0 0 30px rgba(0, 240, 255, 0.2);
-        }
-
-        .gate-half.top {
-            top: 0;
-            border-bottom: 2px solid var(--neon-cyan);
-        }
-
-        .gate-half.bottom {
-            bottom: 0;
-            top: 50%;
-            border-top: 2px solid var(--neon-cyan);
-            border-bottom: none;
-        }
-
-        .gate-content {
-            position: absolute;
+            align-items: center;
+            transition: clip-path 1.2s cubic-bezier(0.86, 0, 0.07, 1), opacity 1s ease;
+            clip-path: circle(150% at 50% 50%);
             text-align: center;
-            z-index: 1000;
-            width: 100%;
-            max-width: 800px;
-            padding: 0 2rem;
-            transition: opacity 0.5s ease;
         }
 
-        .gate-title {
-            font-family: 'Cinzel', serif;
-            font-size: 2.2rem;
-            letter-spacing: 4px;
-            color: var(--text-light);
-            margin-bottom: 1.5rem;
-            text-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
-        }
-
-        .gate-title span {
-            color: var(--neon-red);
-        }
-
-        .btn-launch {
-            font-family: 'Montserrat', sans-serif;
-            padding: 1rem 2.5rem;
-            background: transparent;
-            border: 2px solid var(--neon-cyan);
-            color: var(--neon-cyan);
-            font-weight: 800;
-            letter-spacing: 2px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: var(--transition-smooth);
-            text-transform: uppercase;
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.1);
-        }
-
-        .btn-launch:hover {
-            background: var(--neon-cyan);
-            color: var(--bg-dark);
-            box-shadow: 0 0 30px rgba(0, 240, 255, 0.4);
-            transform: translateY(-2px);
-        }
-
-        /* Khi mở hệ thống */
-        #gate-container.opened .gate-half.top {
-            transform: translateY(-100%);
-        }
-
-        #gate-container.opened .gate-half.bottom {
-            transform: translateY(100%);
-        }
-
-        #gate-container.opened .gate-content {
+        #wall-overlay.collapsed {
+            clip-path: circle(0% at 50% 50%);
             opacity: 0;
             pointer-events: none;
         }
 
-        /* BACKGROUND CYBER PARTICLES */
-        #cyber-canvas {
+        .wall-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            color: #fff;
+            letter-spacing: 4px;
+            text-shadow: 0 0 20px rgba(0, 229, 255, 0.3);
+            margin-bottom: 2rem;
+            max-width: 700px;
+            padding: 0 1.5rem;
+        }
+
+        .btn-unlock {
+            font-family: 'Montserrat', sans-serif;
+            padding: 1rem 2.5rem;
+            background: transparent;
+            border: 2px solid var(--neon-blue);
+            color: var(--neon-blue);
+            font-size: 0.9rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.2);
+            transition: var(--transition);
+            text-transform: uppercase;
+        }
+
+        .btn-unlock:hover {
+            background: var(--neon-blue);
+            color: var(--dark-abyss);
+            box-shadow: 0 0 30px rgba(0, 229, 255, 0.6);
+            transform: scale(1.03);
+        }
+
+        /* AMBIENT SPARKS CANVAS */
+        #embers-canvas {
             position: fixed;
             top: 0;
             left: 0;
@@ -141,10 +121,10 @@
             height: 100%;
             z-index: 1;
             pointer-events: none;
-            opacity: 0.4;
+            opacity: 0.6;
         }
 
-        /* HEADER HUD NAVIGATION */
+        /* HEADER / HUD BAR */
         header {
             position: fixed;
             top: 0;
@@ -155,16 +135,16 @@
             justify-content: space-between;
             align-items: center;
             z-index: 100;
-            background: rgba(10, 12, 16, 0.85);
-            backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(0, 240, 255, 0.1);
-            transition: var(--transition-smooth);
+            background: rgba(6, 7, 10, 0.85);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(0, 229, 255, 0.1);
+            transition: var(--transition);
         }
 
         .logo {
-            font-family: 'Cinzel', serif;
+            font-family: 'Montserrat', sans-serif;
             font-weight: 900;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             letter-spacing: 2px;
             color: var(--text-light);
             text-decoration: none;
@@ -174,24 +154,26 @@
         }
 
         .logo span {
-            color: var(--neon-cyan);
+            color: var(--neon-blue);
         }
 
-        .scout-cyber-wings {
+        /* Minimalistic Overlapping Wings vector representing Wings of Freedom */
+        .wings-badge {
             width: 32px;
             height: 32px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 1px solid var(--neon-cyan);
-            background: rgba(0, 240, 255, 0.05);
-            border-radius: 4px;
-            box-shadow: 0 0 8px rgba(0, 240, 255, 0.2);
+            position: relative;
         }
 
-        .scout-cyber-wings i {
-            color: var(--neon-cyan);
-            font-size: 0.85rem;
+        .wings-svg {
+            width: 100%;
+            height: 100%;
+            fill: none;
+            stroke: var(--neon-blue);
+            stroke-width: 2.5;
+            filter: drop-shadow(0 0 4px var(--neon-blue));
         }
 
         nav {
@@ -207,29 +189,28 @@
             font-size: 0.8rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: var(--transition-smooth);
+            letter-spacing: 1.5px;
+            transition: var(--transition);
         }
 
         nav a:hover, nav a.active {
-            color: var(--neon-cyan);
-            text-shadow: 0 0 10px rgba(0, 240, 255, 0.4);
+            color: var(--neon-blue);
+            text-shadow: 0 0 8px rgba(0, 229, 255, 0.5);
         }
 
-        /* MODERN SLASH HOVER ACTION */
-        .btn-modern-hud {
+        /* MODERN SLASH GLOW HOVER */
+        .btn-modern-drive {
             font-family: 'Montserrat', sans-serif;
             padding: 0.6rem 1.4rem;
             background: transparent;
-            border: 1px solid var(--neon-cyan);
-            color: var(--neon-cyan);
+            border: 1px solid var(--neon-blue);
+            color: var(--neon-blue);
             font-weight: 700;
             text-decoration: none;
             text-transform: uppercase;
             font-size: 0.75rem;
             letter-spacing: 1.5px;
-            border-radius: 4px;
-            transition: var(--transition-smooth);
+            transition: var(--transition);
             display: flex;
             align-items: center;
             gap: 8px;
@@ -237,41 +218,40 @@
             overflow: hidden;
         }
 
-        .btn-modern-hud::after {
+        .btn-modern-drive::before {
             content: '';
             position: absolute;
-            top: -50%;
+            top: 0;
             left: -100%;
-            width: 40px;
-            height: 200%;
-            background: rgba(255, 255, 255, 0.2);
-            transform: rotate(30deg);
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 229, 255, 0.25), transparent);
             transition: none;
         }
 
-        .btn-modern-hud:hover::after {
-            left: 150%;
+        .btn-modern-drive:hover::before {
+            left: 100%;
             transition: all 0.6s ease-in-out;
         }
 
-        .btn-modern-hud:hover {
-            background: rgba(0, 240, 255, 0.08);
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+        .btn-modern-drive:hover {
+            background: rgba(0, 229, 255, 0.05);
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.3);
             border-color: #fff;
         }
 
-        /* PREMIUM WIDESCREEN HERO */
+        /* CYBER HERO / BIOMETRIC TARGET HUD */
         .hero {
             position: relative;
             height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 0 10%;
-            background: linear-gradient(to bottom, rgba(7, 8, 11, 0.1), var(--bg-dark)), url('back.jpg') no-repeat center center/cover;
+            padding: 0 8%;
+            background: linear-gradient(to bottom, rgba(6, 7, 10, 0.2), var(--dark-abyss)), url('back.jpg') no-repeat center center/cover;
             background-attachment: fixed;
             z-index: 2;
-            border-bottom: 1px solid rgba(0, 240, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .hero::before {
@@ -281,99 +261,134 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle, transparent 30%, rgba(7, 8, 11, 0.85) 100%);
+            background: radial-gradient(circle, transparent 30%, rgba(6, 7, 10, 0.8) 100%);
             pointer-events: none;
         }
 
-        /* GLASS CYBER COMMAND PANEL */
-        .cyber-profile-card {
+        /* HIGH-TECH HUD CONTROL PANEL */
+        .hud-terminal-container {
             display: grid;
-            grid-template-columns: 160px 1fr;
-            gap: 3rem;
+            grid-template-columns: 180px 1fr;
+            gap: 3.5rem;
             align-items: center;
-            background: var(--panel-bg);
-            backdrop-filter: blur(20px);
+            background: var(--card-bg);
             border: 1px solid var(--border-glow);
-            padding: 2.5rem;
-            border-radius: 8px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-            width: 100%;
-            max-width: 850px;
+            padding: 3rem;
+            backdrop-filter: blur(20px);
+            border-radius: 6px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8), inset 0 0 30px rgba(0, 229, 255, 0.05);
             position: relative;
+            max-width: 850px;
+            width: 100%;
             z-index: 3;
         }
 
-        /* Micro sci-fi corners */
-        .cyber-profile-card::before, .cyber-profile-card::after {
-            content: '';
+        /* Minimal decorative corners for HUD */
+        .hud-corner {
             position: absolute;
             width: 12px;
             height: 12px;
-            border-color: var(--neon-cyan);
-            border-style: solid;
+            border: 2px solid var(--neon-blue);
             pointer-events: none;
         }
+        .hud-top-left { top: -2px; left: -2px; border-right: none; border-bottom: none; }
+        .hud-top-right { top: -2px; right: -2px; border-left: none; border-bottom: none; }
+        .hud-bottom-left { bottom: -2px; left: -2px; border-right: none; border-top: none; }
+        .hud-bottom-right { bottom: -2px; right: -2px; border-left: none; border-top: none; }
 
-        .cyber-profile-card::before { top: -2px; left: -2px; border-width: 2px 0 0 2px; }
-        .cyber-profile-card::after { bottom: -2px; right: -2px; border-width: 0 2px 2px 0; }
-
-        .profile-avatar {
-            width: 160px;
-            height: 160px;
-            border-radius: 6px;
-            border: 1px solid rgba(0, 240, 255, 0.3);
-            overflow: hidden;
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.1);
+        .target-lock {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .profile-avatar img {
+        /* Diagnostic animated ring around profile */
+        .target-lock-ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 1px dashed var(--neon-blue);
+            border-radius: 50%;
+            animation: spin 12s linear infinite;
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        .avatar-box {
+            width: 154px;
+            height: 154px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid #fff;
+            box-shadow: 0 0 15px rgba(255,255,255,0.1);
+        }
+
+        .avatar-box img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            filter: contrast(1.05) saturate(0.9);
         }
 
-        .hud-info h1 {
+        .hud-stats h1 {
             font-family: 'Cinzel', serif;
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             font-weight: 900;
-            letter-spacing: 2px;
-            color: var(--text-light);
+            letter-spacing: 1.5px;
+            line-height: 1.1;
             margin-bottom: 0.5rem;
+            text-shadow: 0 0 10px rgba(0, 229, 255, 0.1);
         }
 
-        .hud-sub {
-            display: inline-block;
+        .hud-status-bar {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
             font-family: 'Montserrat', sans-serif;
+            font-size: 0.7rem;
             font-weight: 800;
-            font-size: 0.75rem;
-            color: var(--neon-cyan);
-            border: 1px solid var(--neon-cyan);
-            padding: 2px 10px;
-            border-radius: 2px;
             text-transform: uppercase;
             letter-spacing: 1.5px;
-            margin-bottom: 1rem;
+            color: var(--neon-blue);
+            margin-bottom: 1.5rem;
         }
 
-        .hud-metadata-grid {
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--neon-blue);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--neon-blue);
+            animation: pulse 1.5s infinite alternate;
+        }
+
+        @keyframes pulse {
+            100% { opacity: 0.3; }
+        }
+
+        .hud-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            border-top: 1px solid rgba(255,255,255,0.08);
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 0.8rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
             padding-top: 1rem;
             font-family: 'Montserrat', sans-serif;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--text-muted);
         }
 
-        .hud-metadata-grid strong {
+        .hud-grid strong {
             color: var(--text-light);
+            font-weight: 600;
         }
 
-        /* SECTION LAYOUTS */
+        /* SECTION LAYOUT */
         section {
-            padding: 7rem 10% 4rem;
+            padding: 8rem 8% 4rem;
             position: relative;
             z-index: 2;
         }
@@ -383,7 +398,7 @@
             font-size: 2rem;
             font-weight: 900;
             color: var(--text-light);
-            margin-bottom: 2.5rem;
+            margin-bottom: 3.5rem;
             position: relative;
             display: inline-block;
             letter-spacing: 1px;
@@ -396,462 +411,461 @@
             left: 0;
             width: 60px;
             height: 2px;
-            background: var(--neon-cyan);
-            box-shadow: 0 0 8px var(--neon-cyan);
+            background: var(--neon-blue);
+            box-shadow: 0 0 6px var(--neon-blue);
         }
 
-        /* BRIEFING SECTION (ABOUT) */
-        .briefing-layout {
+        /* MISSION INTRO GRID */
+        .intro-grid {
             display: grid;
-            grid-template-columns: 1.1fr 0.9fr;
+            grid-template-columns: 1.15fr 0.85fr;
             gap: 4rem;
             align-items: center;
         }
 
-        .briefing-text p {
+        .intro-text p {
             font-size: 1.05rem;
             color: var(--text-muted);
-            margin-bottom: 1.2rem;
+            margin-bottom: 1.5rem;
             text-align: justify;
         }
 
-        .briefing-card {
-            background: rgba(18, 22, 32, 0.4);
+        .intro-quote {
+            font-family: 'Lora', serif;
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--parchment);
+            border-left: 2px solid var(--neon-blue);
+            padding-left: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .tactical-dossier-card {
+            background: var(--card-bg);
             border: 1px solid rgba(255,255,255,0.05);
-            padding: 2rem;
+            border-radius: 4px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        /* MODERN CTA GOOGLE DRIVE BANNER */
+        .modern-cta {
+            background: linear-gradient(135deg, rgba(6, 7, 10, 0.95) 0%, rgba(13, 27, 42, 0.9) 100%), url('back.jpg') no-repeat center center/cover;
+            background-blend-mode: overlay;
+            border: 1px solid var(--border-glow);
+            padding: 4rem;
             border-radius: 6px;
-        }
-
-        .briefing-card h4 {
-            font-family: 'Montserrat', sans-serif;
-            color: var(--neon-cyan);
-            font-size: 0.95rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 1.2rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .briefing-card-item {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin-bottom: 0.8rem;
-        }
-
-        /* MODERN CTA BANNER (GOOGLE DRIVE) */
-        .cta-banner {
-            background: linear-gradient(rgba(10, 12, 16, 0.9), rgba(10, 12, 16, 0.92)), url('back.jpg') no-repeat center center/cover;
-            border: 1px solid rgba(0, 240, 255, 0.15);
-            border-radius: 6px;
-            padding: 3.5rem;
             text-align: center;
             margin-bottom: 4rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
         }
 
-        .cta-banner h3 {
+        .modern-cta h3 {
             font-family: 'Cinzel', serif;
             font-size: 1.8rem;
-            margin-bottom: 0.8rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
         }
 
-        .cta-banner p {
+        .modern-cta p {
             color: var(--text-muted);
-            max-width: 600px;
-            margin: 0 auto 2rem;
             font-size: 0.95rem;
+            max-width: 580px;
+            margin: 0 auto 2.5rem;
         }
 
-        .cta-banner .btn-modern-hud {
+        .modern-cta .btn-modern-drive {
             display: inline-flex;
-            padding: 0.8rem 2rem;
+            padding: 0.8rem 2.2rem;
+            font-size: 0.8rem;
         }
 
-        /* CAMPAIGN TAB SELECTION HUD */
-        .tabs-hud-container {
+        /* INTERACTIVE STRATEGIC MISSIONS DISPLAY */
+        .missions-nav {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 2.5rem;
-            border-bottom: 1px solid rgba(255,255,255,0.06);
-            padding-bottom: 1rem;
+            gap: 10px;
+            margin-bottom: 3rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding-bottom: 1.2rem;
         }
 
-        .tab-hud {
+        .mission-tab {
             font-family: 'Montserrat', sans-serif;
-            padding: 0.7rem 1.3rem;
-            background: transparent;
-            border: 1px solid transparent;
+            padding: 0.7rem 1.4rem;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
             color: var(--text-muted);
             font-weight: 700;
             font-size: 0.75rem;
             cursor: pointer;
-            transition: var(--transition-smooth);
             text-transform: uppercase;
             letter-spacing: 1px;
-            border-radius: 4px;
+            transition: var(--transition);
         }
 
-        .tab-hud:hover, .tab-hud.active {
-            color: var(--neon-cyan);
-            border-color: rgba(0, 240, 255, 0.2);
-            background: rgba(0, 240, 255, 0.03);
+        .mission-tab:hover, .mission-tab.active {
+            color: var(--neon-blue);
+            border-color: var(--neon-blue);
+            background: rgba(0, 229, 255, 0.03);
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.1);
         }
 
-        .tab-hud.active {
-            border-bottom: 2px solid var(--neon-cyan);
-            background: linear-gradient(to bottom, transparent, rgba(0, 240, 255, 0.05));
+        .mission-tab.active {
+            border-bottom: 2px solid var(--neon-blue);
         }
 
-        /* DOSSIER BODY (CAMPAIGNS) */
-        .campaign-panel {
+        .mission-content {
             display: none;
-            background: var(--panel-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.05);
-            padding: 3rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            padding: 3.5rem;
             border-radius: 6px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            position: relative;
         }
 
-        .campaign-panel.active {
+        .mission-content.active {
             display: block;
-            animation: fadeInHUD 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            animation: scaleReveal 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        @keyframes fadeInHUD {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes scaleReveal {
+            from { transform: scale(0.98); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
         }
 
-        .campaign-header {
+        .mission-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-            padding-bottom: 1.2rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding-bottom: 1.5rem;
             margin-bottom: 2rem;
         }
 
-        .campaign-header h3 {
+        .mission-header h3 {
             font-family: 'Cinzel', serif;
             font-size: 1.6rem;
             color: var(--text-light);
-            margin-bottom: 0.2rem;
+            margin-bottom: 0.4rem;
         }
 
-        .campaign-header span {
+        .mission-header span {
             font-family: 'Montserrat', sans-serif;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 800;
-            color: var(--neon-cyan);
+            color: var(--neon-blue);
             text-transform: uppercase;
             letter-spacing: 2px;
         }
 
-        /* DIGITAL RADIAL PROGRESS WIDGET */
-        .widget-progress-hud {
+        /* BIOMETRIC PRESSURE DIALS */
+        .biometric-gauge-box {
             display: flex;
             align-items: center;
             gap: 15px;
-            background: rgba(0,0,0,0.25);
+            background: rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(255,255,255,0.03);
-            padding: 1rem 1.5rem;
+            padding: 1rem;
             border-radius: 4px;
             margin-bottom: 2rem;
             max-width: fit-content;
         }
 
-        .widget-svg {
-            width: 44px;
-            height: 44px;
+        .gauge-ring {
+            width: 48px;
+            height: 48px;
             transform: rotate(-90deg);
         }
 
-        .widget-svg-bg {
+        .ring-bg {
             fill: none;
-            stroke: rgba(255,255,255,0.04);
+            stroke: rgba(255,255,255,0.03);
             stroke-width: 5;
         }
 
-        .widget-svg-fill {
+        .ring-fill {
             fill: none;
-            stroke: var(--neon-cyan);
+            stroke: var(--neon-blue);
             stroke-width: 5;
-            stroke-dasharray: 125;
-            stroke-dashoffset: 125;
-            transition: stroke-dashoffset 1.2s ease;
+            stroke-dasharray: 138;
+            stroke-dashoffset: 138;
+            transition: stroke-dashoffset 1.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .widget-info h5 {
+        .gauge-label-area h6 {
             font-family: 'Montserrat', sans-serif;
             font-weight: 800;
             font-size: 0.75rem;
             color: var(--text-light);
             text-transform: uppercase;
             letter-spacing: 1px;
+            margin-bottom: 0.1rem;
         }
 
-        .widget-info p {
+        .gauge-label-area p {
             font-size: 0.8rem;
             color: var(--text-muted);
         }
 
-        /* DETAILED CONTENT FORMATTING */
-        .campaign-desc {
+        .mission-desc {
             color: var(--text-muted);
             font-size: 1.05rem;
             text-align: justify;
             margin-bottom: 2rem;
         }
 
-        /* Cyberpunk code terminal */
-        .hud-terminal {
-            background: #090b0e;
-            border: 1px solid rgba(0, 240, 255, 0.1);
+        /* M1: Cyber Code Console */
+        .code-terminal {
+            background: #040507;
+            border: 1px solid rgba(0, 229, 255, 0.15);
             border-radius: 4px;
-            padding: 1.2rem;
-            font-family: 'Courier New', Courier, monospace;
+            padding: 1.5rem;
+            font-family: monospace;
             font-size: 0.85rem;
-            color: var(--neon-cyan);
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.9);
+            color: #38bdf8;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
         }
 
-        .hud-terminal-top {
+        .terminal-meta {
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding-bottom: 0.6rem;
+            margin-bottom: 1rem;
             display: flex;
             justify-content: space-between;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.7rem;
-            font-weight: bold;
+            font-size: 0.75rem;
             color: var(--text-muted);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            padding-bottom: 0.5rem;
-            margin-bottom: 0.8rem;
         }
 
-        /* Modern Matrix Table */
-        .matrix-table-container {
+        /* M2: Premium Minimal Table */
+        .academic-table-box {
             overflow-x: auto;
-            margin-top: 1.5rem;
+            margin-top: 2rem;
             border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 4px;
         }
 
-        .matrix-table {
+        .academic-table {
             width: 100%;
             border-collapse: collapse;
             font-family: 'Montserrat', sans-serif;
             font-size: 0.8rem;
-            color: var(--text-light);
             text-align: left;
+            color: var(--text-light);
         }
 
-        .matrix-table th, .matrix-table td {
-            padding: 12px 16px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        .academic-table th, .academic-table td {
+            padding: 14px 18px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
-        .matrix-table th {
-            background-color: rgba(0, 240, 255, 0.05);
-            color: var(--neon-cyan);
-            text-transform: uppercase;
+        .academic-table th {
+            background-color: rgba(0, 229, 255, 0.02);
+            color: var(--neon-blue);
             font-weight: 700;
+            text-transform: uppercase;
             letter-spacing: 1px;
         }
 
-        .matrix-table tr:hover {
-            background-color: rgba(255, 255, 255, 0.02);
+        .academic-table tr:hover {
+            background-color: rgba(255,255,255,0.01);
         }
 
-        .cyber-pill {
-            padding: 2px 6px;
+        .biometric-badge {
+            padding: 3px 8px;
             font-size: 0.7rem;
-            font-weight: 800;
+            font-weight: 700;
             text-transform: uppercase;
             border-radius: 2px;
         }
 
-        .cyber-pill.high {
-            background: rgba(0, 240, 255, 0.1);
-            color: var(--neon-cyan);
-            border: 1px solid var(--neon-cyan);
+        .biometric-badge.secure {
+            background: rgba(0, 229, 255, 0.05);
+            color: var(--neon-blue);
+            border: 1px solid var(--neon-blue);
         }
 
-        .cyber-pill.medium {
-            background: rgba(226, 166, 90, 0.1);
-            color: var(--cyber-amber);
-            border: 1px solid var(--cyber-amber);
+        .biometric-badge.stable {
+            background: rgba(245, 158, 11, 0.05);
+            color: var(--titan-orange);
+            border: 1px solid var(--titan-orange);
         }
 
-        /* Prompt Interactive comparison layout */
-        .prompt-grid {
+        /* M3: Split Prompts compare cards */
+        .prompt-split-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 2rem;
-            margin-top: 1.5rem;
+            margin-top: 2rem;
         }
 
-        .prompt-panel {
-            background: rgba(7, 8, 11, 0.4);
-            border: 1px solid rgba(255,255,255,0.04);
-            padding: 1.5rem;
+        .prompt-split-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255,255,255,0.03);
             border-radius: 4px;
+            padding: 1.8rem;
         }
 
-        .prompt-panel h4 {
+        .prompt-split-card h4 {
             font-family: 'Montserrat', sans-serif;
-            font-weight: 700;
             font-size: 0.85rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 0.8rem;
+            margin-bottom: 1rem;
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
-        .prompt-panel h4.bad { color: var(--neon-red); }
-        .prompt-panel h4.good { color: var(--neon-cyan); }
+        .prompt-split-card.faulty h4 { color: var(--titan-red); }
+        .prompt-split-card.optimized h4 { color: var(--neon-blue); }
 
-        .prompt-code {
+        .terminal-prompt-box {
             font-family: monospace;
-            background: rgba(0,0,0,0.3);
-            border-left: 2px solid;
-            padding: 0.8rem;
-            margin-bottom: 1rem;
+            background: rgba(0,0,0,0.4);
+            padding: 1rem;
             font-size: 0.85rem;
+            color: var(--text-light);
+            border-left: 2px solid;
+            margin-bottom: 1.2rem;
         }
-        .prompt-panel.bad-panel .prompt-code { border-color: var(--neon-red); color: #ffa4b6; }
-        .prompt-panel.good-panel .prompt-code { border-color: var(--neon-cyan); color: #99f7ff; }
 
-        .prompt-feedback {
-            font-size: 0.9rem;
+        .prompt-split-card.faulty .terminal-prompt-box { border-color: var(--titan-red); }
+        .prompt-split-card.optimized .terminal-prompt-box { border-color: var(--neon-blue); }
+
+        .analysis-text {
+            font-size: 0.95rem;
             color: var(--text-muted);
         }
 
-        /* Teamwork Column Cards */
-        .col-grid {
+        /* M4: Modern Kanban Column Board */
+        .kanban-board {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 1.5rem;
-            margin-top: 1.5rem;
+            margin-top: 2rem;
         }
 
-        .col-card {
-            background: rgba(7, 8, 11, 0.25);
-            border: 1px solid rgba(255,255,255,0.03);
-            padding: 1.2rem;
+        .kanban-column {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px dashed rgba(255,255,255,0.05);
+            padding: 1.5rem;
             border-radius: 4px;
         }
 
-        .col-card h4 {
+        .kanban-column h4 {
             font-family: 'Montserrat', sans-serif;
             font-size: 0.85rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 1rem;
+            margin-bottom: 1.2rem;
             padding-bottom: 0.4rem;
             border-bottom: 2px solid;
         }
 
-        .col-card.red-card h4 { border-color: var(--neon-red); color: var(--neon-red); }
-        .col-card.blue-card h4 { border-color: var(--neon-cyan); color: var(--neon-cyan); }
-        .col-card.green-card h4 { border-color: #10b981; color: #10b981; }
+        .kanban-column.defect h4 { border-color: var(--titan-red); color: var(--titan-red); }
+        .kanban-column.tactic h4 { border-color: var(--scout-blue); color: var(--scout-blue); }
+        .kanban-column.success h4 { border-color: #10b981; color: #10b981; }
 
-        .col-item {
-            background: rgba(24, 26, 33, 0.6);
+        .kanban-item {
+            background: rgba(24, 26, 33, 0.7);
             border: 1px solid rgba(255,255,255,0.02);
-            padding: 0.8rem;
-            font-size: 0.85rem;
-            margin-bottom: 0.8rem;
+            padding: 1rem;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
             color: var(--text-muted);
         }
 
-        /* FINAL REFLECTION (TỔNG KẾT) */
-        .summary-flex {
+        /* FINAL REFLECTION STYLING */
+        .reflection-grid {
             display: grid;
-            grid-template-columns: 0.8fr 1.2fr;
+            grid-template-columns: 0.85fr 1.15fr;
             gap: 4rem;
             align-items: center;
         }
 
-        .stat-grid-hud {
+        .metric-cards-box {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 1.5rem;
         }
 
-        .stat-box-hud {
-            background: var(--panel-bg);
-            border: 1px solid rgba(255,255,255,0.04);
-            padding: 1.8rem;
-            text-align: center;
+        .metric-card {
+            background: rgba(24, 26, 33, 0.8);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 2rem;
             border-radius: 4px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            position: relative;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+            transition: var(--transition);
         }
 
-        .stat-box-hud h4 {
+        .metric-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--neon-blue);
+            box-shadow: 0 10px 25px rgba(0, 229, 255, 0.1);
+        }
+
+        .metric-card h4 {
             font-family: 'Cinzel', serif;
             font-size: 2.5rem;
-            color: var(--neon-cyan);
-            margin-bottom: 0.2rem;
+            color: var(--neon-blue);
+            margin-bottom: 0.3rem;
         }
 
-        .stat-box-hud p {
+        .metric-card p {
             font-family: 'Montserrat', sans-serif;
             font-weight: 800;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 1px;
         }
 
-        .reflection-block-hud blockquote {
+        .reflection-body blockquote {
             font-family: 'Lora', serif;
             font-size: 1.15rem;
             font-style: italic;
-            border-left: 3px solid var(--neon-cyan);
+            border-left: 2px solid var(--neon-blue);
             padding-left: 1.5rem;
-            margin-bottom: 1.8rem;
-            color: var(--text-light);
+            margin-bottom: 2rem;
+            color: var(--parchment);
         }
 
-        .reflection-block-hud p {
+        .reflection-body p {
             color: var(--text-muted);
             font-size: 1.05rem;
             text-align: justify;
-            margin-bottom: 1.2rem;
+            margin-bottom: 1.5rem;
         }
 
-        /* FOOTER HUD */
+        /* PRECISE FOOTER */
         footer {
-            background: #060709;
-            padding: 4.5rem 8% 2.5rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            background: #030406;
+            padding: 5rem 8% 3rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
             text-align: center;
             position: relative;
             z-index: 2;
         }
 
         .footer-logo {
-            font-family: 'Cinzel', serif;
-            font-size: 1.4rem;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.2rem;
             font-weight: 900;
-            color: var(--neon-cyan);
-            margin-bottom: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
             display: inline-flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
         .footer-links {
             display: flex;
             justify-content: center;
-            gap: 2rem;
-            margin-bottom: 1.8rem;
+            gap: 2.5rem;
+            margin-bottom: 2rem;
         }
 
         .footer-links a {
@@ -861,19 +875,19 @@
             font-size: 0.75rem;
             font-weight: 700;
             letter-spacing: 1px;
-            transition: var(--transition-smooth);
+            transition: var(--transition);
         }
 
         .footer-links a:hover {
-            color: var(--neon-cyan);
+            color: var(--neon-blue);
         }
 
         .footer-quote {
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             color: var(--text-muted);
             font-style: italic;
             max-width: 600px;
-            margin: 0 auto 2rem;
+            margin: 0 auto 2.5rem;
         }
 
         .copyright {
@@ -884,529 +898,542 @@
             text-transform: uppercase;
         }
 
-        /* MOBILE RESPONSIVE TACTICAL */
+        /* PHONE RESPONSIVE */
         @media (max-width: 968px) {
             header {
-                padding: 1.2rem 5%;
+                padding: 1rem 5%;
             }
             nav {
                 display: none;
             }
-            .cyber-profile-card {
+            .hud-terminal-container {
                 grid-template-columns: 1fr;
                 justify-items: center;
                 text-align: center;
                 padding: 2rem;
             }
-            .hud-metadata-grid {
+            .hud-grid {
                 grid-template-columns: 1fr;
             }
-            .briefing-layout, .prompt-grid, .col-grid, .summary-flex {
+            .intro-grid, .prompt-split-grid, .kanban-board, .reflection-grid {
                 grid-template-columns: 1fr;
-                gap: 2.5rem;
+                gap: 3rem;
             }
             section {
-                padding: 5rem 5% 3rem;
+                padding: 6rem 5% 3rem;
             }
         }
     </style>
 </head>
-<body>
+<body class="micro-shaking"> <!-- Reduced high-frequency tactical micro-vibrate simulating colosal steam release -->
 
-    <!-- 1. MODERN SLIT GATES ON ENTRY (KHÔNG GÂY CHÓNG MẶT) -->
-    <div id="gate-container">
-        <div class="gate-half top"></div>
-        <div class="gate-content">
-            <h1 class="gate-title">HỆ THỐNG TRINH SÁT SỐ <span>v2.0</span></h1>
-            <button class="btn-launch" onclick="collapseGate()">
-                <i class="fa-solid fa-power-off"></i> KÍCH HOẠT HỆ THỐNG
-            </button>
-        </div>
-        <div class="gate-half bottom"></div>
+    <!-- 1. SCREEN UNLOCK OVERLAY -->
+    <div id="wall-overlay">
+        <h1 class="wall-title">BỨC TƯỜNG MARIA ĐANG LỰT NỨT</h1>
+        <button class="btn-unlock" onclick="collapseWall()">
+            <i class="fa-solid fa-unlock-keyhole"></i> ĐỘT PHÁ GIỚI HẠN
+        </button>
     </div>
 
-    <!-- 2. Ambient Cyber Particles (Slow and Gentle) -->
-    <canvas id="cyber-canvas"></canvas>
+    <!-- 2. PARTICLES CANVAS -->
+    <canvas id="embers-canvas"></canvas>
 
-    <!-- HEADER / HUD TACTICAL BAR -->
+    <!-- HEADER / HUD CONTROLLER -->
     <header>
         <a href="#" class="logo">
-            <div class="scout-cyber-wings">
-                <i class="fa-solid fa-wind"></i>
+            <div class="wings-badge">
+                <svg class="wings-svg" viewBox="0 0 100 100">
+                    <path d="M 32,25 C 32,25 48,28 48,46 C 48,28 64,25 64,25 C 64,25 72,46 48,72 C 24,46 32,25 32,25 Z" />
+                    <path d="M 48,34 L 48,64" />
+                </svg>
             </div>
-            SHINGEKI<span>HUD</span>
+            WINGS<span>OF FREEDOM</span>
         </a>
         <nav>
-            <a href="#about" class="active">Kỷ Yếu</a>
-            <a href="#campaigns">Bản Đồ Chiến Dịch</a>
+            <a href="#about" class="active">Tân Binh</a>
+            <a href="#strategic-missions">Chiến dịch Số</a>
             <a href="#reflection">Đúc Kết</a>
-            <a href="https://drive.google.com/drive/folders/19DjvcCTxWX0k5wsjL1AS7yeprffwsczT?usp=drive_link" target="_blank" class="btn-modern-hud">
-                <i class="fa-brands fa-google-drive"></i> DỮ LIỆU GỐC
+            <a href="https://drive.google.com/drive/folders/19DjvcCTxWX0k5wsjL1AS7yeprffwsczT?usp=drive_link" target="_blank" class="btn-modern-drive">
+                <i class="fa-brands fa-google-drive"></i> Tài liệu gốc
             </a>
         </nav>
     </header>
 
-    <!-- HERO SECTION HUD -->
+    <!-- TACTICAL HERO HUD -->
     <section class="hero">
-        <div class="cyber-profile-card">
-            <div class="profile-avatar">
-                <img src="Hình 1.jpg" alt="Avatar Đỗ Tiến Khôi">
+        <div class="hud-terminal-container">
+            <div class="hud-corner hud-top-left"></div>
+            <div class="hud-corner hud-top-right"></div>
+            <div class="hud-corner hud-bottom-left"></div>
+            <div class="hud-corner hud-bottom-right"></div>
+
+            <div class="target-lock">
+                <div class="target-lock-ring"></div>
+                <div class="avatar-box">
+                    <img src="Hình 1.jpg" alt="Chân dung Đỗ Tiến Khôi">
+                </div>
             </div>
-            <div class="hud-info">
-                <div class="hud-sub">SƠ ĐỒ TRINH SÁT SỐ S25</div>
+            
+            <div class="hud-stats">
+                <div class="hud-status-bar">
+                    <span class="status-dot"></span> Tân binh: ACTIVE // TACTICAL SECURE
+                </div>
                 <h1>ĐỖ TIẾN KHÔI</h1>
-                <div class="hud-metadata-grid">
-                    <div><strong>Họ & Tên:</strong> Đỗ Tiến Khôi (MSV: 25042144)</div>
-                    <div><strong>Chuyên ngành:</strong> Ngôn ngữ & Văn hoá Nhật Bản</div>
-                    <div><strong>Học viện hành động:</strong> Đại học Ngoại ngữ - ĐHQGHN</div>
-                    <div><strong>Binh chủng:</strong> Công nghệ số & Trí tuệ nhân tạo</div>
+                <div class="hud-grid">
+                    <div><strong>Họ & Tên:</strong> Đỗ Tiến Khôi // ID: 25042144</div>
+                    <div><strong>Học chủng:</strong> Ngôn ngữ & Văn hoá Nhật Bản</div>
+                    <div><strong>Đại bản doanh:</strong> ULIS - VNU</div>
+                    <div><strong>Hệ thống huấn luyện:</strong> AI & Ứng dụng số</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ABOUT SECTION (BRIEFING) -->
+    <!-- ABOUT SECTION -->
     <section id="about">
         <div class="container">
             <h2 class="section-title">Nhật ký tân binh</h2>
-            <div class="briefing-layout">
-                <div class="briefing-text">
-                    <p>Chào mừng bạn đến với bản đồ lưu trữ chiến dịch học tập cá nhân của mình. Đối với một sinh viên theo đuổi chuyên ngành Ngôn ngữ và Văn hóa Nhật Bản tại ULIS, chữ tượng hình Kanji hay các học thuyết xã hội học phức tạp luôn là những bức tường thành khó vượt qua.</p>
-                    <p>Nhưng thay vì trốn tránh hay chiến đấu bằng các phương pháp cũ kỹ, việc chủ động kiểm soát và ứng dụng Trí tuệ Nhân tạo làm công cụ hỗ trợ tư duy phản biện đã giúp mình tự tin khai phóng giới hạn của bản thân trong suốt học kỳ vừa qua.</p>
-                    <p>Bản đồ này tổng hợp đầy đủ tiến trình và kết quả thực hiện 6 chiến dịch lớn, thể hiện cam kết mạnh mẽ của mình đối với sự đổi mới sáng tạo nhưng vẫn bảo tồn đạo đức học thuật sâu sắc.</p>
+            <div class="intro-grid">
+                <div class="intro-text">
+                    <p>Việc tiếp thu hàng ngàn mặt chữ Kanji (Hán tự) có độ phức tạp cao luôn là một bức tường khổng lồ và kiên cố, sẵn sàng che mờ mục tiêu học tập của sinh viên ngoại ngữ Nhật Bản tại Đại học Ngoại ngữ - ĐHQGHN (ULIS). Thế nhưng, trong cuộc chiến thông tin hiện đại, công nghệ không phải là thế lực cản đường mà chính là chìa khóa tháo gỡ tư duy.</p>
+                    <p>Mình là Đỗ Tiến Khôi. Digital Portfolio này không chỉ đơn thuần lưu giữ các cột mốc thực hành môn "Nhập môn công nghệ số và ứng dụng trí tuệ nhân tạo", mà là một biên niên sử chiến dịch chi tiết, chứng minh nỗ lực không ngừng nghỉ để làm chủ công nghệ trí tuệ nhân tạo một cách thông minh, tỉnh táo và có trách nhiệm.</p>
+                    <div class="intro-quote">
+                        "Tự do không tự sinh ra. Nó nằm ở hành trình rèn gũi tư duy phản biện và kỷ luật tự học để điều khiển những vũ khí số tối tân nhất."
+                    </div>
                 </div>
-                <div class="briefing-card">
-                    <h4><i class="fa-solid fa-list-check"></i> Chỉ số huấn luyện</h4>
-                    <div class="briefing-card-item"><strong>• Đề án học tập:</strong> Nhập môn công nghệ số và ứng dụng trí tuệ nhân tạo</div>
-                    <div class="briefing-card-item"><strong>• Kỹ năng đạt được:</strong> Chuẩn hóa dữ liệu tệp tin, Đánh giá độ tin cậy tài liệu học thuật, Prompt Engineering chuyên sâu (C-R-E-A-T-E), Vận hành dự án nhóm số, Đồng sáng tạo nội dung số, Liêm chính đạo đức AI.</div>
+                <div class="tactical-dossier-card">
+                    <h3 style="font-family:'Montserrat', sans-serif; font-weight:900; color:var(--neon-blue); margin-bottom:1.5rem; text-transform:uppercase; font-size:1.1rem; letter-spacing:1px;">Lý lịch Quân thuật</h3>
+                    <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:0.8rem;"><strong>• Phân ngành:</strong> Tiếng Nhật & Công nghệ số</p>
+                    <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:0.8rem;"><strong>• Chỉ huy trưởng:</strong> Khoa Tiếng Nhật & Các Công nghệ mới, ULIS-VNU</p>
+                    <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:0.8rem;"><strong>• Năng lực lõi:</strong> Thiết lập tệp tin tối ưu, Đánh giá tài liệu khoa học, Kỹ nghệ Prompt (C-R-E-A-T-E), Phối hợp nhóm trực tuyến, Sáng tạo nội dung với AI trách nhiệm.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- GOOGLE DRIVE CALL TO ACTION BANNER -->
-    <section style="padding: 2rem 10% 0;">
-        <div class="cta-banner">
-            <h3>BẢN ĐỒ CHIẾN DỊCH CLOUD STORAGE</h3>
-            <p>Để kiểm chứng toàn bộ hồ sơ kỹ thuật số, báo cáo thực nghiệm PDF chi tiết, slide thuyết trình Canva và kịch bản video, vui lòng truy cập hệ thống lưu trữ gốc.</p>
-            <a href="https://drive.google.com/drive/folders/19DjvcCTxWX0k5wsjL1AS7yeprffwsczT?usp=drive_link" target="_blank" class="btn-modern-hud">
-                <i class="fa-solid fa-arrow-up-right-from-square"></i> TRUY CẬP GOOGLE DRIVE
+    <!-- MODERN GOOGLE DRIVE CTA BANNER -->
+    <section style="padding: 2rem 8% 0;">
+        <div class="modern-cta">
+            <h3>KHO LƯU TRỮ TÀI LIỆU CHÍNH THỨC</h3>
+            <p>Để theo dõi chi tiết toàn bộ báo cáo thực hành PDF, slide thiết trình, kịch bản video và các dữ liệu nghiên cứu, vui lòng truy cập trực tiếp đại bản doanh lưu trữ đám mây.</p>
+            <a href="https://drive.google.com/drive/folders/19DjvcCTxWX0k5wsjL1AS7yeprffwsczT?usp=drive_link" target="_blank" class="btn-modern-drive">
+                <i class="fa-solid fa-folder-open"></i> XEM BÀI TẬP TRÊN GOOGLE DRIVE
             </a>
         </div>
     </section>
 
-    <!-- INTERACTIVE PORTFOLIO (6 CAMPAIGNS) -->
-    <section id="campaigns">
-        <h2 class="section-title">Bản đồ chiến dịch (Missions Map)</h2>
-        <div class="tabs-hud-container">
-            <button class="tab-hud active" onclick="openMission(event, 'm1', 100)">Chiến dịch 1</button>
-            <button class="tab-hud" onclick="openMission(event, 'm2', 90)">Chiến dịch 2</button>
-            <button class="tab-hud" onclick="openMission(event, 'm3', 85)">Chiến dịch 3</button>
-            <button class="tab-hud" onclick="openMission(event, 'm4', 95)">Chiến dịch 4</button>
-            <button class="tab-hud" onclick="openMission(event, 'm5', 90)">Chiến dịch 5</button>
-            <button class="tab-hud" onclick="openMission(event, 'm6', 100)">Chiến dịch 6</button>
-        </div>
-
-        <!-- CAMPAIGN 1 -->
-        <div id="m1" class="campaign-panel active">
-            <div class="campaign-header">
-                <div>
-                    <h3>Chiến dịch 1: Tổ chức dữ liệu kho số</h3>
-                    <span>Chuẩn hóa & Quản trị Tệp tin</span>
-                </div>
+    <!-- STRATEGIC MISSIONS (6 CAMPAIGNS) -->
+    <section id="strategic-missions">
+        <h2 class="section-title">Nhật ký chiến dịch (Strategic Missions)</h2>
+        <div class="missions-container">
+            <div class="missions-nav">
+                <button class="mission-tab active" onclick="openMission(event, 'm1', 100)">Chiến dịch 1</button>
+                <button class="mission-tab" onclick="openMission(event, 'm2', 90)">Chiến dịch 2</button>
+                <button class="mission-tab" onclick="openMission(event, 'm3', 85)">Chiến dịch 3</button>
+                <button class="mission-tab" onclick="openMission(event, 'm4', 95)">Chiến dịch 4</button>
+                <button class="mission-tab" onclick="openMission(event, 'm5', 90)">Chiến dịch 5</button>
+                <button class="mission-tab" onclick="openMission(event, 'm6', 100)">Chiến dịch 6</button>
             </div>
 
-            <!-- DIGITAL PROGRESS GAUGE -->
-            <div class="widget-progress-hud">
-                <svg class="widget-svg">
-                    <circle class="widget-svg-bg" cx="22" cy="22" r="20"></circle>
-                    <circle class="widget-svg-fill" id="gauge-m1" cx="22" cy="22" r="20"></circle>
-                </svg>
-                <div class="widget-info">
-                    <h5>Hệ thống sẵn sàng</h5>
-                    <p>Khí nén 3DMG: 100% (Quy trình chuẩn hóa tệp hoàn tất)</p>
-                </div>
-            </div>
-
-            <div class="campaign-desc">
-                Quản trị tệp tin và dữ liệu cá nhân là viên gạch nền móng đầu tiên cho mọi thao tác số hóa. Một cấu trúc lưu trữ hỗn loạn sẽ làm suy giảm phản xạ làm việc lâu dài. Thực hành này kiểm soát quy trình đặt tên chuẩn hóa, sao lưu bảo mật từ tệp <code>GhiChuQuanTrong.txt</code> sang thư mục <code>TaiLieu</code>, di chuyển, xóa vĩnh viễn và khôi phục từ Thùng rác để đảm bảo an toàn tuyệt đối cho kho quân nhu tri thức.
-            </div>
-
-            <div class="hud-terminal">
-                <div class="hud-terminal-top">
-                    <span>[TERMINAL v2.0 - ACTIVE]</span>
-                    <span>SUCCESS</span>
-                </div>
-                <p>> mkdir -p ThucHanh_DoTienKhoi/TaiLieu</p>
-                <p>> touch ThucHanh_DoTienKhoi/GhiChuQuanTrong.txt</p>
-                <p>> cp ThucHanh_DoTienKhoi/GhiChuQuanTrong.txt ThucHanh_DoTienKhoi/TaiLieu/</p>
-                <p>> rm ThucHanh_DoTienKhoi/GhiChuQuanTrong.txt (Xoá lưu trữ tạm thời)</p>
-                <p style="color:var(--neon-cyan);">STATUS: Quy trình kiểm tra chính xác, dữ liệu tệp tin được quản trị an toàn.</p>
-            </div>
-        </div>
-
-        <!-- CAMPAIGN 2 -->
-        <div id="m2" class="campaign-panel">
-            <div class="campaign-header">
-                <div>
-                    <h3>Chiến dịch 2: Nghiên cứu rào cản Hán tự (Kanji)</h3>
-                    <span>Tìm kiếm & Thẩm định tài liệu học thuật</span>
-                </div>
-            </div>
-
-            <!-- DIGITAL PROGRESS GAUGE -->
-            <div class="widget-progress-hud">
-                <svg class="widget-svg">
-                    <circle class="widget-svg-bg" cx="22" cy="22" r="20"></circle>
-                    <circle class="widget-svg-fill" id="gauge-m2" cx="22" cy="22" r="20"></circle>
-                </svg>
-                <div class="widget-info">
-                    <h5>Độ sắc lưỡi gươm</h5>
-                    <p>Sàng lọc tri thức: 90% (Đánh giá hoàn tất 11 tài liệu gốc)</p>
-                </div>
-            </div>
-
-            <div class="campaign-desc">
-                Nghiên cứu học thuật đòi hỏi quy trình tìm kiếm minh bạch và thẩm định khắt khe. Để giải quyết rào cản tiếp thu Kanji cho sinh viên trình độ sơ cấp (N5-N4), mình đã khai thác Google Scholar, Microsoft Academic và hệ thống tạp chí quốc tế, chắt lọc 11 tài liệu học thuật chất lượng để đánh giá độ tin cậy dựa trên 5 lăng kính cốt lõi.
-            </div>
-
-            <div class="matrix-table-container">
-                <table class="matrix-table">
-                    <thead>
-                        <tr>
-                            <th>Tác giả / Phân loại</th>
-                            <th>Nền tảng xuất bản</th>
-                            <th>Thẩm định giá trị thực chứng</th>
-                            <th>Điểm hạn chế chiến thuật</th>
-                            <th>Độ tin cậy</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Nguyen (2021)</strong> / Nghiên cứu thực nghiệm</td>
-                            <td>Tạp chí Khoa học Ngoại ngữ</td>
-                            <td>Dựa trên số liệu khảo sát từ 200 sinh viên thực tế.</td>
-                            <td>Phạm vi khảo sát chỉ nằm trong một đại học cụ thể.</td>
-                            <td><span class="cyber-pill high">Cao</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Kano (2017)</strong> / Giáo trình chuyên sâu</td>
-                            <td>NXB Bonjinsha (Tokyo)</td>
-                            <td>Cuốn "Basic Kanji Book" kinh điển, cực kỳ chuẩn mực.</td>
-                            <td>Thiếu vắng cập nhật về công nghệ học tập thông minh.</td>
-                            <td><span class="cyber-pill high">Rất Cao</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Tofugu (2022)</strong> / Nguồn mở internet</td>
-                            <td>Blog Tofugu</td>
-                            <td>Mnemonics ghi nhớ trực quan sống động, thu hút.</td>
-                            <td>Không mang tính học thuật hàn lâm, chưa bình duyệt.</td>
-                            <td><span class="cyber-pill medium">Khá</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- CAMPAIGN 3 -->
-        <div id="m3" class="campaign-panel">
-            <div class="campaign-header">
-                <div>
-                    <h3>Chiến dịch 3: Giải mã bản giao ước thấu cảm</h3>
-                    <span>Prompt Engineering & Mô hình C-R-E-A-T-E</span>
-                </div>
-            </div>
-
-            <!-- DIGITAL PROGRESS GAUGE -->
-            <div class="widget-progress-hud">
-                <svg class="widget-svg">
-                    <circle class="widget-svg-bg" cx="22" cy="22" r="20"></circle>
-                    <circle class="widget-svg-fill" id="gauge-m3" cx="22" cy="22" r="20"></circle>
-                </svg>
-                <div class="widget-info">
-                    <h5>Kiểm soát công nghệ</h5>
-                    <p>Chỉ huy chỉ thị: 85% (Kiến tạo thành công thấu cảm nhận thức)</p>
-                </div>
-            </div>
-
-            <div class="campaign-desc">
-                Liệu các Mô hình Ngôn ngữ Lớn (LLMs) có thực sự có khả năng "thấu cảm nhân tạo" để an ủi và định hướng tâm lý trước các khủng hoảng xã hội đương đại (FOMO, Áp lực đồng trang lứa, Văn hóa hối hả)? Thực nghiệm của mình chỉ ra AI chỉ đạt được năng lực "Thấu cảm nhận thức" khi người học kiểm soát và điều hướng chặt chẽ câu lệnh thông qua khung tương tác **C-R-E-A-T-E**.
-            </div>
-
-            <div class="prompt-grid">
-                <div class="prompt-panel bad-panel">
-                    <h4 class="bad"><i class="fa-solid fa-circle-exclamation"></i> Prompt thả nổi thiếu ngữ cảnh</h4>
-                    <div class="prompt-code">"Hãy viết về hội chứng FOMO."</div>
-                    <div class="prompt-feedback">
-                        <strong>Kết quả của AI:</strong> Trả về văn bản khô khan như sách giáo khoa, liệt kê định nghĩa hời hợt và khuyên "hãy tắt điện thoại" một cách sáo rỗng (Toxic Positivity).
+            <!-- MISSION 1 -->
+            <div id="m1" class="mission-content active">
+                <div class="mission-header">
+                    <div>
+                        <h3>Chiến dịch 1: Tổ chức tệp tin hệ thống</h3>
+                        <span>Quản lý & Tối ưu hoá dữ liệu</span>
                     </div>
                 </div>
-                <div class="prompt-panel good-panel">
-                    <h4 class="good"><i class="fa-solid fa-circle-nodes"></i> Prompt tối ưu C-R-E-A-T-E</h4>
-                    <div class="prompt-code">"Đóng vai một chuyên gia Thần kinh học Hành vi... Dùng ẩn dụ để tháo gỡ lo âu cho sinh viên năm nhất đang đối diện với bẫy Dopamine..."</div>
-                    <div class="prompt-feedback">
-                        <strong>Kết quả của AI:</strong> "Chào em, hãy kéo ghế ngồi xuống... Nỗi lo âu này không phải do sự yếu kém của em, đó là kết quả khi Amygdala bị tấn công..." Đưa ra giải pháp "Tái định hình nhận thức" sâu sắc.
+
+                <!-- BIOMETRIC DIAL -->
+                <div class="biometric-gauge-box">
+                    <svg class="gauge-ring">
+                        <circle class="ring-bg" cx="24" cy="24" r="22"></circle>
+                        <circle class="ring-fill" id="ring-fill-m1" cx="24" cy="24" r="22"></circle>
+                    </svg>
+                    <div class="gauge-label-area">
+                        <h6>System Integrity</h6>
+                        <p>Dữ liệu hệ thống: 100% (Sắp xếp tối ưu)</p>
+                    </div>
+                </div>
+
+                <div class="mission-desc">
+                    Tổ chức dữ liệu tệp tin gọn gàng cũng như thiết lập trang bị quân nhu một cách tinh chuẩn. Việc để tệp hỗn loạn sẽ triệt tiêu phản xạ làm việc. Trong thực hành này, mình đã chuẩn hóa cây thư mục trên máy tính cá nhân, thực hiện quy trình tạo tệp <code>GhiChuQuanTrong.txt</code>, quản lý trong thư mục con <code>TaiLieu</code>, sao lưu, xóa và phục hồi từ thùng rác một cách kỷ luật.
+                </div>
+
+                <div class="code-terminal">
+                    <div class="terminal-meta">
+                        <span>SYS_CONSOLE // DO_TIEN_KHOI_RECRUIT</span>
+                        <span>STABLE</span>
+                    </div>
+                    <p>> mkdir -p ThucHanh_DoTienKhoi/TaiLieu</p>
+                    <p>> touch ThucHanh_DoTienKhoi/GhiChuQuanTrong.txt</p>
+                    <p>> cp ThucHanh_DoTienKhoi/GhiChuQuanTrong.txt ThucHanh_DoTienKhoi/TaiLieu/</p>
+                    <p>> rm ThucHanh_DoTienKhoi/GhiChuQuanTrong.txt (Moved to Recycle Bin)</p>
+                    <p style="color:var(--neon-blue); margin-top:0.5rem;">[SUCCESS]: Cây thư mục tối ưu hoàn tất, sẵn sàng lưu trữ dữ liệu lâu dài.</p>
+                </div>
+            </div>
+
+            <!-- MISSION 2 -->
+            <div id="m2" class="mission-content">
+                <div class="mission-header">
+                    <div>
+                        <h3>Chiến dịch 2: Giải mã cổ tự Kanji</h3>
+                        <span>Tra cứu & Đánh giá tài liệu học thuật</span>
+                    </div>
+                </div>
+
+                <!-- BIOMETRIC DIAL -->
+                <div class="biometric-gauge-box">
+                    <svg class="gauge-ring">
+                        <circle class="ring-bg" cx="24" cy="24" r="22"></circle>
+                        <circle class="ring-fill" id="ring-fill-m2" cx="24" cy="24" r="22"></circle>
+                    </svg>
+                    <div class="gauge-label-area">
+                        <h6>Diagnostic Depth</h6>
+                        <p>Độ sâu tra cứu: 90% (Khảo sát 11 tài liệu gốc)</p>
+                    </div>
+                </div>
+
+                <div class="mission-desc">
+                    Để tìm kiếm giải pháp giúp sinh viên năm nhất vượt qua "cú sốc tượng hình" của Kanji, mình đã tiến hành tra cứu có phương pháp trên Google Scholar và các thư viện quốc tế. Từ 11 nguồn tài liệu hàn lâm chắt lọc, mình đã đánh giá và hệ thống hóa độ tin cậy để phục vụ chiến dịch nghiên cứu lâu dài.
+                </div>
+
+                <div class="academic-table-box">
+                    <table class="academic-table">
+                        <thead>
+                            <tr>
+                                <th>Tài liệu nghiên cứu</th>
+                                <th>Nền tảng xuất bản</th>
+                                <th>Điểm mạnh học thuật</th>
+                                <th>Điểm hạn chế chiến thuật</th>
+                                <th>Mức độ tin cậy</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Nguyen (2021)</strong> / Nghiên cứu thực chứng</td>
+                                <td>Tạp chí Khoa học Ngoại ngữ</td>
+                                <td>Dữ liệu thực tế từ 200 sinh viên, tính xác thực cao.</td>
+                                <td>Phạm vi lấy mẫu hẹp tại một cơ sở trường học.</td>
+                                <td><span class="biometric-badge secure">Cao</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Kano (2017)</strong> / Sách chuyên khảo</td>
+                                <td>NXB Bonjinsha (Tokyo)</td>
+                                <td>Bộ giáo trình chuẩn mực toàn cầu "Basic Kanji".</td>
+                                <td>Thiếu vắng cập nhật tích hợp công nghệ hiện đại.</td>
+                                <td><span class="biometric-badge secure">Rất Cao</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Tofugu (2022)</strong> / Trang thông tin mở</td>
+                                <td>Blog Tofugu</td>
+                                <td>Mnemonics ghi nhớ qua hình ảnh vô cùng sinh động.</td>
+                                <td>Không mang tính học thuật, chưa qua hội đồng duyệt.</td>
+                                <td><span class="biometric-badge stable">Khá</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- MISSION 3 -->
+            <div id="m3" class="mission-content">
+                <div class="mission-header">
+                    <div>
+                        <h3>Chiến dịch 3: Giao ước AI thấu cảm</h3>
+                        <span>Ứng dụng mô hình Prompt C-R-E-A-T-E</span>
+                    </div>
+                </div>
+
+                <!-- BIOMETRIC DIAL -->
+                <div class="biometric-gauge-box">
+                    <svg class="gauge-ring">
+                        <circle class="ring-bg" cx="24" cy="24" r="22"></circle>
+                        <circle class="ring-fill" id="ring-fill-m3" cx="24" cy="24" r="22"></circle>
+                    </svg>
+                    <div class="gauge-info">
+                        <h5>Cognitive Empathy Gauge</h5>
+                        <p>Trí tuệ thấu cảm: 85% (Kiểm chứng thành công hành vi AI)</p>
+                    </div>
+                </div>
+
+                <div class="mission-desc">
+                    Liệu máy móc có thể mô phỏng "thấu cảm nhận thức" để hỗ trợ giới trẻ vượt qua các khủng hoảng tâm lý thời đại (FOMO, Peer Pressure, Hustle Culture)? Thực nghiệm của mình chứng minh năng lực này phụ thuộc hoàn toàn vào kỹ nghệ Prompt Engineering tinh chuẩn thông qua khung **C-R-E-A-T-E**.
+                </div>
+
+                <div class="prompt-split-grid">
+                    <div class="prompt-split-card faulty">
+                        <h4><i class="fa-solid fa-triangle-exclamation"></i> Prompt thả nổi tự do (Faulty Prompt)</h4>
+                        <div class="terminal-prompt-box">"Hãy viết về hội chứng FOMO."</div>
+                        <div class="analysis-text">
+                            <strong>Đầu ra AI:</strong> Trả về định nghĩa lý thuyết khô khan, máy móc và khuyên "hãy tắt điện thoại" một cách sáo rỗng, thiếu tính nhân bản và sự thấu hiểu.
+                        </div>
+                    </div>
+                    <div class="prompt-split-card optimized">
+                        <h4><i class="fa-solid fa-circle-check"></i> Prompt tối ưu C-R-E-A-T-E (Optimized Prompt)</h4>
+                        <div class="terminal-prompt-box">"Đóng vai một chuyên gia Thần kinh học Hành vi... Hãy phân tích cơ chế bẫy Dopamine của mxh cho một sinh viên 20 tuổi..."</div>
+                        <div class="analysis-text">
+                            <strong>Đầu ra AI:</strong> "Chào em, kéo ghế ngồi xuống... Amygdala của em đang bị thuật toán mxh 'tin tặc' tấn công..." Sử dụng thủ pháp "Tái định hình nhận thức" vô cùng sâu sắc và chữa lành.
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- CAMPAIGN 4 -->
-        <div id="m4" class="campaign-panel">
-            <div class="campaign-header">
-                <div>
-                    <h3>Chiến dịch 4: Liên minh phối hợp trinh sát</h3>
-                    <span>Hợp tác số & Quản trị mâu thuẫn trực tuyến</span>
+            <!-- MISSION 4 -->
+            <div id="m4" class="mission-content">
+                <div class="mission-header">
+                    <div>
+                        <h3>Chiến dịch 4: Liên minh phối hợp số</h3>
+                        <span>Làm việc nhóm & Hóa giải xung đột trực tuyến</span>
+                    </div>
+                </div>
+
+                <!-- BIOMETRIC DIAL -->
+                <div class="biometric-gauge-box">
+                    <svg class="gauge-ring">
+                        <circle class="ring-bg" cx="24" cy="24" r="22"></circle>
+                        <circle class="ring-fill" id="ring-fill-m4" cx="24" cy="24" r="22"></circle>
+                    </svg>
+                    <div class="gauge-info">
+                        <h5>Alliance Synchronization</h5>
+                        <p>Độ đồng bộ nhóm: 95% (Hóa giải lực cản hợp tác)</p>
+                    </div>
+                </div>
+
+                <div class="mission-desc">
+                    Làm việc nhóm trực tuyến bằng Google Drive, Notion và Canva là một thử thách lớn về độ cam kết của các thành viên. Trong chiến dịch này, nhóm mình đã mổ xẻ 3 rào cản giao tiếp chính để đưa ra 3 giải pháp thực thi hiệu quả nhằm triệt tiêu hiện tượng "ỷ lại tập thể" (social loafing).
+                </div>
+
+                <div class="kanban-board">
+                    <div class="kanban-column defect">
+                        <h4>Ma sát thực tế</h4>
+                        <div class="kanban-item">Thiếu sự đồng thuận trong giao tiếp và phân chia công việc do lịch trình cá nhân lệch nhau.</div>
+                        <div class="kanban-item">Mất cân bằng khối lượng đóng góp, dẫn đến tình trạng một số thành viên gánh vác quá nhiều.</div>
+                    </div>
+                    <div class="kanban-column tactic">
+                        <h4>Chiến thuật hóa giải</h4>
+                        <div class="kanban-item">Thống nhất duy nhất một kênh liên lạc chính thức, lưu trữ mọi biên bản và tổ chức họp định kỳ.</div>
+                        <div class="kanban-item">Thực hiện đánh giá đồng đẳng (peer assessment) minh bạch dựa trên chất lượng đóng góp thực tế.</div>
+                    </div>
+                    <div class="kanban-column success">
+                        <h4>Kết quả chiến dịch</h4>
+                        <div class="kanban-item">100% công việc hoàn thành đúng tiến độ cam kết, slide Canva đạt chất lượng tối ưu.</div>
+                        <div class="kanban-item">Hóa giải thành công tranh chấp ý tưởng bằng quy trình bỏ phiếu công khai và phản hồi xây dựng.</div>
+                    </div>
                 </div>
             </div>
 
-            <!-- DIGITAL PROGRESS GAUGE -->
-            <div class="widget-progress-hud">
-                <svg class="widget-svg">
-                    <circle class="widget-svg-bg" cx="22" cy="22" r="20"></circle>
-                    <circle class="widget-svg-fill" id="gauge-m4" cx="22" cy="22" r="20"></circle>
-                </svg>
-                <div class="widget-info">
-                    <h5>Tính đồng bộ nhóm</h5>
-                    <p>Phối hợp khí tài: 95% (Vận hành trơn tru dự án nhóm)</p>
+            <!-- MISSION 5 -->
+            <div id="m5" class="mission-content">
+                <div class="mission-header">
+                    <div>
+                        <h3>Chiến dịch 5: Đồng sáng tạo nội dung số</h3>
+                        <span>Ứng dụng ChatGPT, DALL-E và Canva AI</span>
+                    </div>
+                </div>
+
+                <!-- BIOMETRIC DIAL -->
+                <div class="biometric-gauge-box">
+                    <svg class="gauge-ring">
+                        <circle class="ring-bg" cx="24" cy="24" r="22"></circle>
+                        <circle class="ring-fill" id="ring-fill-m5" cx="24" cy="24" r="22"></circle>
+                    </svg>
+                    <div class="gauge-info">
+                        <h5>Creative Co-Authoring</h5>
+                        <p>Tự chủ sáng tạo: 90% (Phối hợp 40-60)</p>
+                    </div>
+                </div>
+
+                <div class="mission-desc">
+                    Dự án thiết kế Infographic và thuyết trình "Ứng dụng AI trong tự học ngoại ngữ của sinh viên đại học" là sự kết hợp khéo léo giữa năng lực của máy móc và óc thẩm mỹ cá nhân. Mình áp dụng quy tắc phối hợp: **40% năng lực tạo lập ban đầu của AI** và **60% nỗ lực kiểm chứng, chỉnh sửa của con người**.
+                </div>
+
+                <div class="prompt-split-grid">
+                    <div class="prompt-split-card optimized" style="border-color: rgba(0, 229, 255, 0.05);">
+                        <h4 style="color: var(--neon-blue);"><i class="fa-solid fa-bolt"></i> Tốc độ của AI (40%)</h4>
+                        <div class="analysis-text">
+                            • Phác thảo nhanh cấu trúc 5 khối nội dung chính cho Infographic trong 10 giây.<br>
+                            • Tạo hình vẽ minh họa sinh viên học ngoại ngữ phẳng (flat-style) bằng DALL-E.<br>
+                            • Gợi ý dải màu xanh học thuật và các bộ font chữ hiện đại.
+                        </div>
+                    </div>
+                    <div class="prompt-split-card optimized" style="border-color: rgba(0, 229, 255, 0.05);">
+                        <h4 style="color: var(--titan-orange);"><i class="fa-solid fa-user-check"></i> Óc kiểm chứng con người (60%)</h4>
+                        <div class="analysis-text">
+                            • Sửa đổi văn bản, loại bỏ các thông tin bịa đặt hoặc thiếu kiểm chứng từ mô hình.<br>
+                            • Đưa các ví dụ thực tế học tập cá nhân tại Việt Nam (như ELSA Speak, Duolingo).<br>
+                            • Cân chỉnh khoảng trắng, định hình lại font chữ Việt hóa và chèn logo trường.
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="campaign-desc">
-                Khi thực hiện dự án nhóm số hóa bằng Google Meet, Canva và Notion, việc bất đồng quan điểm, lệch múi giờ hay sự mất cân bằng đóng góp giữa các thành viên là ma sát không thể tránh khỏi. Nhóm mình đã phân tích thực chứng và hóa giải thành công bằng 3 chiến thuật hành động cốt lõi.
-            </div>
+            <!-- MISSION 6 -->
+            <div id="m6" class="mission-content">
+                <div class="mission-header">
+                    <div>
+                        <h3>Chiến dịch 6: Bức tường thép đạo đức AI</h3>
+                        <span>Hiến chương 7 cam kết vàng khi ứng dụng AI trách nhiệm</span>
+                    </div>
+                </div>
 
-            <div class="col-grid">
-                <div class="col-card red-card">
-                    <h4>Ma sát gặp phải</h4>
-                    <div class="col-item">Giao tiếp không khớp do lệch phong cách làm việc, dễ dẫn đến công việc chồng chéo.</div>
-                    <div class="col-item">Hiện tượng ỷ lại xuất hiện nếu thiếu cơ chế phân chia nhiệm vụ công khai và rõ ràng.</div>
+                <!-- BIOMETRIC DIAL -->
+                <div class="biometric-gauge-box">
+                    <svg class="gauge-ring">
+                        <circle class="ring-bg" cx="24" cy="24" r="22"></circle>
+                        <circle class="ring-fill" id="ring-fill-m6" cx="24" cy="24" r="22"></circle>
+                    </svg>
+                    <div class="gauge-info">
+                        <h5>Academic Integrity</h5>
+                        <p>Kỷ luật học thuật: 100% (Liêm chính tuyệt đối)</p>
+                    </div>
                 </div>
-                <div class="col-card blue-card">
-                    <h4>Chiến thuật hóa giải</h4>
-                    <div class="col-item">Sử dụng Notion quản trị tiến độ minh bạch, thống nhất duy nhất một kênh liên lạc chính thức.</div>
-                    <div class="col-item">Áp dụng cơ chế đánh giá đồng đẳng công bằng cho từng mốc tiến độ thực tế.</div>
-                </div>
-                <div class="col-card green-card">
-                    <h4>Kết quả đạt được</h4>
-                    <div class="col-item">Hoàn thành 100% các slide Canva và kịch bản video trình bày đúng tiến độ cam kết.</div>
-                    <div class="col-item">Hóa giải mâu thuẫn bằng sự lắng nghe chủ động và sự điều phối chặt chẽ của nhóm trưởng.</div>
-                </div>
-            </div>
-        </div>
 
-        <!-- CAMPAIGN 5 -->
-        <div id="m5" class="campaign-panel">
-            <div class="campaign-header">
-                <div>
-                    <h3>Chiến dịch 5: Ngưng kết vũ khí nội dung số</h3>
-                    <span>Đồng sáng tạo nội dung số với AI</span>
+                <div class="mission-desc">
+                    Nghiên cứu so sánh chính sách sử dụng AI tại ULIS và thế giới chỉ ra xu thế tất yếu: Không cấm đoán cực đoan mà hướng dẫn sinh viên khai phóng AI một cách trung thực và minh bạch. Để bảo vệ tính độc lập của tư duy phản biện, mình cam kết tuân thủ **7 Nguyên tắc hành động**:
                 </div>
-            </div>
 
-            <!-- DIGITAL PROGRESS GAUGE -->
-            <div class="widget-progress-hud">
-                <svg class="widget-svg">
-                    <circle class="widget-svg-bg" cx="22" cy="22" r="20"></circle>
-                    <circle class="widget-svg-fill" id="gauge-m5" cx="22" cy="22" r="20"></circle>
-                </svg>
-                <div class="widget-info">
-                    <h5>Năng lực đồng sáng tạo</h5>
-                    <p>Tỷ lệ hiệu suất: 90% (Cân bằng 40% AI - 60% Con người)</p>
+                <div class="code-terminal" style="border-color: var(--neon-blue);">
+                    <p style="color: var(--parchment); font-weight:800; margin-bottom:0.8rem;">[PROTOCOL // 07 TACTICAL CAMPAIGN COMMITMENTS]</p>
+                    <p style="margin-bottom:0.4rem;">1. Luôn khai báo trung thực các phân đoạn bài tập có sử dụng sự hỗ trợ từ AI.</p>
+                    <p style="margin-bottom:0.4rem;">2. Tuyệt đối không sao chép nguyên văn (copy-paste) đầu ra thô từ chatbot AI.</p>
+                    <p style="margin-bottom:0.4rem;">3. Luôn kiểm chứng độ chính xác của mọi thông tin AI tạo ra bằng các nguồn tài liệu tin cậy.</p>
+                    <p style="margin-bottom:0.4rem;">4. Chỉ sử dụng AI làm trợ lý gợi mở ý tưởng, tuyệt đối không để AI suy nghĩ thay bộ não.</p>
+                    <p style="margin-bottom:0.4rem;">5. Tôn trọng bản quyền tác giả, thực hiện trích dẫn khoa học chuẩn mực.</p>
+                    <p style="margin-bottom:0.4rem;">6. Bảo mật dữ liệu cá nhân, không nhập các thông tin nhạy cảm vào đám mây AI công cộng.</p>
+                    <p style="margin-bottom:0.4rem;">7. Chịu trách nhiệm tối cao và duy nhất đối với chất lượng của sản phẩm học thuật cuối cùng.</p>
                 </div>
-            </div>
-
-            <div class="campaign-desc">
-                Thiết kế Infographic chuyên nghiệp về "Ứng dụng AI trong tự học ngoại ngữ" đòi hỏi sự phối hợp nhịp nhàng giữa ChatGPT (xử lý khung nội dung), DALL-E (tạo hình vẽ phẳng) và Canva AI (gợi ý bố cục). Mình không sao chép nguyên văn sản phẩm thô, mà áp dụng quy trình kiểm soát chất lượng nghiêm ngặt của cá nhân để định hình chiều sâu tác phẩm.
-            </div>
-
-            <div class="prompt-grid">
-                <div class="prompt-panel bad-panel" style="border-color:rgba(0, 240, 255, 0.1);">
-                    <h4 style="color:var(--neon-cyan);"><i class="fa-solid fa-microchip"></i> Đóng góp của AI (40%)</h4>
-                    <p class="prompt-feedback">
-                        • ChatGPT đề xuất 5 mốc nội dung chính cho infographic cực kỳ nhanh chóng.<br>
-                        • DALL-E phác họa hình vẽ minh họa phẳng theo dải màu xanh học thuật đồng bộ.<br>
-                        • Canva AI hỗ trợ đề xuất các template và font chữ hiển thị trực quan.
-                    </p>
-                </div>
-                <div class="prompt-panel good-panel" style="border-color:rgba(226, 166, 90, 0.1);">
-                    <h4 style="color:var(--cyber-amber);"><i class="fa-solid fa-pen-nib"></i> Sự mài giũa của con người (60%)</h4>
-                    <p class="prompt-feedback">
-                        • Sàng lọc thông tin học thuật, loại bỏ các dữ liệu ảo do mô hình tự bịa ra.<br>
-                        • Bổ sung các ứng dụng thực tế phù hợp với người học tại Việt Nam (như ELSA Speak).<br>
-                        • Tự tay căn chỉnh khoảng trắng, định dạng font chữ Việt hóa và thêm logo ULIS.
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <!-- CAMPAIGN 6 -->
-        <div id="m6" class="campaign-panel">
-            <div class="campaign-header">
-                <div>
-                    <h3>Chiến dịch 6: Luật pháp học thuật thép</h3>
-                    <span>Nghiên cứu Đạo đức & Chính sách sử dụng AI có trách nhiệm</span>
-                </div>
-            </div>
-
-            <!-- DIGITAL PROGRESS GAUGE -->
-            <div class="widget-progress-hud">
-                <svg class="widget-svg">
-                    <circle class="widget-svg-bg" cx="22" cy="22" r="20"></circle>
-                    <circle class="widget-svg-fill" id="gauge-m6" cx="22" cy="22" r="20"></circle>
-                </svg>
-                <div class="widget-info">
-                    <h5>Hệ thống liêm chính</h5>
-                    <p>Cam kết đạo đức: 100% (Hiến chương 7 nguyên tắc thép)</p>
-                </div>
-            </div>
-
-            <div class="campaign-desc">
-                Nghiên cứu chính sách sử dụng AI tại ULIS so với thế giới phản ánh tầm nhìn hiện đại: Thay vì cấm đoán cực đoan, trường lựa chọn hướng dẫn sinh viên khai phóng năng lực của AI một cách minh bạch và tự chủ. Để bảo vệ tính độc lập của tư duy phản biện, mình tự cam kết tuân thủ nghiêm ngặt **7 Nguyên tắc thép** sau đây:
-            </div>
-
-            <div class="hud-terminal" style="border-color:rgba(0, 240, 255, 0.15);">
-                <div class="hud-terminal-top">
-                    <span>[ACADEMIC INTEGRITY DECREE]</span>
-                    <span>VERIFIED</span>
-                </div>
-                <p>1. Luôn khai báo trung thực, chi tiết các phần bài tập có sử dụng AI hỗ trợ.</p>
-                <p>2. Không sao chép nguyên văn (copy-paste) đầu ra thô từ bất kỳ chatbot nào.</p>
-                <p>3. Luôn tự tay kiểm chứng tính xác thực của dữ liệu qua các nguồn đáng tin cậy.</p>
-                <p>4. Coi AI là trợ lý gợi mở ý tưởng, không để máy móc tư duy thay thế bộ não.</p>
-                <p>5. Tôn trọng quyền sở hữu trí tuệ, trích dẫn tài liệu gốc chuẩn xác theo Harvard Style.</p>
-                <p>6. Bảo mật thông tin, không cung cấp dữ liệu cá nhân hay dữ liệu nhạy cảm cho AI công cộng.</p>
-                <p>7. Chịu trách nhiệm tối cao và duy nhất đối với chất lượng của sản phẩm cuối cùng nộp cho giáo viên.</p>
             </div>
         </div>
     </section>
 
-    <!-- FINAL SUMMARY SECTION -->
+    <!-- FINAL REFLECTION -->
     <section id="reflection">
         <div class="container">
-            <h2 class="section-title">Nhìn lại hành trình</h2>
-            <div class="summary-flex">
-                <div class="stat-grid-hud">
-                    <div class="stat-box-hud">
+            <h2 class="section-title">Đúc kết chiến dịch</h2>
+            <div class="reflection-grid">
+                <div class="metric-cards-box">
+                    <div class="metric-card">
                         <h4>06</h4>
-                        <p>Chiến dịch hoàn thành</p>
+                        <p>Chiến dịch vượt ải</p>
                     </div>
-                    <div class="stat-box-hud">
+                    <div class="metric-card">
                         <h4>11</h4>
-                        <p>Tài liệu thẩm định</p>
+                        <p>Tài liệu đối chiếu</p>
                     </div>
-                    <div class="stat-box-hud" style="border-color:var(--border-glow);">
+                    <div class="metric-card" style="border-color: var(--scout-blue);">
                         <h4>40/60</h4>
-                        <p>Tỉ lệ đồng sáng tạo</p>
+                        <p>Tỷ lệ đồng sáng tạo</p>
                     </div>
-                    <div class="stat-box-hud">
+                    <div class="metric-card" style="border-color: var(--neon-blue);">
                         <h4>100%</h4>
-                        <p>Sự liêm chính số</p>
+                        <p>Liêm chính học thuật</p>
                     </div>
                 </div>
-                <div class="reflection-block-hud">
+                <div class="reflection-body">
                     <blockquote>
-                        "Cánh chim tự do (Wings of Freedom) không sải cánh một cách mù quáng. Nó bay lên bằng sự rèn luyện bền bỉ của tri thức và kỹ năng để nhìn thấu thế giới ngoài những bức tường thành."
+                        "Cánh chim tự do không tự dưng sải cánh trên bầu trời cao rộng. Đôi cánh ấy phải trải qua hàng ngàn lần thử thách dưới mặt đất chật hẹp mới có đủ sức mạnh để vượt qua những bức tường bảo thủ."
                     </blockquote>
-                    <p>Hành trình làm chủ các công cụ trí tuệ nhân tạo và công nghệ số vừa qua đã định hình lại hoàn toàn tư duy học tập của mình. Việc tiếp thu một ngoại ngữ mới như tiếng Nhật hay phân tích xã hội học không còn là cuộc đua ghi nhớ máy móc thô sơ.</p>
-                    <p>AI là một tấm gương phản chiếu sắc nét tư duy của chính người điều phối nó. Nếu người dùng hời hợt, AI sẽ trả lại những sản phẩm thô thiển sáo rỗng. Nhưng nếu được dẫn dắt bởi một bộ óc có chiều sâu, có sự hoài nghi khoa học và lòng liêm chính bền bỉ, công nghệ sẽ trở thành đôi cánh đưa năng lực học thuật tự chủ của chúng ta vươn cao.</p>
+                    <p>Hành trình làm quen với công nghệ số và ứng dụng trí tuệ nhân tạo vừa qua đã làm thay đổi hoàn toàn lăng kính học tập của mình. Việc chinh phục ngôn ngữ Nhật Bản hay bất kỳ một đỉnh cao tri thức nào trong thời đại này không còn là cuộc đua ghi nhớ máy móc hời hợt nữa.</p>
+                    <p>AI là một tấm gương khuếch đại rực rỡ nhất hệ tư duy của chính người sử dụng nó. Nếu bạn hời hợt, bạn sẽ nhận lại những sản phẩm rác sáo rỗng. Nhưng nếu bạn được dẫn dắt bởi một bộ óc có chiều sâu tri thức, có tính liêm chính và sự hoài nghi khoa học, công nghệ sẽ trở thành đôi cánh sải cao đưa bạn đến với chân trời tự do.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- FOOTER HUD -->
+    <!-- FOOTER -->
     <footer>
         <div class="footer-logo">
-            <div class="scout-cyber-wings" style="background:rgba(0, 240, 255, 0.1);">
-                <i class="fa-solid fa-feather"></i>
-            </div>
-            SQUAD 25 COMMAND CENTER
+            WINGS OF FREEDOM // SURVEY CORPS S25
         </div>
         <div class="footer-links">
-            <a href="#about">Nhật Ký Tân Binh</a>
-            <a href="#campaigns">Bản Đồ Trinh Sát</a>
+            <a href="#about">Tân binh Đỗ Tiến Khôi</a>
+            <a href="#strategic-missions">Chiến dịch Số</a>
             <a href="https://drive.google.com/drive/folders/19DjvcCTxWX0k5wsjL1AS7yeprffwsczT?usp=drive_link" target="_blank">Google Drive</a>
         </div>
-        <div class="footer-quote">
-            "Nếu bạn chiến đấu, bạn có thể thất bại. Nhưng nếu bạn trốn tránh cuộc chiến tự khai phóng bản thân, bạn đã bại trận ngay từ vạch xuất phát." — Eren Yeager.
-        </div>
-        <div class="copyright">
-            © 2026 ĐỖ TIẾN KHÔI (MSV: 25042144) - KHOA NGÔN NGỮ & VĂN HOÁ NHẬT BẢN, ĐẠI HỌC NGOẠI NGỮ, ĐHQGHN.
-        </div>
+        <p class="footer-quote">
+            "Nếu bạn chiến đấu, bạn có thể thất bại. Nhưng nếu bạn không chịu học tập và chiến đấu, bạn đã thất bại ngay từ đầu." <br>Học tập là con đường chông gai nhất để giành lấy sự tự do tinh thần đích thực.
+        </p>
+        <p class="copyright">
+            © 2026 ĐỖ TIẾN KHÔI (MSV: 25042144) - ĐẠI HỌC NGOẠI NGỮ, ĐHQGHN. KHÓA HUẤN LUYỆN SỐ.
+        </p>
     </footer>
 
-    <!-- INTERACTIVE CYBER COMMAND SCRIPT -->
+    <!-- INTERACTIVE SCRIPTS -->
     <script>
-        // 1. COLLAPSE GATES WITH SMOOTH SLIT TRANSITION (KHÔNG GÂY CHÓNG MẶT)
-        function collapseGate() {
-            const gate = document.getElementById('gate-container');
+        // 1. COLLAPSE THE INTRO WALL WITH MICRO-SHAKE & WHITE NEON LIGHTNING FLASH
+        function collapseWall() {
             const body = document.body;
-
-            // Trigger smooth split
-            gate.classList.add('opened');
-            body.classList.remove('shaking'); // Ensure no shaking is present
-
-            // Animate first gauge upon system activation
-            setTimeout(() => {
-                animateWidgetGauge('gauge-m1', 100);
-            }, 1000);
+            const wall = document.getElementById('wall-overlay');
+            
+            // Trigger rapid lightning flashes and micro-shaking
+            body.classList.add('micro-shaking');
+            
+            let flashCount = 0;
+            const interval = setInterval(() => {
+                body.style.backgroundColor = flashCount % 2 === 0 ? 'rgba(0, 229, 255, 0.9)' : '#06070a';
+                flashCount++;
+                if (flashCount > 6) {
+                    clearInterval(interval);
+                    body.style.backgroundColor = '#06070a';
+                    body.classList.remove('micro-shaking');
+                    wall.classList.add('collapsed');
+                    
+                    // Trigger the first progress gauge animation upon reveal
+                    animateGauge('ring-fill-m1', 100);
+                }
+            }, 60);
         }
 
-        // Remove immediate shaking from body load
-        window.addEventListener('DOMContentLoaded', () => {
-            document.body.classList.remove('shaking');
-        });
-
-        // 2. INTERACTIVE PORTFOLIO TABS & PROGRESS CIRCLE ANIMATION
-        function openMission(evt, missionId, targetPercent) {
-            let i, panels, tabs;
-
-            // Hide panels
-            panels = document.getElementsByClassName("campaign-panel");
-            for (i = 0; i < panels.length; i++) {
-                panels[i].style.display = "none";
-                panels[i].classList.remove("active");
+        // 2. INTERACTIVE DOSSIER TABS & BIOMETRIC DIALS ANIMATION
+        function openMission(evt, missionId, targetPercentage) {
+            let i, tabcontent, tablinks;
+            
+            // Hide all mission contents
+            tabcontent = document.getElementsByClassName("mission-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+                tabcontent[i].classList.remove("active");
             }
 
-            // Remove active states from tabs
-            tabs = document.getElementsByClassName("tab-hud");
-            for (i = 0; i < tabs.length; i++) {
-                tabs[i].classList.remove("active");
+            // Remove active state from tabs
+            tablinks = document.getElementsByClassName("mission-tab");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
             }
 
-            // Show selected panel with animation
-            const activePanel = document.getElementById(missionId);
-            activePanel.style.display = "block";
+            // Show selected mission content
+            const activeContent = document.getElementById(missionId);
+            activeContent.style.display = "block";
             setTimeout(() => {
-                activePanel.classList.add("active");
+                activeContent.classList.add("active");
             }, 10);
-
+            
             evt.currentTarget.classList.add("active");
 
-            // Trigger Gauge Animation
-            const targetGaugeId = "gauge-" + missionId;
-            animateWidgetGauge(targetGaugeId, targetPercent);
+            // Animate corresponding Gas Gauge
+            const ringFillId = "ring-fill-" + missionId;
+            animateGauge(ringFillId, targetPercentage);
         }
 
-        function animateWidgetGauge(gaugeId, percent) {
+        function animateGauge(gaugeId, percent) {
             const circle = document.getElementById(gaugeId);
             if (!circle) return;
-
-            // Reset gauge dashoffset
-            circle.style.strokeDashoffset = '125';
-
-            // Calculate offset based on stroke-dasharray (125)
-            const offset = 125 - (125 * (percent / 100));
+            
+            // Reset dashoffset first
+            circle.style.strokeDashoffset = '138';
+            
+            // Calculate new offset: stroke-dasharray (138) * (1 - percent/100)
+            const offset = 138 - (138 * (percent / 100));
             setTimeout(() => {
                 circle.style.strokeDashoffset = offset;
             }, 150);
         }
 
-        // 3. AMBIENT CYBER NEON PARTICLES (SLOW AND GENTLE)
-        const canvas = document.getElementById('cyber-canvas');
+        // 3. FINE AMBIENT SPARKS & LIGHTNING ENGINE (CANVAS)
+        const canvas = document.getElementById('embers-canvas');
         const ctx = canvas.getContext('2d');
-        let particles = [];
+        let sparks = [];
 
         function resizeCanvas() {
             canvas.width = window.innerWidth;
@@ -1415,20 +1442,20 @@
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
-        class CyberParticle {
+        class Sparkle {
             constructor() {
                 this.reset();
-                this.y = Math.random() * canvas.height;
+                this.y = Math.random() * canvas.height; // Distribute evenly at start
             }
 
             reset() {
                 this.x = Math.random() * canvas.width;
                 this.y = canvas.height + Math.random() * 50;
-                this.size = Math.random() * 1.5 + 0.8;
-                this.speedY = -(Math.random() * 0.8 + 0.3); // Very slow drift
-                this.speedX = Math.random() * 0.6 - 0.3;
-                this.opacity = Math.random() * 0.4 + 0.1;
-                this.decay = Math.random() * 0.002 + 0.0005;
+                this.size = Math.random() * 1.5 + 0.5; // Fine, elegant particles
+                this.speedY = -(Math.random() * 1.4 + 0.4);
+                this.speedX = Math.random() * 1 - 0.5;
+                this.opacity = Math.random() * 0.5 + 0.15;
+                this.decay = Math.random() * 0.003 + 0.0008;
             }
 
             update() {
@@ -1443,10 +1470,10 @@
             draw() {
                 ctx.save();
                 ctx.globalAlpha = this.opacity;
-                // Elegant neon-cyan glow particles representing tactical gas emissions
-                ctx.fillStyle = '#00f0ff';
+                // Ember glow color representing titan heat
+                ctx.fillStyle = '#f59e0b';
                 ctx.shadowBlur = 4;
-                ctx.shadowColor = '#00f0ff';
+                ctx.shadowColor = '#00e5ff';
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
@@ -1454,51 +1481,52 @@
             }
         }
 
-        function initParticles() {
+        function initSparks() {
             for (let i = 0; i < 35; i++) {
-                particles.push(new CyberParticle());
+                sparks.push(new Sparkle());
             }
         }
 
-        function animateParticles() {
+        // Random neon lightning trigger
+        let lightningFlash = 0;
+        function triggerLightning() {
+            if (Math.random() < 0.0015) { // very rare random lightning
+                lightningFlash = 4;
+            }
+        }
+
+        function animateCanvas() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            for (let i = 0; i < particles.length; i++) {
-                particles[i].update();
-                particles[i].draw();
+            
+            // Draw Sparks
+            for (let i = 0; i < sparks.length; i++) {
+                sparks[i].update();
+                sparks[i].draw();
             }
-            requestAnimationFrame(animateParticles);
+
+            // Draw Lightning overlay if triggered
+            triggerLightning();
+            if (lightningFlash > 0) {
+                ctx.fillStyle = `rgba(0, 229, 255, ${lightningFlash * 0.12})`;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                lightningFlash--;
+            }
+
+            requestAnimationFrame(animateCanvas);
         }
 
-        initParticles();
-        animateParticles();
+        initSparks();
+        animateCanvas();
 
-        // 4. PARALLAX ACTIVE NAVIGATION & COMPACT HUD HEADER
+        // 4. PARALLAX EFFECT FOR COMPACTING HUD MENU
         window.addEventListener('scroll', () => {
-            const sections = document.querySelectorAll('section');
-            const navLinks = document.querySelectorAll('nav a');
-            let currentSectionId = '';
-
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                if (pageYOffset >= (sectionTop - 250)) {
-                    currentSectionId = section.getAttribute('id');
-                }
-            });
-
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href').includes(currentSectionId)) {
-                    link.classList.add('active');
-                }
-            });
-
             const header = document.querySelector('header');
-            if (window.scrollY > 50) {
+            if (window.scrollY > 40) {
                 header.style.padding = '0.8rem 8%';
-                header.style.background = 'rgba(10, 12, 16, 0.98)';
+                header.style.background = 'rgba(6, 7, 10, 0.96)';
             } else {
                 header.style.padding = '1.2rem 8%';
-                header.style.background = 'rgba(10, 12, 16, 0.85)';
+                header.style.background = 'rgba(6, 7, 10, 0.85)';
             }
         });
     </script>
